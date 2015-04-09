@@ -35,15 +35,40 @@ namespace TrafficSim.Util.Collections
 
         public void Add(K key, V value)
         {
+            Add(root, key, value);
+        }
+
+        private void Add(PriorityTreeNode<K, V> node, K key, V value)
+        {
+            if (node == null) node = new PriorityTreeNode<K, V>(key, value);
+            else
+            {
+                if (node.Key.CompareTo(key) > 0)
+                    Add(node.Right, key, value);
+                else if (node.Key.CompareTo(key) < 0)
+                    Add(node.Left, key, value);
+                else node.Values.Add(value);
+            }
+        }
+
+#error Incomplete, do not attempt to use
+        public List<V> GetSmallest()
+        {
             var temp = root;
 
-            if (temp == null)
-                temp = new PriorityTreeNode<K, V>(key, value);
-            else if (temp.Key.CompareTo(key) > 0)
-                temp.Right = new PriorityTreeNode<K, V>(key, value);
-            else if (temp.Key.CompareTo(key) < 0)
-                temp.Left = new PriorityTreeNode<K, V>(key, value);
-            else temp.Values.Add(value); 
+            while (temp.Left != null)
+            {
+                temp = temp.Left;
+            }
+
+            var res = temp.Values;
+
+            return res;
+        }
+#error Incomplete, do not attempt to use
+        public List<V> GetLargest()
+        {
+            return null;
         }
     }
 }
