@@ -10,10 +10,10 @@ namespace TrafficSim
 {
     abstract class Vehicle : IDrawable
     {
-        public int x;
-        public int y;
-        public int MaxAcc;
-        public int MaxDecc;
+        public int x {get; protected set;}
+        public int y {get; protected set;}
+        public int MaxAcc {get; protected set;}
+        public int MaxDecc {get; protected set;}
         public PictureBox Image = new PictureBox();
 
 
@@ -22,9 +22,16 @@ namespace TrafficSim
             Image.Location = new Point(x, y);
             Image.Visible = true;
             Image.Enabled = true;
-            Image.Size = new Size(50, 50);
+            //Image.Size = new Size(50, 50);
             Image.Image = TrafficSim.Properties.Resources.CarLeft;
+        }
 
+        public void Move(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+            Image.Location = new Point(x, y);
+            Image.Update();
         }
     }
 }

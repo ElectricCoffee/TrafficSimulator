@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace TrafficSim
 {
     public partial class Form1 : Form
@@ -16,11 +17,17 @@ namespace TrafficSim
         {
             InitializeComponent();
             
-            Car Bil = new Car(100, 100);
-            Controls.Add(Bil.Image);
-            Bil.Draw();
+            Car bil = new Car(100, 100);
+            AddAndDrawCar(bil);
             
+            bil.Move(bil.x + 50, bil.y);
             
+        }
+        
+        void AddAndDrawCar(Car car)
+        {
+            Controls.Add(car.Image);
+            car.Draw();
         }
         
 
