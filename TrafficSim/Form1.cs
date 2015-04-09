@@ -15,6 +15,17 @@ namespace TrafficSim
         public Form1()
         {
             InitializeComponent();
+            
+            Car Bil = new Car(100, 100);
+            Controls.Add(Bil.Image);
+            Bil.Draw();
+            
+            
         }
+        
+
+        
+
+        
     }
 }
