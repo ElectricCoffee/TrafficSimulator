@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TrafficSim
+namespace TrafficSim.Event
 {
     public delegate void TrafficCallback();
 
