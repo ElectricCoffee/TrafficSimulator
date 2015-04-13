@@ -30,12 +30,25 @@ namespace TrafficSim.Util.Collections
             root = new PriorityTreeNode<K, V>(key, value);
         }
 
-        public void Add(K key, V value)
+        /// <summary>
+        /// Pushes data onto the tree
+        /// </summary>
+        /// <param name="key">The key the tree orders by</param>
+        /// <param name="value">The value stored with the key</param>
+        /// <param name="overwrite">Decides whether or not you want to overwrite the value in case of duplicate keys</param>
+        public void Push(K key, V value, bool overwrite = false)
         {
-            Add(root, key, value);
+            Push(root, key, value, overwrite);
         }
 
-        private void Add(PriorityTreeNode<K, V> node, K key, V value)
+        /// <summary>
+        /// Pushes data onto a node
+        /// </summary>
+        /// <param name="node">The specific node you want to push to</param>
+        /// <param name="key">The key the tree orders by</param>
+        /// <param name="value">The value stored with the key</param>
+        /// <param name="overwrite">Decides whether or not you want to overwrite the value in case of duplicate keys</param>
+        public void Push(PriorityTreeNode<K, V> node, K key, V value, bool overwrite = false)
         {
             if (node == null) throw new NullReferenceException("input-node was null");
             // if the key is larger, go down the right node
@@ -44,25 +57,48 @@ namespace TrafficSim.Util.Collections
                 if (node.Right == null)
                     node.Right = new PriorityTreeNode<K,V>(key, value);
                 
-                else Add(node.Right, key, value);
+                else Push(node.Right, key, value, overwrite);
             }
             // if the key is smaller, go down the left node
-            else if (node.Key.CompareTo(key) > 0) {
+            else if (node.Key.CompareTo(key) > 0)
+            {
                 if (node.Left == null)
-                    node.Left = new PriorityTreeNode<K,V>(key, value);
+                    node.Left = new PriorityTreeNode<K, V>(key, value);
 
-                else Add(node.Left, key, value);
+                else Push(node.Left, key, value, overwrite);
             }
             // if the key is identical, add it to the list of keys
-            else node.Values.Add(value); 
+            else
+            {
+                if (overwrite)
+                    node.Values = new List<V> { value };
+                else
+                    node.Values.Add(value);
+            }
         }
 
-        public List<V> GetSmallest()
+        /// <summary>
+        /// Helper function to reduce repeated pattern of iterating the tree
+        /// </summary>
+        /// <param name="nextNode">A function that takes a PriorityTreeNode, and returns a PriorityTreeNode</param>
+        /// <returns></returns>
+        private PriorityTreeNode<K, V> IterateTree(Func<PriorityTreeNode<K, V>, PriorityTreeNode<K, V>> nextNode)
         {
             var temp = root;
 
-            while (temp.Left != null)
-                temp = temp.Left;
+            while (nextNode(temp) != null)
+                temp = nextNode(temp);
+
+            return temp;
+        }
+
+        /// <summary>
+        /// Removes and returns the value stored on the 'smallest' key
+        /// </summary>
+        /// <returns></returns>
+        public List<V> PopSmallest()
+        {
+            var temp = IterateTree(x => x.Left);
 
             var res = temp.Values;
             temp = temp.Right;
@@ -70,18 +106,37 @@ namespace TrafficSim.Util.Collections
             return res;
         }
 
-#warning not tested, may fail
-        public List<V> GetLargest()
+        /// <summary>
+        /// Returns the value stored on the 'smallest' key without removing it.
+        /// </summary>
+        /// <returns></returns>
+        public List<V> PeekSmallest()
         {
-            var temp = root;
+            return IterateTree(x => x.Left).Values;
+        }
 
-            while (temp.Right != null)
-                temp = temp.Right;
+        /// <summary>
+        /// Removes and returns the value stored on the 'largest' key
+        /// </summary>
+        /// <returns></returns>
+        public List<V> PopLargest()
+        {
+            var temp = IterateTree(x => x.Right);
 
             var res = temp.Values;
+
             temp = temp.Left;
 
             return res;
+        }
+
+        /// <summary>
+        /// Returns the value stored on the 'largest' key without removing it.
+        /// </summary>
+        /// <returns></returns>
+        public List<V> PeekLargest()
+        {
+            return IterateTree(x => x.Right).Values;
         }
 
     }
