@@ -40,5 +40,17 @@ namespace TrafficSim
         {
             if (ContinuousEventList.ContainsKey(callbackMethod)) ContinuousEventList.Remove(callbackMethod);
         }
+
+        /// <summary>
+        /// Clears all callbacks for the specified object from the callback-list.
+        /// </summary>
+        /// <param name="identity">The specified object</param>
+        public void ClearContinuousEvents(object identity)
+        {
+            foreach (var kvp in ContinuousEventList)
+            {
+                if (kvp.Key.Target == identity) ContinuousEventList.Remove(kvp.Key);
+            }
+        }
     }
 }
