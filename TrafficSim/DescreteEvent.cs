@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TrafficSim
 {
-    public class DiscreteEvent : TrafficEvent
+    public class DescreteEvent : TrafficEvent
     {
-        public DiscreteEvent(TrafficCallback initCallbackMethod, TimeSpan initEventTime) : base(initCallbackMethod)
+        public DescreteEvent(TrafficCallback initCallbackMethod, TimeSpan initEventTime) : base(initCallbackMethod)
         {
             EventTime = initEventTime;
         }
