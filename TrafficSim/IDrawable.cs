@@ -9,6 +9,7 @@ namespace TrafficSim
 {
     interface IDrawable
     {
+        
         void Draw();
     }
 }
