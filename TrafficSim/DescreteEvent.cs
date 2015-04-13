@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 
 namespace TrafficSim
 {
-    public delegate void TrafficCallback();
-    public class DescreteEvent
+    public class DescreteEvent : TrafficEvent
     {
-        public DescreteEvent(TrafficCallback initCallbackMethod, TimeSpan initEventTime)
+        public DescreteEvent(TrafficCallback initCallbackMethod, TimeSpan initEventTime) : base(initCallbackMethod)
         {
-            Callback = initCallbackMethod;
             EventTime = initEventTime;
         }
-        public TrafficCallback Callback { get; protected set; }
         public TimeSpan EventTime { get; protected set; }
     }
 }
