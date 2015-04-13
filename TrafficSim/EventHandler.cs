@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TrafficSim {
-
-    public class EventHandler {
-
+namespace TrafficSim
+{
+    public class EventHandler
+    {
         protected List<DescreteEvent> DescreteEventList = new List<DescreteEvent>();
 
         protected TimeSpan currentTime;
@@ -16,7 +16,8 @@ namespace TrafficSim {
         /// </summary>
         /// <param name="callbackMethod">Method to be called</param>
         /// <param name="delay">Trigger delay</param>
-        public void AddDescreteEvent(TrafficCallback callbackMethod, TimeSpan delay) {
+        public void AddDescreteEvent(TrafficCallback callbackMethod, TimeSpan delay)
+        {
             DescreteEventList.Add(new DescreteEvent(callbackMethod, currentTime + delay));
             DescreteEventList = DescreteEventList.OrderBy(TE => TE.EventTime).ToList();
         }

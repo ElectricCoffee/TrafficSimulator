@@ -10,10 +10,11 @@ namespace TrafficSim
 
     public abstract class TrafficEvent
     {
-        public TrafficEvent(TrafficCallback initCallbackMethod)
+        public TrafficEvent(TrafficCallback initCallback)
         {
-            Callback = initCallbackMethod;
+            Callback = initCallback;
         }
-        public TrafficCallback Callback { get; protected set; }
+
+        public virtual TrafficCallback Callback { get; protected set; }
     }
 }
