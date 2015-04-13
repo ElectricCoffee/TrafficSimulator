@@ -55,12 +55,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-<<<<<<< HEAD
     <Compile Include="DiscreteEvent.cs" />
-=======
     <Compile Include="Util\Collections\PriorityTree.cs" />
     <Compile Include="Util\Collections\PriorityTreeNode.cs" />
->>>>>>> origin/master
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
