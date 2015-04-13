@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TrafficSim.Util.Collections
 {
@@ -18,9 +15,9 @@ namespace TrafficSim.Util.Collections
         /// <summary>
         /// Create a new PriorityTree with a node
         /// </summary>
-        public PriorityTree()
+        private PriorityTree()
         {
-            root = null;
+            root = new PriorityTreeNode<K,V>();
         }
 
         /// <summary>
@@ -30,7 +27,7 @@ namespace TrafficSim.Util.Collections
         /// <param name="value">The value</param>
         public PriorityTree(K key, V value)
         {
-            Add(key, value);
+            root = new PriorityTreeNode<K, V>(key, value);
         }
 
         public void Add(K key, V value)
@@ -40,35 +37,52 @@ namespace TrafficSim.Util.Collections
 
         private void Add(PriorityTreeNode<K, V> node, K key, V value)
         {
-            if (node == null) node = new PriorityTreeNode<K, V>(key, value);
-            else
+            if (node == null) throw new NullReferenceException("input-node was null");
+            // if the key is larger, go down the right node
+            if (node.Key.CompareTo(key) < 0) 
             {
-                if (node.Key.CompareTo(key) > 0)
-                    Add(node.Right, key, value);
-                else if (node.Key.CompareTo(key) < 0)
-                    Add(node.Left, key, value);
-                else node.Values.Add(value);
+                if (node.Right == null)
+                    node.Right = new PriorityTreeNode<K,V>(key, value);
+                
+                else Add(node.Right, key, value);
             }
+            // if the key is smaller, go down the left node
+            else if (node.Key.CompareTo(key) > 0) {
+                if (node.Left == null)
+                    node.Left = new PriorityTreeNode<K,V>(key, value);
+
+                else Add(node.Left, key, value);
+            }
+            // if the key is identical, add it to the list of keys
+            else node.Values.Add(value); 
         }
 
-#error Incomplete, do not attempt to use
         public List<V> GetSmallest()
         {
             var temp = root;
 
             while (temp.Left != null)
-            {
                 temp = temp.Left;
-            }
 
             var res = temp.Values;
+            temp = temp.Right;
 
             return res;
         }
-#error Incomplete, do not attempt to use
+
+#warning not tested, may fail
         public List<V> GetLargest()
         {
-            return null;
+            var temp = root;
+
+            while (temp.Right != null)
+                temp = temp.Right;
+
+            var res = temp.Values;
+            temp = temp.Left;
+
+            return res;
         }
+
     }
 }
