@@ -15,19 +15,77 @@ namespace TrafficSim
         /// </variables>
         Tuple<int, int> startPoint;
         Tuple<int, int> endPoint;
-        int RoadSize;
+        int RoadWidth;
 
         public List<Sign> Signs = new List<Sign>();
         
         /// <Passing>
         /// Passing creates 3 basic coordinates that hopefully should allow the car to pass
-        /// needs better names and refinement in getting where the tuples point
+        /// They all assume that there is space for passing
+        /// The new route passes through a second road
+        /// Seperate functions as otherwise they might save an old value
+        /// Angle values may not fit correctly
+        /// If spare time -> Device way to calculate in more than the basic directions
         /// </Passing>
-        void Passing(int CarLength, Tuple<int, int> frontCar)
+
+        void PassingLeft(int CarWidth, int CarLength, Tuple<int, int> FrontCar, int Angle)
         {
-            Tuple<int, int> passLeft = Tuple.Create(frontCar.Item1 - (CarLength), frontCar.Item2 + RoadSize);
-            Tuple<int, int> passForward = Tuple.Create(frontCar.Item1 + CarLength, passLeft.Item2);
-            Tuple<int, int> passRight = Tuple.Create(frontCar.Item1 + (CarLength), frontCar.Item2); 
+            if (Angle == 90) //driving from left to right
+            {
+                Tuple<int, int> PassLeft = Tuple.Create(FrontCar.Item1 - CarLength/2, FrontCar.Item2 + CarWidth);
+            }
+            else if (Angle == 180) //
+            {
+                Tuple<int, int> PassLeft = Tuple.Create(FrontCar.Item1 + CarWidth, FrontCar.Item2 - CarLength/2);
+            }
+            else if (Angle == 270)
+            {
+                Tuple<int, int> PassLeft = Tuple.Create(FrontCar.Item1 + CarLength/2, FrontCar.Item2 - CarWidth);
+            }
+            else
+            {
+                Tuple<int, int> PassLeft = Tuple.Create(FrontCar.Item1 - CarWidth, FrontCar.Item2 + CarLength / 2);
+            }
+        }
+
+        void PassingForward(int CarWidth, int CarLength, Tuple<int, int> FrontCar, int Angle)
+        {
+            if (Angle == 90)
+            {
+                Tuple<int, int> PassForward = Tuple.Create(FrontCar.Item1 + CarLength, FrontCar.Item2 + CarWidth);
+            }
+            else if (Angle == 180)
+            {
+                Tuple<int, int> PassForward = Tuple.Create(FrontCar.Item1 + CarWidth, FrontCar.Item2 + CarLength);
+            }
+            else if (Angle == 270)
+            {
+                Tuple<int, int> PassForward = Tuple.Create(FrontCar.Item1 - CarLength, FrontCar.Item2 - CarWidth);
+            }
+            else
+            {
+                Tuple<int, int> PassForward = Tuple.Create(FrontCar.Item1 - CarWidth, FrontCar.Item2 - CarLength);
+            }
+        }
+
+        void PassingRight(int CarWidth, int CarLength, Tuple<int, int> FrontCar, int Angle)
+        {
+            if (Angle == 90)
+            {
+                Tuple<int, int> PassRight = Tuple.Create(FrontCar.Item1 + 2*CarLength, FrontCar.Item2);
+            }
+            else if (Angle == 180)
+            {
+                Tuple<int, int> PassRight = Tuple.Create(FrontCar.Item1, FrontCar.Item2 + 2*CarLength);
+            }
+            else if (Angle == 270)
+            {
+                Tuple<int, int> PassRight = Tuple.Create(FrontCar.Item1 - 2*CarLength, FrontCar.Item2);
+            }
+            else
+            {
+                Tuple<int, int> PassRight = Tuple.Create(FrontCar.Item1, FrontCar.Item2 + 2*CarLength);
+            }
         }
     }
 }
