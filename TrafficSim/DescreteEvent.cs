@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace TrafficSim
 {
     public delegate void TrafficCallback();
-    public class TrafficEvent
+    public class DescreteEvent
     {
-        public TrafficEvent(TrafficCallback initCallbackMethod, TimeSpan initEventTime)
+        public DescreteEvent(TrafficCallback initCallbackMethod, TimeSpan initEventTime)
         {
             Callback = initCallbackMethod;
             EventTime = initEventTime;

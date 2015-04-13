@@ -8,7 +8,7 @@ namespace TrafficSim {
 
     public class EventHandler {
 
-        protected List<TrafficEvent> DescreteEventList = new List<TrafficEvent>();
+        protected List<DescreteEvent> DescreteEventList = new List<DescreteEvent>();
 
         protected TimeSpan currentTime;
         /// <summary>
@@ -16,8 +16,8 @@ namespace TrafficSim {
         /// </summary>
         /// <param name="callbackMethod">Method to be called</param>
         /// <param name="delay">Trigger delay</param>
-        public void AddEvent(TrafficCallback callbackMethod, TimeSpan delay) {
-            DescreteEventList.Add(new TrafficEvent(callbackMethod, currentTime + delay));
+        public void AddDescreteEvent(TrafficCallback callbackMethod, TimeSpan delay) {
+            DescreteEventList.Add(new DescreteEvent(callbackMethod, currentTime + delay));
             DescreteEventList = DescreteEventList.OrderBy(TE => TE.EventTime).ToList();
         }
     }
