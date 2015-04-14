@@ -40,7 +40,7 @@ namespace TrafficSim.Util.Collections
         /// <param name="overwrite">Decides whether or not you want to overwrite the value in case of duplicate keys</param>
         public void Push(K key, V value, bool overwrite = false)
         {
-            if (root == null)
+            if (IsEmpty)
                 root = new PriorityTreeNode<K, V>(key, value);
             else 
                 Push(root, key, value, overwrite);
@@ -89,7 +89,8 @@ namespace TrafficSim.Util.Collections
         /// <returns></returns>
         private PriorityTreeNode<K, V> IterateTree(Func<PriorityTreeNode<K, V>, PriorityTreeNode<K, V>> nextNode)
         {
-            if (root == null) throw new TreeEmptyException("Trying to iterate empty tree!");
+            if (IsEmpty) throw new TreeEmptyException("Trying to iterate empty tree!");
+
             var temp = root;
 
             while (nextNode(temp) != null)
@@ -104,10 +105,10 @@ namespace TrafficSim.Util.Collections
         /// <returns></returns>
         public List<V> PopSmallest()
         {
-            
             var temp = IterateTree(x => x.Left);
 
             var res = temp.Values;
+
             temp = temp.Right;
 
             return res;
