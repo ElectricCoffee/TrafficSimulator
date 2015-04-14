@@ -15,7 +15,7 @@ namespace TrafficSim.Util.Collections
         /// <summary>
         /// Create a new PriorityTree with a node
         /// </summary>
-        private PriorityTree()
+        public PriorityTree()
         {
             root = new PriorityTreeNode<K,V>();
         }
