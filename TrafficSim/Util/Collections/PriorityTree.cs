@@ -17,7 +17,7 @@ namespace TrafficSim.Util.Collections
         /// </summary>
         public PriorityTree()
         {
-            root = new PriorityTreeNode<K,V>();
+            root = null;
         }
 
         /// <summary>
@@ -38,7 +38,10 @@ namespace TrafficSim.Util.Collections
         /// <param name="overwrite">Decides whether or not you want to overwrite the value in case of duplicate keys</param>
         public void Push(K key, V value, bool overwrite = false)
         {
-            Push(root, key, value, overwrite);
+            if (root == null)
+                root = new PriorityTreeNode<K, V>(key, value);
+            else 
+                Push(root, key, value, overwrite);
         }
 
         /// <summary>
