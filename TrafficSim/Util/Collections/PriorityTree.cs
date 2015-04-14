@@ -87,6 +87,7 @@ namespace TrafficSim.Util.Collections
         /// <returns></returns>
         private PriorityTreeNode<K, V> IterateTree(Func<PriorityTreeNode<K, V>, PriorityTreeNode<K, V>> nextNode)
         {
+            if (root == null) throw new TreeEmptyException("Trying to iterate empty tree!");
             var temp = root;
 
             while (nextNode(temp) != null)
@@ -101,6 +102,7 @@ namespace TrafficSim.Util.Collections
         /// <returns></returns>
         public List<V> PopSmallest()
         {
+            
             var temp = IterateTree(x => x.Left);
 
             var res = temp.Values;

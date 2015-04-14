@@ -25,5 +25,13 @@ namespace UnitTests
             Assert.AreEqual(expectedSmallest, smallest);
             Assert.AreEqual(expectedLargest, largest);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(TreeEmptyException))]
+        public void EmptyPop()
+        {
+            var tree = new PriorityTree<int, int>();
+            tree.PopLargest();
+        }
     }
 }
