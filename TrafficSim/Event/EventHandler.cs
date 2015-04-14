@@ -56,9 +56,17 @@ namespace TrafficSim.Event
         }
 
         /// <summary>
+        /// Clears the callback-list.
+        /// </summary>
+        public void ClearContinuousEvents()
+        {
+            ContinuousEventList.Clear();
+        }
+
+        /// <summary>
         /// Proceeds the simulation by one tick.
         /// </summary>
-        void NextTick()
+        public void NextTick()
         {
             currentTime += tickLength;
             foreach (var kvp in ContinuousEventList)
