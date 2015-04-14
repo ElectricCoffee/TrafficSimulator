@@ -12,6 +12,8 @@ namespace TrafficSim.Util.Collections
     {
         private PriorityTreeNode<K, V> root = null;
 
+        public bool IsEmpty { get { return root == null; } }
+
         /// <summary>
         /// Create a new PriorityTree with a node
         /// </summary>

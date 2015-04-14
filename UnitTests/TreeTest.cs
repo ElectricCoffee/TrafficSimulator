@@ -33,5 +33,12 @@ namespace UnitTests
             var tree = new PriorityTree<int, int>();
             tree.PopLargest();
         }
+
+        [TestMethod]
+        public void EmptyCheck()
+        {
+            var tree = new PriorityTree<int, int>();
+            Assert.IsTrue(tree.IsEmpty);
+        }
     }
 }
