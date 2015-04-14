@@ -21,7 +21,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))] // here's what you do when you want something to return an exception
+        [ExpectedException(typeof(NullReferenceException))] // here's what you do when you want something to throw an exception
         public void Example2()
         {
             string value = null;
