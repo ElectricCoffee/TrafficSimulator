@@ -12,12 +12,14 @@ namespace TrafficSim.Util.Collections
     {
         private PriorityTreeNode<K, V> root = null;
 
+        public bool IsEmpty { get { return root == null; } }
+
         /// <summary>
         /// Create a new PriorityTree with a node
         /// </summary>
         public PriorityTree()
         {
-            root = new PriorityTreeNode<K,V>();
+            root = null;
         }
 
         /// <summary>
@@ -38,7 +40,10 @@ namespace TrafficSim.Util.Collections
         /// <param name="overwrite">Decides whether or not you want to overwrite the value in case of duplicate keys</param>
         public void Push(K key, V value, bool overwrite = false)
         {
-            Push(root, key, value, overwrite);
+            if (IsEmpty)
+                root = new PriorityTreeNode<K, V>(key, value);
+            else 
+                Push(root, key, value, overwrite);
         }
 
         /// <summary>
@@ -84,6 +89,8 @@ namespace TrafficSim.Util.Collections
         /// <returns></returns>
         private PriorityTreeNode<K, V> IterateTree(Func<PriorityTreeNode<K, V>, PriorityTreeNode<K, V>> nextNode)
         {
+            if (IsEmpty) throw new TreeEmptyException("Trying to iterate empty tree!");
+
             var temp = root;
 
             while (nextNode(temp) != null)
@@ -101,6 +108,7 @@ namespace TrafficSim.Util.Collections
             var temp = IterateTree(x => x.Left);
 
             var res = temp.Values;
+
             temp = temp.Right;
 
             return res;

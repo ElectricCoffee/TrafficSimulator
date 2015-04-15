@@ -58,6 +58,8 @@
     <Compile Include="Event\DiscreteEvent.cs" />
     <Compile Include="Util\Collections\PriorityTree.cs" />
     <Compile Include="Util\Collections\PriorityTreeNode.cs" />
+    <Compile Include="Util\Collections\TreeEmptyException.cs" />
+    <Compile Include="Util\Globals.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
