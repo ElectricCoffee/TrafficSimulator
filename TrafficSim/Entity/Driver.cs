@@ -16,7 +16,7 @@ namespace TrafficSim.Entity
 
         private void SetTargets()
         {
-
+            // just a test to see if smartgit works
         }
 
         private void ReadSign()
