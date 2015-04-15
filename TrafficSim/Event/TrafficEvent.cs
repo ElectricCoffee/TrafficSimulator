@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace TrafficSim.Event
 {
-
     public abstract class TrafficEvent
     {
         public TrafficEvent(Action initCallback)
