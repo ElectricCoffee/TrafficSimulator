@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace TrafficSim.Entity
 {
-    class Car : Vehicle
+    public class Car : Vehicle
     {
 
         /// <summary>
@@ -17,19 +17,23 @@ namespace TrafficSim.Entity
         /// <param name="y">THe y for the car.</param>
         public Car(int x, int y)
         {
-            Coordinat = new Point(x, y);
+            Coordinate = new Point(x, y);
             Picture = TrafficSim.Properties.Resources.CarLeft;
         }
 
-        public override void Brakes()
+        public override void ChangeGraphic(DrivingType dt)
         {
-            PictureBox.Image = TrafficSim.Properties.Resources.CarLeftBrakes;
-        }
-
-        public override void UnBrakes()
-        {
-            PictureBox.Image = TrafficSim.Properties.Resources.CarLeft;
-        }
-        
+            switch (dt)
+            {
+                case DrivingType.Drive:
+                    PictureBox.Image = TrafficSim.Properties.Resources.CarLeft;
+                    break;
+                case DrivingType.Brake:
+                    PictureBox.Image = TrafficSim.Properties.Resources.CarLeftBrakes;
+                    break;
+                default:
+                    break;
+            }
+        }        
     }
 }

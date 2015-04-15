@@ -9,7 +9,7 @@ namespace TrafficSim.Entity
 {
     public class Driver
     {
-        public Car AssociatedCar { get; set; }
+        public Vehicle AssociatedVehicle { get; set; }
         public int VelocityTolerance { get; set; }
         public int ReactionTime { get; set; }
         public DriverAggression Aggression { get; set; }
@@ -57,7 +57,7 @@ namespace TrafficSim.Entity
     /// </summary>
     public struct DriverAggression
     {
-        public DriverAggression(double acc, double dec)
+        public DriverAggression(double acc, double dec) : this()
         {
             Acceleration = acc;
             Deceleration = dec;

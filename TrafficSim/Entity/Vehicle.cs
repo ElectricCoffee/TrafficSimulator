@@ -10,9 +10,11 @@ using System.Drawing.Drawing2D;
 
 namespace TrafficSim.Entity
 {
-    abstract class Vehicle : IDrawable
+    public enum DrivingType { Drive, Brake }
+
+    public abstract class Vehicle : IDrawable
     {
-        public Point Coordinat {get; protected set;}
+        public Point Coordinate {get; protected set;}
         public int MaxAcc {get; protected set;}
         public int MaxDecc {get; protected set;}
         public int Acc { get; set; }
@@ -20,7 +22,7 @@ namespace TrafficSim.Entity
         public Image Picture;
         public PictureBox PictureBox = new PictureBox();
         public Point Direction { get; set; }
-        public bool BrakeBool { get; set; }
+        public bool IsBreaking { get; set; }
         public int Speed { get; set; }
 
         /// <summary>
@@ -28,7 +30,7 @@ namespace TrafficSim.Entity
         /// </summary>
         public void Draw()
         {
-            PictureBox.Location = Coordinat;
+            PictureBox.Location = Coordinate;
             PictureBox.Visible = true;
             PictureBox.Enabled = true;
             
@@ -43,14 +45,14 @@ namespace TrafficSim.Entity
         /// <param name="y">The new y for the car.</param>
         public void Move(int x, int y)
         {
-            this.Coordinat = new Point(x, y);
-            PictureBox.Location = Coordinat;
-            int cos = Coordinat.X - Direction.X;
-            int sin = Coordinat.Y - Direction.Y;
+            Coordinate = new Point(x, y);
+            PictureBox.Location = Coordinate;
+            int cos = Coordinate.X - Direction.X;
+            int sin = Coordinate.Y - Direction.Y;
 
-            if (BrakeBool)
-                this.Brakes();
-            else this.UnBrakes();
+            if (IsBreaking)
+                ChangeGraphic(DrivingType.Brake); //Brakes();
+            else ChangeGraphic(DrivingType.Drive); // UnBrakes();
 
             if (cos < 0 && sin < 0)
                 Picture.RotateFlip(RotateFlipType.RotateNoneFlipNone);
@@ -66,14 +68,10 @@ namespace TrafficSim.Entity
         }
 
         /// <summary>
-        /// Change the Vehicle image to brakes.
+        /// Changes the graphic of the vehicle, depending on if it's driving or not
         /// </summary>
-        public abstract void Brakes();
-        
-        /// <summary>
-        /// Change the Vehicle image to normal.
-        /// </summary>
-        public abstract void UnBrakes();
+        /// <param name="dt">The type of driving, braking/driving</param>
+        public abstract void ChangeGraphic(DrivingType dt);
         
         /// <summary>
         /// Sets the new speed, by acceleration and moves the vehicle, by the time.
@@ -81,16 +79,16 @@ namespace TrafficSim.Entity
         /// <param name="milisecond">The time in miliseconds that will set the speed, and the new location by diredtion.</param>
         public void Accelerate(int milisecond)
         {
-            double direntionLenght = Math.Sqrt(Math.Pow(Coordinat.X - Direction.X, 2) + Math.Pow(Coordinat.Y - Direction.Y, 2));
+            double direntionLenght = Math.Sqrt(Math.Pow(Coordinate.X - Direction.X, 2) + Math.Pow(Coordinate.Y - Direction.Y, 2));
             double directionEnhedX = Direction.X / direntionLenght;
             double directionEnhedY = Direction.Y / direntionLenght;
 
-            if (BrakeBool)
+            if (IsBreaking)
                 Speed -= Acc * milisecond/1000;
             else
                 Speed += Acc * milisecond/1000;
             int lenght = Speed * milisecond/1000 * 8; //8px pr. m
-            Move(Coordinat.X + (int)(directionEnhedX * lenght), Coordinat.Y + (int)(directionEnhedY * lenght));
+            Move(Coordinate.X + (int)(directionEnhedX * lenght), Coordinate.Y + (int)(directionEnhedY * lenght));
         }
         
     }

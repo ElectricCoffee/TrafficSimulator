@@ -7,23 +7,27 @@ using System.Drawing;
 
 namespace TrafficSim.Entity
 {
-    class Truck : Vehicle
+    public class Truck : Vehicle
     {
         public Truck(int x, int y)
         {
-            Coordinat = new Point(x, y);
+            Coordinate = new Point(x, y);
             Picture = TrafficSim.Properties.Resources.TruckLeft;
         }
 
-        public override void Brakes()
+        public override void ChangeGraphic(DrivingType dt)
         {
-            PictureBox.Image = TrafficSim.Properties.Resources.TruckLeftBrakes;
+            switch (dt)
+            {
+                case DrivingType.Drive:
+                    PictureBox.Image = TrafficSim.Properties.Resources.TruckLeft;
+                    break;
+                case DrivingType.Brake:
+                    PictureBox.Image = TrafficSim.Properties.Resources.TruckLeftBrakes;
+                    break;
+                default:
+                    throw new Exception("This shouldn't have happened");
+            }
         }
-
-        public override void UnBrakes()
-        {
-            PictureBox.Image = TrafficSim.Properties.Resources.TruckLeft;
-        }
-        
     }
 }
