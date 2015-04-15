@@ -19,8 +19,6 @@ namespace TrafficSim.Entity
         public int Decc { get; set; }
         public Image Picture;
         public PictureBox PictureBox = new PictureBox();
-        public Point Near { get; set; }
-        public Point Far { get; set; }
         public Point Direction { get; set; }
         public bool BrakeBool { get; set; }
         public int Speed { get; set; }
