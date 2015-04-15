@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace TrafficSim.Entity
 {
@@ -13,27 +14,45 @@ namespace TrafficSim.Entity
         public DriverAggression Aggression { get; set; }
         public int SafeDistance { get; set; }
         public int SpeedLimit { get; set; }
+        public Point NearPoint { get; set; }
+        public Point FarPoint { get; set; }
 
+
+        /// <summary>
+        /// Sets the near and far points
+        /// </summary>
         private void SetTargets()
         {
-            // just a test to see if smartgit works
+            
         }
 
+        /// <summary>
+        /// Reads an incoming sign and changes the speed-limit accordingly
+        /// </summary>
         private void ReadSign()
         {
 
         }
     }
 
+    /// <summary>
+    /// Contains the different aggression types the driver can have
+    /// </summary>
     public struct DriverAggression
     {
-        public DriverAggression(int acc, int dec)
+        public DriverAggression(double acc, double dec)
         {
             Acceleration = acc;
             Deceleration = dec;
         }
 
-        public int Acceleration { get; private set; }
-        public int Deceleration { get; private set; }
+        /// <summary>
+        /// The driver's willingness to accelerate in %
+        /// </summary>
+        public double Acceleration { get; private set; }
+        /// <summary>
+        /// The driver's willingness to decelerate in %
+        /// </summary>
+        public double Deceleration { get; private set; }
     }
 }
