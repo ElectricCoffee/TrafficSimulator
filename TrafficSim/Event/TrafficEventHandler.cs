@@ -18,7 +18,7 @@ namespace TrafficSim.Event
             tickLength = initTickLength;
         }
         protected List<DiscreteEvent> DiscreteEventList = new List<DiscreteEvent>();
-        protected Dictionary<TrafficCallback, ContinuousEvent> ContinuousEventList = new Dictionary<TrafficCallback, ContinuousEvent>();
+        protected Dictionary<Action, ContinuousEvent> ContinuousEventList = new Dictionary<Action, ContinuousEvent>();
         protected TimeSpan currentTime;
         /// <summary>
         /// Duration between each callback of the continuous events
@@ -30,7 +30,7 @@ namespace TrafficSim.Event
         /// </summary>
         /// <param name="callbackMethod">Method to be called</param>
         /// <param name="delay">Trigger delay</param>
-        public void AddDiscreteEvent(TrafficCallback callbackMethod, TimeSpan delay)
+        public void AddDiscreteEvent(Action callbackMethod, TimeSpan delay)
         {
             DiscreteEventList.Add(new DiscreteEvent(callbackMethod, currentTime + delay));
             DiscreteEventList = DiscreteEventList.OrderBy(TE => TE.EventTime).ToList();
@@ -40,7 +40,7 @@ namespace TrafficSim.Event
         /// Adds a callback to the callback-list
         /// </summary>
         /// <param name="callbackMethod">Method to be added</param>
-        public void AddContinuousEvent(TrafficCallback callbackMethod)
+        public void AddContinuousEvent(Action callbackMethod)
         {
             ContinuousEventList.Add(callbackMethod, new ContinuousEvent(callbackMethod));
         }
@@ -49,7 +49,7 @@ namespace TrafficSim.Event
         /// Removes the specified callback from the callback-list
         /// </summary>
         /// <param name="callbackMethod">Method to be removed</param>
-        public void RemoveContinuousEvent(TrafficCallback callbackMethod)
+        public void RemoveContinuousEvent(Action callbackMethod)
         {
             if (ContinuousEventList.ContainsKey(callbackMethod)) ContinuousEventList.Remove(callbackMethod);
         }

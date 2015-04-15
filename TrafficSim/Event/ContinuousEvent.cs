@@ -8,6 +8,6 @@ namespace TrafficSim.Event
 {
     public class ContinuousEvent : TrafficEvent
     {
-        public ContinuousEvent(TrafficCallback initCallback) : base(initCallback) { }
+        public ContinuousEvent(Action initCallback) : base(initCallback) { }
     }
 }

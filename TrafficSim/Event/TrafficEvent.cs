@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 
 namespace TrafficSim.Event
 {
-    public delegate void TrafficCallback();
 
     public abstract class TrafficEvent
     {
-        public TrafficEvent(TrafficCallback initCallback)
+        public TrafficEvent(Action initCallback)
         {
             Callback = initCallback;
         }
 
-        public virtual TrafficCallback Callback { get; protected set; }
+        public virtual Action Callback { get; protected set; }
     }
 }
