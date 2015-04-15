@@ -120,5 +120,24 @@ namespace UnitTests
 
             Assert.IsTrue(success);
         }
+
+        [TestMethod]
+        public void CallMultipleContinuousEvents()
+        {
+#error Not yet done!
+            int actual = 0;
+            int expected = 6;
+
+
+            var bigBoy = new TrafficEventHandler(TimeSpan.FromMilliseconds(100));
+            Action callMeMaybe = () => {actual += 1; };
+            bigBoy.AddContinuousEvent(callMeMaybe);
+            for (int ticks = 0; ticks < 3; ticks++)
+            {
+                bigBoy.NextTick();
+            }
+
+            Assert.AreEqual(actual, expected);
+        }
     }
 }
