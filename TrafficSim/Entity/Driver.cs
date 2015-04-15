@@ -26,6 +26,14 @@ namespace TrafficSim.Entity
             } 
         }
 
+        static Driver CreateRandom()
+        {
+            var driver = new Driver();
+            var rndm = new Random(); // the empty constructor uses time as a seed by default.
+            // randomiser code goes here
+            return driver;
+        }
+
 
         /// <summary>
         /// Sets the near and far points
