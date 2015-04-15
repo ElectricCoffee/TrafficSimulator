@@ -63,7 +63,7 @@ namespace TrafficSim.Entity
             else
                 Picture.RotateFlip(RotateFlipType.Rotate270FlipNone);
 
-            PictureBox.Update();
+            PictureBox.Update(); 
             
         }
 
