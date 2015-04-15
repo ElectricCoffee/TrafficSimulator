@@ -3,88 +3,100 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace TrafficSim
 {
     class road
     {
-        /// <variables>
-        /// start and endpoint should be self explanatory
-        /// roadsize is a placeholder for the width of the road
-        /// the list should contain all signs used on the road
-        /// </variables>
-        Tuple<int, int> startPoint;
-        Tuple<int, int> endPoint;
+        int StartX, StartY;
+        int EndX, EndY;
         int RoadWidth;
 
         public List<Sign> Signs = new List<Sign>();
-        
-        /// <Passing>
-        /// Passing creates 3 basic coordinates that hopefully should allow the car to pass
-        /// They all assume that there is space for passing
-        /// The new route passes through a second road
-        /// Seperate functions as otherwise they might save an old value
-        /// Angle values may not fit correctly
-        /// If spare time -> Device way to calculate in more than the basic directions
-        /// </Passing>
 
-        void PassingLeft(int CarWidth, int CarLength, Tuple<int, int> FrontCar, int Angle)
+        /// <summary>
+        /// Each Passing function finds the coordinate required to pass a car in front of it
+        /// It assumes there is enough room, and that there is only 1 car
+        /// it is in 3 seperate functions, as otherwise it might save too old coordinates
+        /// should also ensure that the coordinate is updated as the cars are moving
+        /// </summary>
+        /// <param name="CarWidth"></param>
+        /// <param name="CarLength"></param>
+        /// <param name="FrontCar"></param>
+        /// <param name="Angle"></param>
+        /// <param name="PassBool"></param>
+        /// <returns></returns>
+
+        [Obsolete("Use PassingHorizontal instead")]
+        Point PassingLeft(int CarWidth, int CarLength, Point FrontCar, int Angle)
         {
-            if (Angle == 90) //driving from left to right
+            switch(Angle)
             {
-                Tuple<int, int> PassLeft = Tuple.Create(FrontCar.Item1 - CarLength/2, FrontCar.Item2 + CarWidth);
-            }
-            else if (Angle == 180) //
-            {
-                Tuple<int, int> PassLeft = Tuple.Create(FrontCar.Item1 + CarWidth, FrontCar.Item2 - CarLength/2);
-            }
-            else if (Angle == 270)
-            {
-                Tuple<int, int> PassLeft = Tuple.Create(FrontCar.Item1 + CarLength/2, FrontCar.Item2 - CarWidth);
-            }
-            else
-            {
-                Tuple<int, int> PassLeft = Tuple.Create(FrontCar.Item1 - CarWidth, FrontCar.Item2 + CarLength / 2);
+                case 90: //Driving from left to right
+                    return new Point(FrontCar.X - CarLength/2, FrontCar.Y + CarWidth);
+                case 180: //Up to down
+                    return new Point(FrontCar.X + CarWidth, FrontCar.Y - CarLength / 2);
+                case 270: //Right to left
+                    return new Point(FrontCar.X + CarLength / 2, FrontCar.Y - CarWidth);
+                default: //Down to up
+                    return new Point(FrontCar.X - CarWidth, FrontCar.Y + CarLength / 2);
             }
         }
 
-        void PassingForward(int CarWidth, int CarLength, Tuple<int, int> FrontCar, int Angle)
+        [Obsolete("Use PassingHorizontal instead")]
+        Point PassingForward(int CarWidth, int CarLength, Point FrontCar, int Angle)
         {
-            if (Angle == 90)
+            switch (Angle)
             {
-                Tuple<int, int> PassForward = Tuple.Create(FrontCar.Item1 + CarLength, FrontCar.Item2 + CarWidth);
-            }
-            else if (Angle == 180)
-            {
-                Tuple<int, int> PassForward = Tuple.Create(FrontCar.Item1 + CarWidth, FrontCar.Item2 + CarLength);
-            }
-            else if (Angle == 270)
-            {
-                Tuple<int, int> PassForward = Tuple.Create(FrontCar.Item1 - CarLength, FrontCar.Item2 - CarWidth);
-            }
-            else
-            {
-                Tuple<int, int> PassForward = Tuple.Create(FrontCar.Item1 - CarWidth, FrontCar.Item2 - CarLength);
+                case 90: // Left to Right
+                    return new Point(FrontCar.X + CarLength, FrontCar.Y + CarWidth);
+                case 180: // Up to Down
+                    return new Point(FrontCar.X + CarWidth, FrontCar.Y + CarLength);
+                case 270: // Right to Left
+                    return new Point(FrontCar.X - CarLength, FrontCar.Y - CarWidth);
+                default: // Down to Up
+                    return new Point(FrontCar.X - CarWidth, FrontCar.Y - CarLength);
             }
         }
 
-        void PassingRight(int CarWidth, int CarLength, Tuple<int, int> FrontCar, int Angle)
+        /// <summary>
+        /// Er den Optimiserede PassForward & PassRight, Spørg Anders hvad den gør.
+        /// Alt matematiken er stadig hans.
+        /// </summary>
+        /// <param name="CarWidth">Bilens Bredte</param>
+        /// <param name="CarLength">Bilens Længde</param>
+        /// <param name="FrontCar">Positionen på Bilen foran</param>
+        /// <param name="Angle">hvilken Angel bilen er, i nærmeste 90 grader</param>
+        /// <param name="PassRight">om bilen passerer højre eller venstre om</param>
+        /// <returns></returns>
+        private Point PassingHorizontal(int CarWidth, int CarLength, Point FrontCar, int Angle, bool PassRight)
         {
-            if (Angle == 90)
+            switch (Angle)
             {
-                Tuple<int, int> PassRight = Tuple.Create(FrontCar.Item1 + 2*CarLength, FrontCar.Item2);
+                case 90: // Driving from left to right
+                    return PassRight ? new Point(FrontCar.X + 2 * CarLength, FrontCar.Y) : new Point(FrontCar.X - CarLength / 2, FrontCar.Y + CarWidth);
+                case 180: // Up to down
+                    return PassRight ? new Point(FrontCar.X, FrontCar.Y + 2 * CarLength) : new Point(FrontCar.X + CarWidth, FrontCar.Y - CarLength / 2);
+                case 270: // Right to left
+                    return PassRight ? new Point(FrontCar.X - 2 * CarLength, FrontCar.Y) : new Point(FrontCar.X + CarLength / 2, FrontCar.Y - CarWidth);
+                default: // Down to up
+                    return PassRight ? new Point(FrontCar.X, FrontCar.Y - 2 * CarLength) : new Point(FrontCar.X - CarWidth, FrontCar.Y + CarLength / 2);
             }
-            else if (Angle == 180)
+        }
+
+        Point PassingRight(int CarWidth, int CarLength, Point FrontCar, int Angle)
+        {
+            switch (Angle)
             {
-                Tuple<int, int> PassRight = Tuple.Create(FrontCar.Item1, FrontCar.Item2 + 2*CarLength);
-            }
-            else if (Angle == 270)
-            {
-                Tuple<int, int> PassRight = Tuple.Create(FrontCar.Item1 - 2*CarLength, FrontCar.Item2);
-            }
-            else
-            {
-                Tuple<int, int> PassRight = Tuple.Create(FrontCar.Item1, FrontCar.Item2 + 2*CarLength);
+                case 90: // Left to Right
+                    return new Point(FrontCar.X + 2 * CarLength, FrontCar.Y);
+                case 180: // Up to Down
+                    return new Point(FrontCar.X, FrontCar.Y + 2 * CarLength);
+                case 270: // Right to Left
+                    return new Point(FrontCar.X - 2 * CarLength, FrontCar.Y);
+                default: // Down to Up
+                    return new Point(FrontCar.X, FrontCar.Y - 2 * CarLength);
             }
         }
     }
