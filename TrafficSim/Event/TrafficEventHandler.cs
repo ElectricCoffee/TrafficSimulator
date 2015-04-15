@@ -7,15 +7,26 @@ using TrafficSim.Util.Collections;
 
 namespace TrafficSim.Event
 {
-    public class EventHandler
+    public class TrafficEventHandler
     {
+        /// <summary>
+        /// Handles callbacks for both discrete and continuous events. All contiuous events are stored in a callback-list.
+        /// </summary>
+        /// <param name="initTickLength">Duration between each callback of the continuous events</param>
+        public TrafficEventHandler(TimeSpan initTickLength)
+        {
+            tickLength = initTickLength;
+        }
         protected List<DiscreteEvent> DiscreteEventList = new List<DiscreteEvent>();
         protected Dictionary<TrafficCallback, ContinuousEvent> ContinuousEventList = new Dictionary<TrafficCallback, ContinuousEvent>();
         protected TimeSpan currentTime;
-        protected TimeSpan tickLength = TimeSpan.FromMilliseconds(100);
+        /// <summary>
+        /// Duration between each callback of the continuous events
+        /// </summary>
+        public TimeSpan tickLength {get; private set;}
 
         /// <summary>
-        /// Queues up a callback to be called after a certain delay.
+        /// Queues up a callback to be called after a certain delay
         /// </summary>
         /// <param name="callbackMethod">Method to be called</param>
         /// <param name="delay">Trigger delay</param>
@@ -26,7 +37,7 @@ namespace TrafficSim.Event
         }
 
         /// <summary>
-        /// Adds a callback to the callback-list; called each tick.
+        /// Adds a callback to the callback-list
         /// </summary>
         /// <param name="callbackMethod">Method to be added</param>
         public void AddContinuousEvent(TrafficCallback callbackMethod)
@@ -35,7 +46,7 @@ namespace TrafficSim.Event
         }
 
         /// <summary>
-        /// Removes the specified callback from the callback-list.
+        /// Removes the specified callback from the callback-list
         /// </summary>
         /// <param name="callbackMethod">Method to be removed</param>
         public void RemoveContinuousEvent(TrafficCallback callbackMethod)
@@ -44,7 +55,7 @@ namespace TrafficSim.Event
         }
 
         /// <summary>
-        /// Clears all callbacks for the specified object from the callback-list.
+        /// Clears all callbacks for the specified object from the callback-list
         /// </summary>
         /// <param name="identity">The specified object</param>
         public void ClearEventsFromObject(object identity)
@@ -56,7 +67,7 @@ namespace TrafficSim.Event
         }
 
         /// <summary>
-        /// Clears the callback-list.
+        /// Clears the callback-list
         /// </summary>
         public void ClearContinuousEvents()
         {
@@ -64,7 +75,7 @@ namespace TrafficSim.Event
         }
 
         /// <summary>
-        /// Proceeds the simulation by one tick.
+        /// Proceeds the simulation by one tick
         /// </summary>
         public void NextTick()
         {
