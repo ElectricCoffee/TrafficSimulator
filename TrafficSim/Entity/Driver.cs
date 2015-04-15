@@ -9,8 +9,7 @@ namespace TrafficSim.Entity
 {
     public class Driver
     {
-#warning Car not yet implemented
-        //public Car AssociatedCar { get; set; }
+        public Car AssociatedCar { get; set; }
         public int VelocityTolerance { get; set; }
         public int ReactionTime { get; set; }
         public DriverAggression Aggression { get; set; }
