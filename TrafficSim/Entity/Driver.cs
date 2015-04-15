@@ -9,13 +9,23 @@ namespace TrafficSim.Entity
 {
     public class Driver
     {
+#warning Car not yet implemented
+        //public Car AssociatedCar { get; set; }
         public int VelocityTolerance { get; set; }
         public int ReactionTime { get; set; }
         public DriverAggression Aggression { get; set; }
-        public int SafeDistance { get; set; }
         public int SpeedLimit { get; set; }
         public Point NearPoint { get; set; }
         public Point FarPoint { get; set; }
+
+#warning TODO: implement distance algorithm
+        public int SafeDistance 
+        { 
+            get 
+            {
+                throw new Exception("SafeDistance not currently Implemented");
+            } 
+        }
 
 
         /// <summary>
