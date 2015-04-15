@@ -12,5 +12,7 @@ namespace TrafficSim.Util
     /// </summary>
     public static class Globals
     {
+        public static int AggressionMax = 100;
+        public static int AggressionMin = 10;
     }
 }

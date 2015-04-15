@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
+using TrafficSim.Util;
+
 namespace TrafficSim.Entity
 {
     public class Driver
@@ -26,10 +28,17 @@ namespace TrafficSim.Entity
             } 
         }
 
-        static Driver CreateRandom()
+        public Driver()
+        {
+            Aggression = new DriverAggression();
+        }
+
+        public static Driver CreateRandom()
         {
             var driver = new Driver();
             var rndm = new Random(); // the empty constructor uses time as a seed by default.
+            driver.Aggression.Acceleration = rndm.Next(Globals.AggressionMin, Globals.AggressionMax);
+            driver.Aggression.Deceleration = rndm.Next(Globals.AggressionMin, Globals.AggressionMax);
             // randomiser code goes here
             return driver;
         }
@@ -54,10 +63,13 @@ namespace TrafficSim.Entity
 
     /// <summary>
     /// Contains the different aggression types the driver can have
+    /// The aggression types define how quickly the driver accelerates and decelerates
     /// </summary>
-    public struct DriverAggression
+    public class DriverAggression
     {
-        public DriverAggression(double acc, double dec) : this()
+        public DriverAggression() : this(0, 0) { }
+
+        public DriverAggression(int acc, int dec)
         {
             Acceleration = acc;
             Deceleration = dec;
@@ -66,10 +78,10 @@ namespace TrafficSim.Entity
         /// <summary>
         /// The driver's willingness to accelerate in %
         /// </summary>
-        public double Acceleration { get; private set; }
+        public int Acceleration { get; set; }
         /// <summary>
         /// The driver's willingness to decelerate in %
         /// </summary>
-        public double Deceleration { get; private set; }
+        public int Deceleration { get; set; }
     }
 }
