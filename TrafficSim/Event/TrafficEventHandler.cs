@@ -90,10 +90,5 @@ namespace TrafficSim.Event
                 DiscreteEventList.RemoveAt(0);
             }
         }
-
-        public void AddDiscreteEvent()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
