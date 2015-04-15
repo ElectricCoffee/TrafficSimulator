@@ -8,21 +8,22 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 
 
-namespace TrafficSim
+namespace TrafficSim.Entity
 {
     abstract class Vehicle : IDrawable
     {
-        public int hej { get; set; }
-
         public Point Coordinat {get; protected set;}
         public int MaxAcc {get; protected set;}
         public int MaxDecc {get; protected set;}
+        public int Acc { get; set; }
+        public int Decc { get; set; }
         public Image Picture;
         public PictureBox PictureBox = new PictureBox();
         public Point Near { get; set; }
         public Point Far { get; set; }
         public Point Direction { get; set; }
         public bool BrakeBool { get; set; }
+        public int Speed { get; set; }
 
         /// <summary>
         /// Drawing the car, at it's coordinates.
@@ -70,12 +71,29 @@ namespace TrafficSim
         /// Change the Vehicle image to brakes.
         /// </summary>
         public abstract void Brakes();
+        
         /// <summary>
         /// Change the Vehicle image to normal.
         /// </summary>
         public abstract void UnBrakes();
+        
+        /// <summary>
+        /// Sets the new speed, by acceleration and moves the vehicle, by the time.
+        /// </summary>
+        /// <param name="milisecond">The time in miliseconds that will set the speed, and the new location by diredtion.</param>
+        public void Accelerate(int milisecond)
+        {
+            double direntionLenght = Math.Sqrt(Math.Pow(Coordinat.X - Direction.X, 2) + Math.Pow(Coordinat.Y - Direction.Y, 2));
+            double directionEnhedX = Direction.X / direntionLenght;
+            double directionEnhedY = Direction.Y / direntionLenght;
 
-
+            if (BrakeBool)
+                Speed -= Acc * milisecond/1000;
+            else
+                Speed += Acc * milisecond/1000;
+            int lenght = Speed * milisecond/1000 * 8; //8px pr. m
+            Move(Coordinat.X + (int)(directionEnhedX * lenght), Coordinat.Y + (int)(directionEnhedY * lenght));
+        }
         
     }
 }

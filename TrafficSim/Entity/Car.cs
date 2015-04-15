@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
-namespace TrafficSim
+namespace TrafficSim.Entity
 {
     class Car : Vehicle
     {

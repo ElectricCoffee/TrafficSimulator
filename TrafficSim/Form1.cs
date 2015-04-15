@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
+using TrafficSim.Entity;
 
 
 namespace TrafficSim
@@ -21,9 +22,10 @@ namespace TrafficSim
             Car bil = new Car(100, 100);
             
             AddAndDrawVehicle(bil);
-            bil.Direction = new Point(0,80);
-            bil.BrakeBool = true;
-            bil.Move(bil.Coordinat.X + 50, bil.Coordinat.Y);
+            bil.Direction = new Point(0,-30);
+            bil.Acc = 2;
+            bil.BrakeBool = false;
+            bil.Accelerate(3000);
 
             Truck lastbil = new Truck(50, 50);
             AddAndDrawVehicle(lastbil);
