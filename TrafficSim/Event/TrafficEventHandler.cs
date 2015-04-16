@@ -60,7 +60,8 @@ namespace TrafficSim.Event
         /// <param name="identity">The specified object</param>
         public void ClearEventsFromObject(object identity)
         {
-            foreach (var kvp in ContinuousEventList)
+          foreach (var kvp in ContinuousEventList)
+            #warning Currently known bug: Can't remove from ContinuousEventList while being iterated. 
             {
                 if (kvp.Key.Target == identity) ContinuousEventList.Remove(kvp.Key);
             }
