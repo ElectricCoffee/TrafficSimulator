@@ -9,6 +9,15 @@ namespace TrafficSim
 {
     class road
     {
+        /// <summary>
+        /// the parameters
+        /// might be better to convert it to a list
+        /// this however is easier for others to access
+        /// keep it like this for now, but ask others what they would prefer later
+        /// </summary>
+        /// <param name="StartX, StartY">start point of it</param>
+        /// <param name="EndX, EndY">end point of it</param>
+        /// <param name="RoadWidth">width of the road</param>
         int StartX, StartY;
         int EndX, EndY;
         int RoadWidth;
@@ -19,13 +28,16 @@ namespace TrafficSim
         /// Each Passing function finds the coordinate required to pass a car in front of it
         /// It assumes there is enough room, and that there is only 1 car
         /// it is in 3 seperate functions, as otherwise it might save too old coordinates
-        /// should also ensure that the coordinate is updated as the cars are moving
+        /// Should most likely not be used in road
+        /// Keep it here until we find out were to put it
         /// </summary>
-        /// <param name="CarWidth"></param>
-        /// <param name="CarLength"></param>
-        /// <param name="FrontCar"></param>
-        /// <param name="Angle"></param>
-        /// <param name="PassBool"></param>
+        /// <param name="CarWidth">self explanatory</param>
+        /// <param name="CarLength">self explanatory</param>
+        /// <param name="FrontCar">Coordinates for the car in front</param>
+        /// <param name="Angle">the angle the car points at
+        /// only takes north, south etc
+        /// need to ensure the angle values are used the same way as in other classes</param>
+        /// <param name="PassBool">Remind self to ask Andreas about this one</param>
         /// <returns></returns>
 
         [Obsolete("Use PassingHorizontal instead")]
@@ -61,15 +73,10 @@ namespace TrafficSim
         }
 
         /// <summary>
-        /// Er den Optimiserede PassForward & PassRight, Spørg Anders hvad den gør.
-        /// Alt matematiken er stadig hans.
+        /// these are the optimized passing functions, made by Andreas.
+        /// used for passing other cars see above summary
+        /// Parameters see above
         /// </summary>
-        /// <param name="CarWidth">Bilens Bredte</param>
-        /// <param name="CarLength">Bilens Længde</param>
-        /// <param name="FrontCar">Positionen på Bilen foran</param>
-        /// <param name="Angle">hvilken Angel bilen er, i nærmeste 90 grader</param>
-        /// <param name="PassRight">om bilen passerer højre eller venstre om</param>
-        /// <returns></returns>
         private Point PassingHorizontal(int CarWidth, int CarLength, Point FrontCar, int Angle, bool PassRight)
         {
             switch (Angle)
