@@ -22,6 +22,7 @@ namespace TrafficSim
         int EndX, EndY;
         int RoadWidth;
 
+#warning sign is not yet implemented
         public List<Sign> Signs = new List<Sign>();
 
         /// <summary>
