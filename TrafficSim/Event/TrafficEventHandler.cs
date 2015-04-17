@@ -63,6 +63,9 @@ namespace TrafficSim.Event
             ContinuousEventList = ContinuousEventList
                 .Where(x => x.Key.Target != identity)
                 .ToDictionary(x => x.Key, x => x.Value);
+            DiscreteEventList = DiscreteEventList
+                .Where(x => x.Callback.Target != identity)
+                .ToList();
         }
 
         /// <summary>

@@ -7,6 +7,7 @@ namespace UnitTests
     public class TestCallbackHolder {
         public TestCallbackHolder(TrafficEventHandler handler)
         {
+            handler.AddDiscreteEvent(callMeMaybe,TimeSpan.FromMilliseconds(100));
             handler.AddContinuousEvent(callMeMaybe);
             usedMethod = false;
         }
@@ -191,7 +192,7 @@ namespace UnitTests
         /// Expected: beholder.usedMethod stays false, the event is cleared before callback.
         /// </summary>
         [TestMethod]
-        public void ClearCallFromObject()
+        public void ClearCallsFromObject()
         {
           var bigBoy = new TrafficEventHandler(TimeSpan.FromMilliseconds(100));
           var beholder = new TestCallbackHolder(bigBoy);
