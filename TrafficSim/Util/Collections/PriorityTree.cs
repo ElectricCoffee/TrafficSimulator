@@ -4,10 +4,11 @@ using System.Collections.Generic;
 namespace TrafficSim.Util.Collections
 {
     /// <summary>
-    /// 
+    /// A priority collection that works in the style of a queue.
+    /// Values can be pushed in, and popped out as either greatest or smallest value
     /// </summary>
-    /// <typeparam name="K"></typeparam>
-    /// <typeparam name="V"></typeparam>
+    /// <typeparam name="K">The key type, that must be comparable</typeparam>
+    /// <typeparam name="V">The value type, that can be anything</typeparam>
     public class PriorityTree<K, V> where K : IComparable, IComparable<K>
     {
         private PriorityTreeNode<K, V> root = null;
