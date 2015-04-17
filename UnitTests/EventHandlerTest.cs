@@ -188,7 +188,7 @@ namespace UnitTests
         }
         /// <summary>
         /// Clears all events from an object. (The one that is added during object construction)
-        /// Expected: beholder.usedMethod becomes false, the event is cleared before callback.
+        /// Expected: beholder.usedMethod stays false, the event is cleared before callback.
         /// </summary>
         [TestMethod]
         public void ClearCallFromObject()
