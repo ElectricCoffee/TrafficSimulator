@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TrafficSim.Util.Collections
 {
+    /// <summary>
+    /// Specific exception for when the tree is empty
+    /// </summary>
     public class TreeEmptyException : Exception
     {
         public TreeEmptyException() : base("The tree was empty") { }
