@@ -37,14 +37,14 @@ namespace UnitTests
             car1.Direction = new Point(0, 100);
             car1.Move(40, 60);
             //how to get rotation?
-#warning           Assert.AreEqual(car1.PictureBox.Image.RotateFlip(), RotateFlipType.Rotate270FlipNone); //why can't I compare these two?
+#warning           Assert.AreEqual(, RotateFlipType.Rotate270FlipNone); //how do I get the rotation of the image?
         }
 
         [TestMethod]
         public void AccelerationTest() 
         {
             Car car1 = new Car(50, 50);
-            car1.Direction = new Point(10, 0);
+            car1.Direction = new Point(50, 0);
             car1.Acc = 1;
             car1.Accelerate(2000);
             Assert.AreEqual(car1.Coordinate, new Point(82,50));

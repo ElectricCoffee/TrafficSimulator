@@ -81,14 +81,14 @@ namespace TrafficSim.Entity
         /// <param name="milisecond">The time in miliseconds that will set the speed, and the new location by diredtion.</param>
         public void Accelerate(int milisecond)
         {
-            double direntionLenght = Math.Sqrt(Math.Pow(Coordinate.X - Direction.X, 2) + Math.Pow(Coordinate.Y - Direction.Y, 2));
+            double direntionLenght = Math.Sqrt(Math.Pow(Direction.X, 2) + Math.Pow(Direction.Y, 2));
             double directionEnhedX = Direction.X / direntionLenght;
             double directionEnhedY = Direction.Y / direntionLenght;
 
             if (IsBreaking)
                 Speed -= Decc * milisecond/1000;
             else
-                Speed += Acc * milisecond/1000;
+                Speed += Acc * milisecond/1000; //
             int lenght = Speed * milisecond/1000 * 8; //8px pr. m
             Move(Coordinate.X + (int)(directionEnhedX * lenght), Coordinate.Y + (int)(directionEnhedY * lenght));
         }
