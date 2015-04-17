@@ -23,7 +23,7 @@ namespace TrafficSim
         int RoadWidth;
 
 #warning sign is not yet implemented
-        public List<Sign> Signs = new List<Sign>();
+        //public List<Sign> Signs = new List<Sign>();
 
         /// <summary>
         /// Each Passing function finds the coordinate required to pass a car in front of it
