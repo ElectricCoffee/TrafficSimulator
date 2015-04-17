@@ -12,7 +12,7 @@ namespace TrafficSim.Entity
 {
     public enum DrivingType { Drive, Brake }
 
-    public abstract class Vehicle : IDrawable
+    public abstract class Vehicle : IDrawable 
     {
         public Point Coordinate {get; protected set;}
         public int MaxAcc {get; protected set;}
@@ -24,6 +24,8 @@ namespace TrafficSim.Entity
         public Point Direction { get; set; }
         public bool IsBreaking { get; set; }
         public int Speed { get; set; }
+        public Driver Driver { get; set; }
+        public bool IsAcceleratin {get; set;}
 
         /// <summary>
         /// Drawing the car, at it's coordinates.
@@ -48,8 +50,8 @@ namespace TrafficSim.Entity
             Coordinate = new Point(x, y);
             PictureBox.Location = Coordinate;
 
-            int cos = Coordinate.X - Direction.X;
-            int sin = Coordinate.Y - Direction.Y;
+            int cos = Direction.X;
+            int sin = Direction.Y;
 
             if (IsBreaking)
                 ChangeGraphic(DrivingType.Brake); //Brakes();
@@ -79,16 +81,20 @@ namespace TrafficSim.Entity
         /// Sets the new speed, by acceleration and moves the vehicle, by the time.
         /// </summary>
         /// <param name="milisecond">The time in miliseconds that will set the speed, and the new location by diredtion.</param>
-        public void Accelerate(int milisecond)
+        public void Drive(int milisecond)
         {
+            if (Direction.X == 0 && Direction.Y == 0)
+                throw new Util.NoDirectionException();      //trow exception
+
             double direntionLenght = Math.Sqrt(Math.Pow(Direction.X, 2) + Math.Pow(Direction.Y, 2));
             double directionEnhedX = Direction.X / direntionLenght;
             double directionEnhedY = Direction.Y / direntionLenght;
 
             if (IsBreaking)
                 Speed -= Decc * milisecond/1000;
-            else
-                Speed += Acc * milisecond/1000; //
+            else if (IsAcceleratin)
+                Speed += Acc * milisecond/1000;
+
             int lenght = Speed * milisecond/1000 * 8; //8px pr. m
             Move(Coordinate.X + (int)(directionEnhedX * lenght), Coordinate.Y + (int)(directionEnhedY * lenght));
         }

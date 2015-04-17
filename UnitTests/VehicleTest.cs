@@ -15,11 +15,19 @@ namespace UnitTests
     public class VehicleTest
     {
         [TestMethod]
-        public void DrawTest()
+        public void DrawTestParameterTest()
         {
-            Car car1 = new Car(50, 50);
+            DrawTest(50, 50, 50, 50);
+            DrawTest(100, 60, 100, 60);
+            DrawTest(0, 0, 0, 0);
+        }
+
+
+        public void DrawTest(int x,int y, int ex, int ey)
+        {
+            Car car1 = new Car(x, y);
             car1.Draw();
-            Assert.AreEqual(car1.PictureBox.Location, new Point(50, 50));
+            Assert.AreEqual(car1.PictureBox.Location, new Point(ex, ey));
         }
 
         [TestMethod]
@@ -47,7 +55,8 @@ namespace UnitTests
             Car car1 = new Car(50, 50);
             car1.Direction = new Point(50, 0);
             car1.Acc = 1;
-            car1.Accelerate(2000);
+            car1.IsAcceleratin = true;
+            car1.Drive(2000);
             Assert.AreEqual(car1.Coordinate, new Point(82,50));
             Assert.AreEqual(car1.PictureBox.Location, new Point(82, 50));
         }
@@ -60,7 +69,7 @@ namespace UnitTests
             car1.Decc = 1;
             car1.Speed = 50;
             car1.IsBreaking = true;
-            car1.Accelerate(2000);
+            car1.Drive(2000);
             Assert.AreEqual(car1.Coordinate, new Point(818, 50));
             Assert.AreEqual(car1.PictureBox.Location, new Point(818, 50));
         }
