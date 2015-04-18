@@ -26,6 +26,7 @@ namespace TrafficSim.Entity
         public int Speed { get; set; }
         public Driver Driver { get; set; }
         public bool IsAcceleratin {get; set;}
+        public RotateFlipType RotationType { get; set; }
 
         /// <summary>
         /// Drawing the car, at it's coordinates.
@@ -59,13 +60,15 @@ namespace TrafficSim.Entity
             else ChangeGraphic(DrivingType.Drive); // UnBrakes();
 
             if (cos < 0 && sin < 0)
-                Picture.RotateFlip(RotateFlipType.RotateNoneFlipNone);
+                RotationType = RotateFlipType.RotateNoneFlipNone;
             else if (cos > 0 && sin < 0)
-                Picture.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                RotationType = RotateFlipType.Rotate90FlipNone;
             else if (cos > 0 && sin > 0)
-                Picture.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                RotationType = RotateFlipType.Rotate180FlipNone;
             else
-                Picture.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                RotationType = RotateFlipType.Rotate270FlipNone;
+
+            PictureBox.Image.RotateFlip(RotationType);
 
             PictureBox.Update(); 
             

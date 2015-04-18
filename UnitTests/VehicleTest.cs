@@ -45,8 +45,7 @@ namespace UnitTests
             Car car1 = new Car(50, 50);
             car1.Direction = new Point(-50, 100);
             car1.Move(40, 60);
-            //how to get rotation?
-#warning           Assert.AreEqual(, RotateFlipType.Rotate270FlipNone); //how do I get the rotation of the image?
+            Assert.AreEqual(car1.RotationType, RotateFlipType.Rotate270FlipNone);
         }
 
         [TestMethod]
