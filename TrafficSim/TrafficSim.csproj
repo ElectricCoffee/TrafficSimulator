@@ -65,6 +65,7 @@
     <Compile Include="Util\Globals.cs" />
     <Compile Include="Entity\Truck.cs" />
     <Compile Include="Entity\Vehicle.cs" />
+    <Compile Include="Util\NoDirectionException.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

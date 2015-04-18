@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // Form1
@@ -45,6 +46,7 @@
         #endregion
 
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 
