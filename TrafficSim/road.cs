@@ -7,7 +7,42 @@ using System.Drawing;
 
 namespace TrafficSim
 {
-    class road
+    class RoadList
+    {
+        private Road Head;
+
+        public void Add(Tuple<int, int> Start, Tuple<int, int> End, int RoadWidth)
+        {
+            if (Head == null)
+            {
+                Head = new Road();
+
+                Head.StartPoint = Start;
+                Head.EndPoint = End;
+                Head.RoadWidth = RoadWidth;
+                Head.Next = null;
+            }
+            else
+            {
+                Road ToAdd = new Road();
+
+                ToAdd.StartPoint = Start;
+                ToAdd.EndPoint = End;
+                ToAdd.RoadWidth = RoadWidth;
+
+                Road Current = Head;
+
+                while (Current.Next != null)
+                {
+                    Current = Current.Next;
+                }
+
+                Current.Next = ToAdd;
+            }
+        }
+    }
+
+    class Road
     {
         /// <summary>
         /// the parameters
@@ -18,11 +53,15 @@ namespace TrafficSim
         /// <param name="StartX, StartY">start point of it</param>
         /// <param name="EndX, EndY">end point of it</param>
         /// <param name="RoadWidth">width of the road</param>
-        int StartX, StartY;
-        int EndX, EndY;
-        int RoadWidth;
 
-        public List<Sign> Signs = new List<Sign>();
+        public Road Next;
+        public Tuple<int, int> StartPoint;
+        public Tuple<int, int> EndPoint;
+        public int RoadWidth;
+        
+
+#warning sign is not yet implemented
+        List<Sign> Signs = new List<Sign>();
 
         /// <summary>
         /// Each Passing function finds the coordinate required to pass a car in front of it
