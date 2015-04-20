@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Drawing.Drawing2D;
+
 
 
 namespace TrafficSim.Entity
@@ -47,11 +47,13 @@ namespace TrafficSim.Entity
         {
             Coordinate = new Point(x, y);
             PictureBox.Location = Coordinate;
+
             int cos = Coordinate.X - Direction.X;
             int sin = Coordinate.Y - Direction.Y;
 
             if (IsBreaking)
                 ChangeGraphic(DrivingType.Brake); //Brakes();
+
             else ChangeGraphic(DrivingType.Drive); // UnBrakes();
 
             if (cos < 0 && sin < 0)
@@ -84,7 +86,7 @@ namespace TrafficSim.Entity
             double directionEnhedY = Direction.Y / direntionLenght;
 
             if (IsBreaking)
-                Speed -= Acc * milisecond/1000;
+                Speed -= Decc * milisecond/1000;
             else
                 Speed += Acc * milisecond/1000;
             int lenght = Speed * milisecond/1000 * 8; //8px pr. m
