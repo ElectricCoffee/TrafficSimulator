@@ -77,6 +77,14 @@ namespace TrafficSim.Event
         }
 
         /// <summary>
+        /// Clears all queued callbacks
+        /// </summary>
+        public void ClearDiscreteEvents()
+        {
+            DiscreteEventList.Clear();
+        }
+
+        /// <summary>
         /// Proceeds the simulation by one tick
         /// </summary>
         public void NextTick()
