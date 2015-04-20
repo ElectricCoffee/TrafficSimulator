@@ -76,7 +76,7 @@ namespace TrafficSim
         /// <param name="Angle">the angle the car points at
         /// only takes north, south etc
         /// need to ensure the angle values are used the same way as in other classes</param>
-        /// <param name="PassBool">Remind self to ask Andreas about this one</param>
+        /// <param name="PassRight">Wether or not to pass right around, if False, it'll pass left</param>
         /// <returns></returns>
 
         [Obsolete("Use PassingHorizontal instead")]
