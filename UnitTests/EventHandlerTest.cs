@@ -4,63 +4,33 @@ using TrafficSim.Event;
 
 namespace UnitTests
 {
-    public class TestCallbackHolder {
-        public TestCallbackHolder(TrafficEventHandler handler)
-        {
-            handler.AddDiscreteEvent(callMeMaybe,TimeSpan.FromMilliseconds(100));
-            handler.AddContinuousEvent(callMeMaybe);
-            usedMethod = false;
-        }
-        public bool usedMethod { get; private set; }
-        void callMeMaybe () {
-            usedMethod = true;
-        }
-    }
 
     [TestClass]
     public class EventHandlerTest
     {
-        //The following tests if the public methods will complete.
-        //Expected: No exceptions thrown
-        [TestMethod]
-        public void RunNextTick()
+        public class TestCallbackHolder
         {
-            new TrafficEventHandler(TimeSpan.FromMilliseconds(100)).NextTick();
-
-            Assert.IsTrue(true);
+            public TestCallbackHolder(TrafficEventHandler handler)
+            {
+                handler.AddDiscreteEvent(callMeMaybe, TimeSpan.FromMilliseconds(100));
+                handler.AddContinuousEvent(callMeMaybe);
+                usedMethod = false;
+            }
+            public bool usedMethod { get; private set; }
+            void callMeMaybe()
+            {
+                usedMethod = true;
+            }
         }
 
-        [TestMethod]
-        public void RunAddDiscreteEvent()
-        {
-            new TrafficEventHandler(TimeSpan.FromMilliseconds(100)).AddDiscreteEvent(() => { }, TimeSpan.FromSeconds(2));
+        public TrafficEventHandler testEventHandler;
 
-            Assert.IsTrue(true);
+        [TestInitialize]
+        public void TestInialize()
+        {
+            testEventHandler = new TrafficEventHandler(TimeSpan.FromMilliseconds(100));
         }
 
-        [TestMethod]
-        public void RunAddContinuousEvent()
-        {
-            new TrafficEventHandler(TimeSpan.FromMilliseconds(100)).AddContinuousEvent(() => { });
-
-            Assert.IsTrue(true);
-        }
-
-        [TestMethod]
-        public void RunClearEventsFromFakeObject()
-        {
-            new TrafficEventHandler(TimeSpan.FromMilliseconds(100)).ClearEventsFromObject(new {});
-
-            Assert.IsTrue(true);
-        }
-
-        [TestMethod]
-        public void RunClearContinuousEvents()
-        {
-            new TrafficEventHandler(TimeSpan.FromMilliseconds(100)).ClearContinuousEvents();
-
-            Assert.IsTrue(true);
-        }
         /// <summary>
         /// Tries to removes a callback that isn't in the callback-list.
         /// Expected: No callbacks are removed, no exceptions are thrown.
@@ -68,9 +38,9 @@ namespace UnitTests
         [TestMethod]
         public void RemoveFakeContinuousEvent()
         {
-            new TrafficEventHandler(TimeSpan.FromMilliseconds(100)).RemoveContinuousEvent(() => { });
+            testEventHandler.RemoveContinuousEvent(() => { });
 
-            Assert.IsTrue(true);
+            Assert.IsTrue(true); //It passes with no exceptions thrown
         }
         /// <summary>
         /// Tries to removes a callback that is in the callback-list.
@@ -80,12 +50,12 @@ namespace UnitTests
         public void RemoveRealContinuousEvent()
         {
             bool success = true;
-            var bigBoy = new TrafficEventHandler(TimeSpan.FromMilliseconds(100));
-            Action callMeMaybe = () => { success = false; };
-            bigBoy.AddContinuousEvent(callMeMaybe);
 
-            bigBoy.RemoveContinuousEvent(callMeMaybe);
-            bigBoy.NextTick();
+            Action callMeMaybe = () => { success = false; };
+            testEventHandler.AddContinuousEvent(callMeMaybe);
+
+            testEventHandler.RemoveContinuousEvent(callMeMaybe);
+            testEventHandler.NextTick();
 
             Assert.IsTrue(success);
         }
@@ -98,13 +68,13 @@ namespace UnitTests
         {
             int actual = 0;
             int expected = 3;
-            var bigBoy = new TrafficEventHandler(TimeSpan.FromMilliseconds(100));
+
             Action callMeMaybe = () => { actual += 1; };
-            bigBoy.AddContinuousEvent(callMeMaybe);
+            testEventHandler.AddContinuousEvent(callMeMaybe);
 
             for (int ticks = 0; ticks < 3; ticks++)
             {
-                bigBoy.NextTick();
+                testEventHandler.NextTick();
             }
 
             Assert.AreEqual(actual, expected);
@@ -119,14 +89,13 @@ namespace UnitTests
             int actual = 0;
             int expected = 2;
 
-
-            var bigBoy = new TrafficEventHandler(TimeSpan.FromMilliseconds(100));
             Action callMeMaybe = () => { actual += 1; };
-            bigBoy.AddContinuousEvent(callMeMaybe);
-            bigBoy.NextTick();
-            bigBoy.NextTick();
-            bigBoy.ClearContinuousEvents();
-            bigBoy.NextTick();
+
+            testEventHandler.AddContinuousEvent(callMeMaybe);
+            testEventHandler.NextTick();
+            testEventHandler.NextTick();
+            testEventHandler.ClearContinuousEvents();
+            testEventHandler.NextTick();
 
             Assert.AreEqual(actual, expected);
         }
@@ -138,16 +107,34 @@ namespace UnitTests
         public void CallDiscreteEvent()
         {
             bool success = false;
-            Action callMeMaybe = () => { success = true; };
-            var bigBoy = new TrafficEventHandler(TimeSpan.FromMilliseconds(100));
 
-            bigBoy.AddDiscreteEvent(callMeMaybe, TimeSpan.FromSeconds(2));
-            for (int ticks = 0; ticks < 19; ticks++)
-            {
-                bigBoy.NextTick();
-            }
+            Action callMeMaybe = () => { success = true; };
+
+            testEventHandler.AddDiscreteEvent(callMeMaybe, TimeSpan.FromSeconds(2));
+            for (int ticks = 0; ticks < 19; ticks++) testEventHandler.NextTick();
             Assert.IsFalse(success);
-            bigBoy.NextTick();
+            testEventHandler.NextTick();
+            Assert.IsTrue(success);
+        }
+        /// <summary>
+        /// Clears all discrete events before they are called.
+        /// Expected: callMeMaybe isn't called, success stays true.
+        /// </summary>
+        [TestMethod]
+        public void TestClearDiscreteEvents()
+        {
+            bool success = true;
+
+            Action callMeMaybe = () => { success = false; };
+
+            testEventHandler.AddDiscreteEvent(callMeMaybe, TimeSpan.FromSeconds(1));
+            testEventHandler.AddDiscreteEvent(callMeMaybe, TimeSpan.FromSeconds(2));
+            testEventHandler.ClearDiscreteEvents();
+            for (int ticks = 0; ticks < 30; ticks++)
+            {
+                testEventHandler.NextTick();
+            }
+
             Assert.IsTrue(success);
         }
         /// <summary>
@@ -160,47 +147,44 @@ namespace UnitTests
             int actual = 0;
             int expected = 6;
 
-
-            var bigBoy = new TrafficEventHandler(TimeSpan.FromMilliseconds(100));
             Action callMeYes = () => { actual += 3; };
             Action callMeNo = () => { actual -= 1; };
-            bigBoy.AddContinuousEvent(callMeYes);
-            bigBoy.AddContinuousEvent(callMeNo);
+
+            testEventHandler.AddContinuousEvent(callMeYes);
+            testEventHandler.AddContinuousEvent(callMeNo);
             for (int ticks = 0; ticks < 3; ticks++)
             {
-                bigBoy.NextTick();
+                testEventHandler.NextTick();
             }
 
             Assert.AreEqual(actual, expected);
         }
         /// <summary>
         /// Calls an event from an object, that is added during object construction.
-        /// Expected: beholder.usedMethod becomes true.
+        /// Expected: callbackHolder.usedMethod becomes true.
         /// </summary>
         [TestMethod]
         public void CallFromObject()
         {
-          var bigBoy = new TrafficEventHandler(TimeSpan.FromMilliseconds(100));
-          var beholder = new TestCallbackHolder(bigBoy);
+          var callbackHolder = new TestCallbackHolder(testEventHandler);
 
-          bigBoy.NextTick();
+          testEventHandler.NextTick();
 
-          Assert.IsTrue(beholder.usedMethod);
+          Assert.IsTrue(callbackHolder.usedMethod);
         }
         /// <summary>
         /// Clears all events from an object. (The one that is added during object construction)
-        /// Expected: beholder.usedMethod stays false, the event is cleared before callback.
+        /// Expected: callbackHolder.usedMethod stays false, the event is cleared before callback.
         /// </summary>
         [TestMethod]
         public void ClearCallsFromObject()
         {
-          var bigBoy = new TrafficEventHandler(TimeSpan.FromMilliseconds(100));
-          var beholder = new TestCallbackHolder(bigBoy);
+          var callbackHolder = new TestCallbackHolder(testEventHandler);
 
-          bigBoy.ClearEventsFromObject(beholder);
-          bigBoy.NextTick();
+          testEventHandler.ClearEventsFromObject(callbackHolder);
+          testEventHandler.NextTick();
 
-          Assert.IsFalse(beholder.usedMethod);
+          Assert.IsFalse(callbackHolder.usedMethod);
         }
     }
 }
