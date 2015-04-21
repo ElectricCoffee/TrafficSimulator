@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace TrafficSim.Util.Collections
 {
-    public class PriorityTreeNode<K, V> where K : IComparable<K>
+    /// <summary>
+    /// A data node for the PriorityTree
+    /// </summary>
+    /// <typeparam name="K">The key type, that must be comparable</typeparam>
+    /// <typeparam name="V">The value type, that can be anything</typeparam>
+    public class PriorityTreeNode<K, V> where K : IComparable<K>, IComparable
     {
         public List<V> Values { get; set; }
         public K Key { get; set; }
