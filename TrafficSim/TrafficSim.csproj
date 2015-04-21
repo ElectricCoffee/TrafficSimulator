@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Event\ContinuousEvent.cs" />
+    <Compile Include="Event\ISimulatable.cs" />
     <Compile Include="Event\TrafficEvent.cs" />
     <Compile Include="Event\TrafficEventHandler.cs" />
     <Compile Include="Form1.cs">
