@@ -69,7 +69,7 @@ namespace TrafficSim.RoadWeb
             start.Value.nextPossibles.Add(end.Value);
             end.Value.lastPossibles.Add(start.Value);
 
-            if (head == null) { head = start; }
+            head = head ?? start;
         }
 
         /*
@@ -87,8 +87,7 @@ namespace TrafficSim.RoadWeb
             Add(road);
             if (CheckIfIntersect)
             {
-                ThreadStart start = delegate { IntersectPoint(road); };
-                new Thread(start).Start();
+                new Thread(() => IntersectPoint(road)).Start();
             }
         }
 
@@ -125,7 +124,9 @@ namespace TrafficSim.RoadWeb
         {
             Road[] roadPartsPostSplit = new Road[4];
 
-            
+            for (int i = 0; i < 4; i++) { roadPartsPostSplit[i] = (i >= 2) ?
+                SplitRoad(roadOne, IntersectPoint)[i] : SplitRoad(roadTwo, IntersectPoint)[i - 2]; }
+            Intersection intersection = new Intersection(roadPartsPostSplit);
         }
 
         /*
@@ -160,6 +161,11 @@ namespace TrafficSim.RoadWeb
 
         private Road[] intersectionExits;
 
+        public Intersection(Tuple<int, int> Center, params Road[] roads)
+        {
+            CenterPoint = Center;
+            intersectionExits = roads;
+        }
         public Intersection(params Road[] exits)
         {
             CenterPoint = exits[0].StartPoint;
