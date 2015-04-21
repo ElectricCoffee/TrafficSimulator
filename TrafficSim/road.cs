@@ -58,7 +58,20 @@ namespace TrafficSim
         public Tuple<int, int> StartPoint;
         public Tuple<int, int> EndPoint;
         public int RoadWidth;
-        
+
+        public Road();
+        public Road(Tuple<int, int> start, Tuple<int, int> end)
+        { 
+            StartPoint = start; 
+            EndPoint = end; 
+            RoadWidth = 1; 
+        }
+        public Road(Tuple<int, int> start, Tuple<int, int> end, int width) 
+        { 
+            StartPoint = start; 
+            EndPoint = end; 
+            RoadWidth = width; 
+        }
 
 #warning sign is not yet implemented
         List<Sign> Signs = new List<Sign>();

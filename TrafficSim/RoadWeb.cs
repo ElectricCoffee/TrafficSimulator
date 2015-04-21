@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using TrafficSim;
 
 namespace TrafficSim.RoadWeb
 {
     class RoadWeb
     {
-        public static void operator + (RoadWeb lhs, Road rhs) { lhs.Add(rhs); }
-        public static void operator + (RoadWeb lhs, Road[] rhs) { foreach (Road road in rhs) lhs.Add(road); }
-        public static void operator - (RoadWeb lhs, Road rhs) { lhs.Remove(rhs); }
-        public static void operator - (RoadWeb lhs, Road[] rhs) { foreach (Road road in rhs) lhs.Remove(road); }
+        public static RoadWeb operator +(RoadWeb lhs, Road rhs) { lhs.Add(rhs); return lhs; }
+        public static RoadWeb operator +(RoadWeb lhs, Road[] rhs) { foreach (Road road in rhs) lhs.Add(road); return lhs; }
+        public static RoadWeb operator -(RoadWeb lhs, Road rhs) { lhs.Remove(rhs); return lhs; }
+        public static RoadWeb operator -(RoadWeb lhs, Road[] rhs) { foreach (Road road in rhs) lhs.Remove(road); return lhs; }
 
         private struct WebNode
         {
@@ -70,6 +71,27 @@ namespace TrafficSim.RoadWeb
 
             if (head == null) { head = start; }
         }
+
+        /*
+         * <summary>
+         * Adds a Road to the network, and can check if the road intersects with any other roads.
+         * and in that case make a new intersection on that point
+         * </summary>
+         * <param name="road">The road to be added to the network</param>
+         * <param name="CheckIfIntersect">if true, this will start a new thread that checks
+         * if the newly added road intersects with any previous roads and make an intersection there.
+         * If false, it'll just add the road, and ignore intersecting roads.</param>
+         */
+        public void Add(Road road, bool CheckIfIntersect)
+        {
+            Add(road);
+            if (CheckIfIntersect)
+            {
+                ThreadStart start = delegate { IntersectPoint(road); };
+                new Thread(start).Start();
+            }
+        }
+
         /* <summary>
          * This function deletes all traces and removes the road completly from the network
          * </summary>
@@ -92,6 +114,31 @@ namespace TrafficSim.RoadWeb
 
             foreach (WebNode node in toBeRemoved.value.lastPossibles) { node.nextPossibles.Remove(toBeRemoved); }
             foreach (WebNode node in toBeRemoved.value.nextPossibles) { node.lastPossibles.Remove(toBeRemoved); }
+        }
+
+#warning IntersectPoint & InsertIntersection are not yet completed
+        private void IntersectPoint(Road road)
+        {
+            return;
+        }
+        private void InsertIntersection (Road roadOne, Road roadTwo, Tuple<int, int> IntersectPoint)
+        {
+            Road[] roadPartsPostSplit = new Road[4];
+
+            
+        }
+
+        /*
+         * Splits a road in two, and returns an array of the two new pieces
+         */
+        private Road[] SplitRoad(Road road, Tuple<int, int> splitPoint)
+        {
+            Road[] temp = new Road[2];
+
+            temp[0] = new Road(splitPoint, road.EndPoint, road.RoadWidth);
+            temp[1] = new Road(road.StartPoint, splitPoint, road.RoadWidth);
+
+            return temp;
         }
     }
 
