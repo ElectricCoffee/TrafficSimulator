@@ -8,15 +8,17 @@ namespace UnitTests
     [TestClass]
     public class EventHandlerTest
     {
-        public class TestCallbackHolder
+        public class TestCallbackHolder : ISimulatable
         {
-            public TestCallbackHolder(TrafficEventHandler handler)
+            public TestCallbackHolder(TrafficEventHandler initEventHandler)
             {
-                handler.AddDiscreteEvent(callMeMaybe, TimeSpan.FromMilliseconds(100));
-                handler.AddContinuousEvent(callMeMaybe);
+                eventHandler = initEventHandler;
+                eventHandler.AddDiscreteEvent(callMeMaybe, TimeSpan.FromMilliseconds(100));
+                eventHandler.AddContinuousEvent(callMeMaybe);
                 usedMethod = false;
             }
             public bool usedMethod { get; private set; }
+            public TrafficEventHandler eventHandler {get; set;}
             void callMeMaybe()
             {
                 usedMethod = true;
