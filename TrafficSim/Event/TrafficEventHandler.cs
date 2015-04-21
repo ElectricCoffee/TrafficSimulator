@@ -10,7 +10,7 @@ namespace TrafficSim.Event
     public class TrafficEventHandler
     {
         /// <summary>
-        /// Handles callbacks for both discrete and continuous events. All contiuous events are stored in a callback-list.
+        /// Handles callbacks for both discrete and continuous events. All continuous events are stored in a callback-list.
         /// </summary>
         /// <param name="initTickLength">Duration between each callback of the continuous events</param>
         public TrafficEventHandler(TimeSpan initTickLength)
