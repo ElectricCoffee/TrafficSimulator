@@ -7,15 +7,40 @@ using System.Drawing;
 
 namespace TrafficSim
 {
+    /// <summary>
+    /// The linked list with the roads in it
+    /// Access the next element with Head.Next
+    /// </summary>
     class RoadList
     {
         private Road Head;
+        private Road Current;
 
+        /// <summary>
+        /// Sets Current to be the next road
+        /// Head always stays the first road
+        /// might have to ensure caller understands if current.next == null
+        /// </summary>
+        public void NextRoad()
+        {
+            if (Current.Next != null) 
+                Current.Next = Head;
+        }
+
+        /// <summary>
+        /// Add a new road
+        /// Always puts it at the end
+        /// If there is no Head it puts the new one in Head
+        /// </summary>
+        /// <param name="Start">Starting point of the new road</param>
+        /// <param name="End">Ending point of the new road</param>
+        /// <param name="RoadWidth">width of the road</param>
         public void Add(Tuple<int, int> Start, Tuple<int, int> End, int RoadWidth)
         {
             if (Head == null)
             {
                 Head = new Road();
+                Current = Head;
 
                 Head.StartPoint = Start;
                 Head.EndPoint = End;
@@ -30,30 +55,20 @@ namespace TrafficSim
                 ToAdd.EndPoint = End;
                 ToAdd.RoadWidth = RoadWidth;
 
-                Road Current = Head;
+                Road Checking = Head;
 
-                while (Current.Next != null)
+                while (Checking.Next != null)
                 {
-                    Current = Current.Next;
+                    Checking = Checking.Next;
                 }
 
-                Current.Next = ToAdd;
+                Checking.Next = ToAdd;
             }
         }
     }
 
     class Road
     {
-        /// <summary>
-        /// the parameters
-        /// might be better to convert it to a list
-        /// this however is easier for others to access
-        /// keep it like this for now, but ask others what they would prefer later
-        /// </summary>
-        /// <param name="StartX, StartY">start point of it</param>
-        /// <param name="EndX, EndY">end point of it</param>
-        /// <param name="RoadWidth">width of the road</param>
-
         public Road Next;
         public Tuple<int, int> StartPoint;
         public Tuple<int, int> EndPoint;
