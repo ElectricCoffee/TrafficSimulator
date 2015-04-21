@@ -58,7 +58,7 @@ namespace TrafficSim.Event
         /// Clears all callbacks for the specified object from the callback-list
         /// </summary>
         /// <param name="identity">The specified object</param>
-        public void ClearEventsFromObject(object identity)
+        public void ClearEventsFromObject(ISimulatable identity)
         {
             ContinuousEventList = ContinuousEventList
                 .Where(x => x.Key.Target != identity)
