@@ -7,5 +7,6 @@ namespace TrafficSim
 {
     class SignalLight
     {
+#warning This is not the SignalLight you're looking for
     }
 }

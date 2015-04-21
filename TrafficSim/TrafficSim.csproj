@@ -52,7 +52,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="road.cs" />
+    <Compile Include="Road.cs" />
     <Compile Include="RoadWeb.cs" />
     <Compile Include="SignalLight.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

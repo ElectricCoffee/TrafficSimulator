@@ -9,19 +9,38 @@ namespace TrafficSim.RoadWeb
 {
     class RoadWeb
     {
+        public static void operator + (RoadWeb lhs, Road rhs) { lhs.Add(rhs); }
+        public static void operator + (RoadWeb lhs, Road[] rhs) { foreach (Road road in rhs) lhs.Add(road); }
+        public static void operator - (RoadWeb lhs, Road rhs) { lhs.Remove(rhs); }
+        public static void operator - (RoadWeb lhs, Road[] rhs) { foreach (Road road in rhs) lhs.Remove(road); }
+
         private struct WebNode
         {
             public Intersection item;
-            public List<WebNode> nextPossibles = new List<WebNode>();
-            public List<WebNode> lastPossibles = new List<WebNode>();
+            public List<WebNode> nextPossibles;
+            public List<WebNode> lastPossibles;
 
-            public WebNode(Intersection Item) { item = Item; }
+            public WebNode(Intersection Item) 
+            { 
+                item = Item;
+                nextPossibles = new List<WebNode>();
+                lastPossibles = new List<WebNode>();
+            }
         }
 
         private WebNode? head;
         private List<WebNode> completeRoadList;
 
-#warning Add is not Completed
+        public RoadWeb(params Road[] roads)
+        {
+            foreach (Road road in roads) { Add(road); }
+        }
+
+        /* <summary>
+         * Adds a road, and ties it into the network as needed.
+         * </summary>
+         * <param name="road">The road you'd like to add</param>
+         */
         public void Add(Road road)
         {
             WebNode? start = null, end = null;
@@ -34,14 +53,45 @@ namespace TrafficSim.RoadWeb
                 if (end != null && start != null) break;
             }
 
-            if (start == null) { start = new WebNode(new Intersection(road)); }
-            if (end == null) { end = new WebNode(new Intersection()); }
+            if (start == null) 
+            { 
+                start = new WebNode(new Intersection(road));
+                completeRoadList.Add(start.Value);
+            }
+            if (end == null) 
+            { 
+                end = new WebNode(new Intersection());
+                completeRoadList.Add(end.Value);
+            }
 
             start.Value.item.AddRoadChoice(road);
             start.Value.nextPossibles.Add(end.Value);
             end.Value.lastPossibles.Add(start.Value);
 
             if (head == null) { head = start; }
+        }
+        /* <summary>
+         * This function deletes all traces and removes the road completly from the network
+         * </summary>
+         * <param name = "road">The road you'd like removed from the entire network</param>
+         */
+        public void Remove(Road road)
+        {
+            WebNode? toBeRemoved = null;
+
+            foreach(WebNode node in completeRoadList)
+            {
+                if (node.item.Equals(road))
+                {
+                    toBeRemoved = node;
+                    break;
+                }
+            }
+
+            if (toBeRemoved == null) throw new ArgumentOutOfRangeException("Item does not exist in current Road network");
+
+            foreach (WebNode node in toBeRemoved.value.lastPossibles) { node.nextPossibles.Remove(toBeRemoved); }
+            foreach (WebNode node in toBeRemoved.value.nextPossibles) { node.lastPossibles.Remove(toBeRemoved); }
         }
     }
 
