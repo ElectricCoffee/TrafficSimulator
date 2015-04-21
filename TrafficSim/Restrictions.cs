@@ -4,15 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApplication3
+namespace TrafficSim
 {
-    class Restrictions : Sign
+    public enum RestrictionType
     {
-        string Restriction;
+        OneWay, NoEntry, GiveWay, NoOvertaking
+    }
 
-        public override string RoadRestriction()
+
+    public class Restrictions : Sign
+    {
+        public RestrictionType Restriction { get; set; }
+
+        public Restrictions(RestrictionType rt)
         {
-            return Restriction;
+            Restriction = rt;
         }
+
     }
 }
