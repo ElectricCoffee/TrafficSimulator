@@ -73,7 +73,20 @@ namespace TrafficSim
         public Tuple<int, int> StartPoint;
         public Tuple<int, int> EndPoint;
         public int RoadWidth;
-        
+
+        public Road();
+        public Road(Tuple<int, int> start, Tuple<int, int> end)
+        { 
+            StartPoint = start; 
+            EndPoint = end; 
+            RoadWidth = 1; 
+        }
+        public Road(Tuple<int, int> start, Tuple<int, int> end, int width) 
+        { 
+            StartPoint = start; 
+            EndPoint = end; 
+            RoadWidth = width; 
+        }
 
 #warning sign is not yet implemented
         List<Sign> Signs = new List<Sign>();
@@ -91,7 +104,7 @@ namespace TrafficSim
         /// <param name="Angle">the angle the car points at
         /// only takes north, south etc
         /// need to ensure the angle values are used the same way as in other classes</param>
-        /// <param name="PassBool">Remind self to ask Andreas about this one</param>
+        /// <param name="PassRight">Wether or not to pass right around, if False, it'll pass left</param>
         /// <returns></returns>
 
         [Obsolete("Use PassingHorizontal instead")]
