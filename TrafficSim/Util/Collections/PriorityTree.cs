@@ -61,7 +61,6 @@ namespace TrafficSim.Util.Collections
             // if the key is larger, go down the right node
 
             int comparison = 0;
-            bool isGreater, isLesser;
 
             // trying to get rid of culture info, it messes up the comparison
             if (node.Key is String)
