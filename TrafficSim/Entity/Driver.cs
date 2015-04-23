@@ -9,6 +9,23 @@ using TrafficSim.Util;
 
 namespace TrafficSim.Entity
 {
+    /// <summary>
+    /// The state as described in the "A Cognitive Model of Drivers Attention"
+    /// </summary>
+    public enum DriverState
+    {
+        DontOvertake, 
+        Overtake, 
+        NoIntersection, 
+        FoundIntersection, 
+        IntersectionNotInSafeDistance, 
+        IntersectionInSafeDistance, 
+        NoTraffic, 
+        VehicleOnRightSide,
+        VehicleGone, 
+        VehicleStillThere
+    }
+
     public class Driver
     {
         /// <summary>
@@ -47,6 +64,9 @@ namespace TrafficSim.Entity
         /// </summary>
         public Point FarPoint { get; protected set; }
 
+        /// <summary>
+        /// Determines the safe distance based on the speed and the points
+        /// </summary>
 #warning TODO: implement distance algorithm
         public int SafeDistance 
         { 
@@ -57,6 +77,11 @@ namespace TrafficSim.Entity
         }
 
         /// <summary>
+        /// The driver's name, used for easier tracking
+        /// </summary>
+        public string Name { get; protected set; }
+
+        /// <summary>
         /// Basic constructor, creates a new driver, and a new driver aggression
         /// </summary>
         public Driver()
@@ -64,12 +89,18 @@ namespace TrafficSim.Entity
             Aggression = new DriverAggression();
         }
 
+        /// <summary>
+        /// Creates a new driver with randomised attributes.
+        /// </summary>
+        /// <returns>new driver with randomised attributes</returns>
         public static Driver CreateRandom()
         {
             var driver = new Driver();
             var rndm = new Random(); // the empty constructor uses time as a seed by default.
-            driver.Aggression.Acceleration = rndm.Next(Globals.AggressionMin, Globals.AggressionMax);
-            driver.Aggression.Deceleration = rndm.Next(Globals.AggressionMin, Globals.AggressionMax);
+            Func<int> randomAggroLevel = () => rndm.Next(Globals.AggressionMin, Globals.AggressionMax);
+
+            driver.Aggression.Acceleration = randomAggroLevel();
+            driver.Aggression.Deceleration = randomAggroLevel();
             // randomiser code goes here
             return driver;
         }
@@ -87,6 +118,15 @@ namespace TrafficSim.Entity
         /// Reads an incoming sign and changes the speed-limit accordingly
         /// </summary>
         protected void ReadSign()
+        {
+            // TODO: Scan the current road section for signs, then apply the signs (requires finished Road class)
+#warning Can't continue without Road class
+        }
+
+        /// <summary>
+        /// Reacts to the driver ahead based on safe-distance and near+far points
+        /// </summary>
+        protected void React()
         {
 
         }
