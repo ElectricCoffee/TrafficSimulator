@@ -43,6 +43,7 @@ namespace TrafficSim.Entity
             return driver;
         }
 
+        // conflict showcase
 
         /// <summary>
         /// Sets the near and far points
