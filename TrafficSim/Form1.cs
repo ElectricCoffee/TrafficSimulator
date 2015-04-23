@@ -25,7 +25,7 @@ namespace TrafficSim
             bil.Direction = new Point(0,-30);
             bil.Acc = 2;
             bil.IsBreaking = false;
-            bil.Accelerate(3000);
+            bil.Drive(3000);
 
             Truck lastbil = new Truck(50, 50);
             AddAndDrawVehicle(lastbil);
