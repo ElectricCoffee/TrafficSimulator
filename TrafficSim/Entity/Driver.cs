@@ -14,38 +14,38 @@ namespace TrafficSim.Entity
         /// <summary>
         /// The vehicle associated with the driver
         /// </summary>
-        public Vehicle AssociatedVehicle { get; set; }
+        public Vehicle AssociatedVehicle { get; protected set; }
 
         /// <summary>
         /// How well the driver respect the traffic law
         /// </summary>
-        public int VelocityTolerance { get; set; }
+        public int VelocityTolerance { get; protected set; }
 
         /// <summary>
         /// How quickly/slowly the driver can react
         /// </summary>
-        public int ReactionTime { get; set; }
+        public int ReactionTime { get; protected set; }
 
         /// <summary>
         /// How suddenly the driver accelerates or decelerates
         /// </summary>
-        public DriverAggression Aggression { get; set; }
+        public DriverAggression Aggression { get; protected set; }
 
         /// <summary>
         /// The current speed limit
         /// </summary>
-        public int SpeedLimit { get; private set; }
+        public int SpeedLimit { get; protected set; }
 
         /// <summary>
         /// Determines the position on the road
         /// </summary>
-        public Point NearPoint { get; private set; }
+        public Point NearPoint { get; protected set; }
 
         /// <summary>
         /// Determines direction of driving
         /// Is set at the 'vanishing point'or leading vehicle
         /// </summary>
-        public Point FarPoint { get; private set; }
+        public Point FarPoint { get; protected set; }
 
 #warning TODO: implement distance algorithm
         public int SafeDistance 
@@ -78,7 +78,7 @@ namespace TrafficSim.Entity
         /// <summary>
         /// Sets the near and far points
         /// </summary>
-        private void SetTargets()
+        protected void SetTargets()
         {
             
         }
@@ -86,7 +86,7 @@ namespace TrafficSim.Entity
         /// <summary>
         /// Reads an incoming sign and changes the speed-limit accordingly
         /// </summary>
-        private void ReadSign()
+        protected void ReadSign()
         {
 
         }
