@@ -58,13 +58,14 @@ namespace TrafficSim.Event
         /// Clears all callbacks for the specified object from the callback-list
         /// </summary>
         /// <param name="identity">The specified object</param>
-        public void ClearEventsFromObject(object identity)
+        public void ClearEventsFromObject(ISimulatable identity)
         {
-          foreach (var kvp in ContinuousEventList)
-            #warning Currently known bug: Can't remove from ContinuousEventList while being iterated. 
-            {
-                if (kvp.Key.Target == identity) ContinuousEventList.Remove(kvp.Key);
-            }
+            ContinuousEventList = ContinuousEventList
+                .Where(x => x.Key.Target != identity)
+                .ToDictionary(x => x.Key, x => x.Value);
+            DiscreteEventList = DiscreteEventList
+                .Where(x => x.Callback.Target != identity)
+                .ToList();
         }
 
         /// <summary>
@@ -73,6 +74,14 @@ namespace TrafficSim.Event
         public void ClearContinuousEvents()
         {
             ContinuousEventList.Clear();
+        }
+
+        /// <summary>
+        /// Clears all queued callbacks
+        /// </summary>
+        public void ClearDiscreteEvents()
+        {
+            DiscreteEventList.Clear();
         }
 
         /// <summary>

@@ -11,13 +11,41 @@ namespace TrafficSim.Entity
 {
     public class Driver
     {
+        /// <summary>
+        /// The vehicle associated with the driver
+        /// </summary>
         public Vehicle AssociatedVehicle { get; set; }
+
+        /// <summary>
+        /// How well the driver respect the traffic law
+        /// </summary>
         public int VelocityTolerance { get; set; }
+
+        /// <summary>
+        /// How quickly/slowly the driver can react
+        /// </summary>
         public int ReactionTime { get; set; }
+
+        /// <summary>
+        /// How suddenly the driver accelerates or decelerates
+        /// </summary>
         public DriverAggression Aggression { get; set; }
-        public int SpeedLimit { get; set; }
-        public Point NearPoint { get; set; }
-        public Point FarPoint { get; set; }
+
+        /// <summary>
+        /// The current speed limit
+        /// </summary>
+        public int SpeedLimit { get; private set; }
+
+        /// <summary>
+        /// Determines the position on the road
+        /// </summary>
+        public Point NearPoint { get; private set; }
+
+        /// <summary>
+        /// Determines direction of driving
+        /// Is set at the 'vanishing point'or leading vehicle
+        /// </summary>
+        public Point FarPoint { get; private set; }
 
 #warning TODO: implement distance algorithm
         public int SafeDistance 
@@ -28,6 +56,9 @@ namespace TrafficSim.Entity
             } 
         }
 
+        /// <summary>
+        /// Basic constructor, creates a new driver, and a new driver aggression
+        /// </summary>
         public Driver()
         {
             Aggression = new DriverAggression();
