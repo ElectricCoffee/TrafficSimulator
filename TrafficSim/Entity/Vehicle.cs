@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using TrafficSim.Event;
 
 
 
@@ -12,7 +13,7 @@ namespace TrafficSim.Entity
 {
     public enum DrivingType { Drive, Brake }
 
-    public abstract class Vehicle : IDrawable 
+    public abstract class Vehicle : IDrawable ,ISimulatable 
     {
         public Point Coordinate {get; protected set;}
         public int MaxAcc {get; protected set;}
@@ -27,6 +28,7 @@ namespace TrafficSim.Entity
         public Driver Driver { get; set; }
         public bool IsAcceleratin {get; set;}
         public RotateFlipType RotationType { get; set; }
+        public TrafficEventHandler EventHandler { get; set; }
 
         /// <summary>
         /// Drawing the car, at it's coordinates.
@@ -84,7 +86,7 @@ namespace TrafficSim.Entity
         /// Sets the new speed, by acceleration and moves the vehicle, by the time.
         /// </summary>
         /// <param name="milisecond">The time in miliseconds that will set the speed, and the new location by diredtion.</param>
-        public void Drive(int milisecond)
+        public void Drive(TimeSpan driveDuration)
         {
             if (Direction.X == 0 && Direction.Y == 0)
                 throw new Util.NoDirectionException();      //trow exception
@@ -94,13 +96,15 @@ namespace TrafficSim.Entity
             double directionEnhedY = Direction.Y / direntionLenght;
 
             if (IsBreaking)
-                Speed -= Decc * milisecond/1000;
+                Speed -= Decc * driveDuration.Seconds;
             else if (IsAcceleratin)
-                Speed += Acc * milisecond/1000;
+                Speed += Acc * driveDuration.Seconds;
 
-            int lenght = Speed * milisecond/1000 * 8; //8px pr. m
+            int lenght = Speed * driveDuration.Seconds * 8; //8px pr. m
             Move(Coordinate.X + (int)(directionEnhedX * lenght), Coordinate.Y + (int)(directionEnhedY * lenght));
         }
+
+
         
     }
 }

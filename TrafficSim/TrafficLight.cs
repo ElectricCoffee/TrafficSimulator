@@ -10,9 +10,9 @@ namespace TrafficSim
     {
         int Delay;
 
-        public override string RoadRestriction()
+        public string RoadRestriction()
         {
-
+            return "fejl";
         }
     }
 }

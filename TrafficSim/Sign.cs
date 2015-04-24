@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TrafficSim
 {
-    abstract class Sign
+    public abstract class Sign
     {
         
     }
