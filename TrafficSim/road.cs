@@ -69,30 +69,27 @@ namespace TrafficSim
 
     class Road
     {
-#warning sign is not yet implemented
-        public List<Sign> Signs { get; set; }
+        public Road Next;
+        public Tuple<int, int> StartPoint;
+        public Tuple<int, int> EndPoint;
+        public int RoadWidth;
 
-        public Road Next {get; set;}
-        public Tuple<int, int> StartPoint { get; set; }
-        public Tuple<int, int> EndPoint { get; set; }
-        public int RoadWidth { get; set; }
-
-        public Road() 
-        {
-             Signs = new List<Sign>();
-        }
-
-        public Road(Tuple<int, int> start, Tuple<int, int> end) : this()
+        public Road();
+        public Road(Tuple<int, int> start, Tuple<int, int> end)
         { 
             StartPoint = start; 
             EndPoint = end; 
             RoadWidth = 1; 
         }
-
-        public Road(Tuple<int, int> start, Tuple<int, int> end, int width) : this(start, end)
-        {
-            RoadWidth = width;
+        public Road(Tuple<int, int> start, Tuple<int, int> end, int width) 
+        { 
+            StartPoint = start; 
+            EndPoint = end; 
+            RoadWidth = width; 
         }
+
+#warning sign is not yet implemented
+        List<Sign> Signs = new List<Sign>();
 
         /// <summary>
         /// Each Passing function finds the coordinate required to pass a car in front of it
