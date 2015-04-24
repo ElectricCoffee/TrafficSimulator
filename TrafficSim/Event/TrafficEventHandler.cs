@@ -27,6 +27,7 @@ namespace TrafficSim.Event
 
         /// <summary>
         /// Queues up a callback to be called after a certain delay
+        /// Should be used by ISimulatables
         /// </summary>
         /// <param name="callbackMethod">Method to be called</param>
         /// <param name="delay">Trigger delay</param>
@@ -38,6 +39,7 @@ namespace TrafficSim.Event
 
         /// <summary>
         /// Adds a callback to the callback-list
+        /// Should be used by ISimulatables
         /// </summary>
         /// <param name="callbackMethod">Method to be added</param>
         public void AddContinuousEvent(Action callbackMethod)
@@ -47,6 +49,7 @@ namespace TrafficSim.Event
 
         /// <summary>
         /// Removes the specified callback from the callback-list
+        /// Should be used by ISimulatables
         /// </summary>
         /// <param name="callbackMethod">Method to be removed</param>
         public void RemoveContinuousEvent(Action callbackMethod)
@@ -56,6 +59,7 @@ namespace TrafficSim.Event
 
         /// <summary>
         /// Clears all callbacks for the specified object from the callback-list
+        /// Should be used by ISimulatables when removed from the simulation
         /// </summary>
         /// <param name="identity">The specified object</param>
         public void ClearEventsFromObject(ISimulatable identity)
