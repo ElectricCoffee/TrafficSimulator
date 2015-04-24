@@ -26,8 +26,10 @@ namespace TrafficSim.Entity
         VehicleStillThere
     }
 
-    public class Driver
+    public class Driver : Event.ISimulatable
     {
+        public Event.TrafficEventHandler EventHandler { get; set; }
+
         /// <summary>
         /// The vehicle associated with the driver
         /// </summary>
@@ -89,13 +91,18 @@ namespace TrafficSim.Entity
             Aggression = new DriverAggression();
         }
 
+        public Driver(Event.TrafficEventHandler eventHandler) : this()
+        {
+            EventHandler = eventHandler;
+        }
+
         /// <summary>
         /// Creates a new driver with randomised attributes.
         /// </summary>
         /// <returns>new driver with randomised attributes</returns>
-        public static Driver CreateRandom()
+        public static Driver CreateRandom(Event.TrafficEventHandler eventHandler)
         {
-            var driver = new Driver();
+            var driver = new Driver(eventHandler);
             var rndm = new Random(); // the empty constructor uses time as a seed by default.
             Func<int> randomAggroLevel = () => rndm.Next(Globals.AggressionMin, Globals.AggressionMax);
 
@@ -130,5 +137,6 @@ namespace TrafficSim.Entity
         {
 
         }
+
     }
 }

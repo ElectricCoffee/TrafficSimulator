@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DriverAggression.cs" />
     <Compile Include="Entity\Driver.cs" />
     <Compile Include="Entity\Car.cs" />
     <Compile Include="Entity\Intersection.cs" />
