@@ -11,6 +11,6 @@ namespace TrafficSim.Event
     /// </summary>
     public interface ISimulatable
     {
-        TrafficEventHandler eventHandler { get; set; }
+        TrafficEventHandler EventHandler { get; set; }
     }
 }
