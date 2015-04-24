@@ -171,7 +171,7 @@ namespace TrafficSim.RoadWeb
             CenterPoint = exits[0].StartPoint;
             intersectionExits = exits;
         }
-        public Intersection();
+        public Intersection() { }
 
         public void AddRoadChoice(Road road)
         {
