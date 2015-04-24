@@ -4,26 +4,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using TrafficSim.Entity.Proxy;
 
-namespace TrafficSim
+namespace TrafficSim.Entity
 {
-    class road
+    public class Road
     {
-        /// <summary>
-        /// the parameters
-        /// might be better to convert it to a list
-        /// this however is easier for others to access
-        /// keep it like this for now, but ask others what they would prefer later
-        /// </summary>
-        /// <param name="StartX, StartY">start point of it</param>
-        /// <param name="EndX, EndY">end point of it</param>
-        /// <param name="RoadWidth">width of the road</param>
-        int StartX, StartY;
-        int EndX, EndY;
-        int RoadWidth;
-
 #warning sign is not yet implemented
-        public List<Sign> Signs = new List<Sign>();
+        public List<Sign> Signs { get; set; }
+
+        public Road Next {get; set;}
+        public Tuple<int, int> StartPoint { get; set; }
+        public Tuple<int, int> EndPoint { get; set; }
+        public int RoadWidth { get; set; }
+
+        public Road() 
+        {
+             Signs = new List<Sign>();
+        }
+
+        public Road(Tuple<int, int> start, Tuple<int, int> end) : this()
+        { 
+            StartPoint = start; 
+            EndPoint = end; 
+            RoadWidth = 1; 
+        }
+
+        public Road(Tuple<int, int> start, Tuple<int, int> end, int width) : this(start, end)
+        {
+            RoadWidth = width;
+        }
 
         /// <summary>
         /// Each Passing function finds the coordinate required to pass a car in front of it
@@ -38,7 +48,7 @@ namespace TrafficSim
         /// <param name="Angle">the angle the car points at
         /// only takes north, south etc
         /// need to ensure the angle values are used the same way as in other classes</param>
-        /// <param name="PassBool">Remind self to ask Andreas about this one</param>
+        /// <param name="PassRight">Wether or not to pass right around, if False, it'll pass left</param>
         /// <returns></returns>
 
         [Obsolete("Use PassingHorizontal instead")]
