@@ -8,7 +8,7 @@ namespace UnitTests
     public class TreeTest
     {
         [TestMethod]
-        public void TestPeek()
+        public void TestPeekStringKey()
         {
             var tree = new PriorityTree<string, int>();
 
@@ -16,6 +16,25 @@ namespace UnitTests
             tree.Push("guten tag", 45);
             tree.Push("aaa", 0);
             tree.Push("zachary", 99);
+
+            var smallest = tree.PeekSmallest()[0];
+            var expectedSmallest = 0;
+            var largest = tree.PeekLargest()[0];
+            var expectedLargest = 99;
+
+            Assert.AreEqual(expectedSmallest, smallest);
+            Assert.AreEqual(expectedLargest, largest);
+        }
+
+        [TestMethod]
+        public void TestPeekDateKey()
+        {
+            var tree = new PriorityTree<DateTime, int>();
+
+            tree.Push(DateTime.Now, 12);
+            tree.Push(new DateTime(2014, 10, 12), 45);
+            tree.Push(new DateTime(1970, 01, 01), 0);
+            tree.Push(new DateTime(5000, 12, 12), 99);
 
             var smallest = tree.PeekSmallest()[0];
             var expectedSmallest = 0;

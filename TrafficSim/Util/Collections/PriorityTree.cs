@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace TrafficSim.Util.Collections
 {
     /// <summary>
-    /// 
+    /// A priority collection that works in the style of a queue.
+    /// Values can be pushed in, and popped out as either greatest or smallest value
     /// </summary>
-    /// <typeparam name="K"></typeparam>
-    /// <typeparam name="V"></typeparam>
+    /// <typeparam name="K">The key type, that must be comparable</typeparam>
+    /// <typeparam name="V">The value type, that can be anything</typeparam>
     public class PriorityTree<K, V> where K : IComparable, IComparable<K>
     {
         private PriorityTreeNode<K, V> root = null;
@@ -57,7 +59,21 @@ namespace TrafficSim.Util.Collections
         {
             if (node == null) throw new NullReferenceException("input-node was null");
             // if the key is larger, go down the right node
-            if (node.Key.CompareTo(key) < 0) 
+
+            int comparison = 0;
+
+            // trying to get rid of culture info, it messes up the comparison
+            if (node.Key is String)
+            {
+                var nodeKey = node.Key as String;
+                var localKey = key as String;
+
+                // may or may not be a good thing to do
+                comparison = String.Compare(nodeKey, localKey, ignoreCase: false, culture: CultureInfo.InvariantCulture);
+            }
+            else comparison = node.Key.CompareTo(key);
+
+            if (comparison < 0) // yes the < needs to point this way, blame the design of C#, don't fix it
             {
                 if (node.Right == null)
                     node.Right = new PriorityTreeNode<K,V>(key, value);
@@ -65,7 +81,7 @@ namespace TrafficSim.Util.Collections
                 else Push(node.Right, key, value, overwrite);
             }
             // if the key is smaller, go down the left node
-            else if (node.Key.CompareTo(key) > 0)
+            else if (comparison > 0)
             {
                 if (node.Left == null)
                     node.Left = new PriorityTreeNode<K, V>(key, value);
