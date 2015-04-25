@@ -44,10 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <Compile Include="Entity\Driver.cs" />
     <Compile Include="Entity\Car.cs" />
-=======
     <Compile Include="Entity\Intersection.cs" />
     <Compile Include="Entity\Proxy\Sign.cs" />
     <Compile Include="Entity\RoadList.cs" />
@@ -55,7 +53,6 @@
     <Compile Include="Event\ISimulatable.cs" />
     <Compile Include="Event\TrafficEvent.cs" />
     <Compile Include="Event\TrafficEventHandler.cs" />
->>>>>>> origin/road
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
