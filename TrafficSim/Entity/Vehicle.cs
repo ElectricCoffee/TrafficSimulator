@@ -8,6 +8,7 @@ using System.Drawing;
 
 
 
+
 namespace TrafficSim.Entity
 {
     public enum DrivingType { Drive, Brake }
@@ -27,6 +28,7 @@ namespace TrafficSim.Entity
         public Driver Driver { get; set; }
         public bool IsAcceleratin {get; set;}
         public RotateFlipType RotationType { get; set; }
+        public Road TheRoad { get; set; }
 
         /// <summary>
         /// Drawing the car, at it's coordinates.
