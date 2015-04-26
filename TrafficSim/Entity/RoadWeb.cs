@@ -57,7 +57,7 @@ namespace TrafficSim.Entity
 
             if (start == null)
             {
-                start = new WebNode(new Intersection(road));
+                start = new WebNode(road.StartIntersection);
                 completeRoadList.Add(start);
             }
             if (end == null)
@@ -130,7 +130,7 @@ namespace TrafficSim.Entity
                 roadPartsPostSplit[i] = (i >= 2) ?
                     SplitRoad(roadOne, IntersectPoint)[i] : SplitRoad(roadTwo, IntersectPoint)[i - 2];
             }
-            Intersection intersection = new Intersection(roadPartsPostSplit);
+            Intersection intersection = new Intersection(IntersectPoint, roadPartsPostSplit);
         }
 
         /*
