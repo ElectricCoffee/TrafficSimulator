@@ -30,11 +30,6 @@ namespace TrafficSim.Entity
             CenterPoint = Center;
             intersectionExits = roads;
         }
-        public Intersection(params Road[] exits)
-        {
-            CenterPoint = exits[0].StartPoint;
-            intersectionExits = exits;
-        }
         public Intersection() { }
 
         public void AddRoadChoice(Road road)
@@ -45,6 +40,20 @@ namespace TrafficSim.Entity
             newRoads[newRoads.Length - 1] = road;
 
             intersectionExits = newRoads;
+        }
+
+        public Road[] Options (Road current)
+        {
+            Road[] options = new Road[intersectionExits.Length - 1];
+
+            bool foundCurrent = false;
+            for (int i = 0; i < intersectionExits.Length; i++) 
+            {
+                options[foundCurrent ? i - 1 : i] = intersectionExits[i];
+                foundCurrent = intersectionExits[i] == current;
+            }
+
+            return options;
         }
     }
 }
