@@ -12,13 +12,13 @@ namespace UnitTests
         {
             public TestCallbackHolder(TrafficEventHandler initEventHandler)
             {
-                eventHandler = initEventHandler;
-                eventHandler.AddDiscreteEvent(callMeMaybe, TimeSpan.FromMilliseconds(100));
-                eventHandler.AddContinuousEvent(callMeMaybe);
+                EventHandler = initEventHandler;
+                EventHandler.AddDiscreteEvent(callMeMaybe, TimeSpan.FromMilliseconds(100));
+                EventHandler.AddContinuousEvent(callMeMaybe);
                 usedMethod = false;
             }
             public bool usedMethod { get; private set; }
-            public TrafficEventHandler eventHandler {get; set;}
+            public TrafficEventHandler EventHandler {get; set;}
             void callMeMaybe()
             {
                 usedMethod = true;
