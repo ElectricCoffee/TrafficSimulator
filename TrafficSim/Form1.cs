@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 using TrafficSim.Entity;
-
+using System.Diagnostics;
 
 namespace TrafficSim
 {
@@ -19,13 +19,13 @@ namespace TrafficSim
         {
             InitializeComponent();
             
-            Car bil = new Car(100, 100);
+            Car car1 = new Car(50, 50);
             
-            AddAndDrawVehicle(bil);
-            bil.Direction = new Point(0,-30);
-            bil.Acc = 2;
-            bil.IsBraking = false;
-            bil.Drive(3000);
+            AddAndDrawVehicle(car1);
+            
+            car1.Direction = new Point(50, 0);
+            car1.Speed = 50;
+            car1.TurnCar(1.5, new TimeSpan(0, 0, 2));
 
             Truck lastbil = new Truck(50, 50);
             AddAndDrawVehicle(lastbil);
