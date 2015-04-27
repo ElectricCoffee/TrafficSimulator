@@ -139,8 +139,9 @@ namespace TrafficSim.Entity
             }
             catch (NullReferenceException nre)
             {
+                Util.Error.Log(nre);
 
-                throw new NullReferenceException("There's no allocated sign list");
+                throw new NullReferenceException("There's no allocated sign list", nre);
             }
             
             
