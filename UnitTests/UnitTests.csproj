@@ -58,6 +58,7 @@
     <Compile Include="TreeTest.cs" />
     <Compile Include="DriverTest.cs" />
     <Compile Include="VehicleTest.cs" />
+    <Compile Include="ErrorLogTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrafficSim\TrafficSim.csproj">

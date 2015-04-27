@@ -70,6 +70,7 @@
     <Compile Include="Util\Collections\PriorityTree.cs" />
     <Compile Include="Util\Collections\PriorityTreeNode.cs" />
     <Compile Include="Util\Collections\TreeEmptyException.cs" />
+    <Compile Include="Util\Error.cs" />
     <Compile Include="Util\Globals.cs" />
     <Compile Include="Entity\Truck.cs" />
     <Compile Include="Entity\Vehicle.cs" />
