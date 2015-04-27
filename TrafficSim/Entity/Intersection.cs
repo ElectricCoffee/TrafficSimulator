@@ -50,5 +50,13 @@ namespace TrafficSim.Entity
 
             return options;
         }
+
+        public void ReplaceOption(Road toBeReplaced, Road replacement)
+        {
+            for (int i = 0; i < IntersectionExits.Count; i++)
+            {
+                if (IntersectionExits[i].Equals(toBeReplaced)) IntersectionExits[i] = replacement;
+            }
+        }
     }
 }

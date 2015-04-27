@@ -116,6 +116,12 @@ namespace TrafficSim.Entity
             foreach (WebNode node in toBeRemoved.NextPossibles) { node.LastPossibles.Remove(toBeRemoved); }
         }
 
+        private WebNode GetWebNode(Intersection intersection)
+        {
+            foreach (WebNode wn in completeRoadList) { if (wn.Item.Equals(intersection)) return wn; }
+            throw new ArgumentOutOfRangeException("{0} does not exist in the current list", intersection.ToString());
+        }
+
         /// <summary>
         /// Checks if the inputted road intersects with any roads already part of the roadweb
         /// Assumes all the roads can be put into either y = ax+b or y = b
@@ -217,6 +223,7 @@ namespace TrafficSim.Entity
         private void InsertIntersection(Road roadOne, Road roadTwo, Tuple<int, int> IntersectPoint)
         {
             Road[] roadPartsPostSplit = new Road[4];
+            WebNode[] wns = new WebNode[4];
 
             for (int i = 0; i < 4; i++)
             {
@@ -224,6 +231,33 @@ namespace TrafficSim.Entity
                     SplitRoad(roadOne, IntersectPoint)[i] : SplitRoad(roadTwo, IntersectPoint)[i - 2];
             }
             Intersection intersection = new Intersection(IntersectPoint, roadPartsPostSplit);
+            WebNode webNode = new WebNode(intersection);
+
+            (wns[0] = GetWebNode(roadOne.StartIntersection)).Item.ReplaceOption(roadOne, roadPartsPostSplit[0]);
+            (wns[1] = GetWebNode(roadOne.EndIntersection)).Item.ReplaceOption(roadOne, roadPartsPostSplit[1]);
+            (wns[2] = GetWebNode(roadTwo.StartIntersection)).Item.ReplaceOption(roadTwo, roadPartsPostSplit[2]);
+            (wns[3] = GetWebNode(roadTwo.EndIntersection)).Item.ReplaceOption(roadTwo, roadPartsPostSplit[3]);
+
+            webNode.NextPossibles.AddRange(new WebNode[]{wns[0], wns[2]});
+            webNode.LastPossibles.AddRange(new WebNode[]{wns[1], wns[3]});
+
+            bool temp = false;
+            for(int i = 0; i < wns.Length; i++)
+            {
+                switch (temp)
+                {
+                    case true:
+                        wns[i].LastPossibles.Remove(wns[i - 1]);
+                        wns[i].LastPossibles.Add(webNode);
+                        temp = !temp;
+                        break;
+                    case false:
+                        wns[i].NextPossibles.Remove(wns[i + 1]);
+                        wns[i].NextPossibles.Add(webNode);
+                        temp = !temp;
+                        break;
+                }
+            }
         }
 
         /*
