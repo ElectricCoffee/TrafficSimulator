@@ -127,7 +127,7 @@ namespace TrafficSim.Entity
         private bool IntersectPoint(Road FirstRoad)
         {
             foreach (WebNode node in completeRoadList)
-                foreach (Road SecondRoad in node.Item.intersectionExits)
+                foreach (Road SecondRoad in node.Item.IntersectionExits)
                 {
                     //this is to ensure a float division instead of an integer division
                     float FirstStartItem1Calc = FirstRoad.StartPoint.Item1;
@@ -202,8 +202,12 @@ namespace TrafficSim.Entity
                         {
                             return false;
                         }
-                        //this one is when they cross, the others when it doesn't
-                        else return true;
+                        else 
+                        {
+                            //This one's for when they cross, the other's for when they don't
+                            InsertIntersection(FirstRoad, SecondRoad, new Tuple<int, int>((int)CrossingPointX, (int)CrossingPointY));
+                            return true;
+                        }
                     } 
                     return false;
                 }
