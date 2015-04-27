@@ -23,7 +23,7 @@ namespace TrafficSim.Entity
             }
         }
 
-        private Road[] intersectionExits;
+        public Road[] intersectionExits;
 
         public Intersection(Tuple<int, int> Center, params Road[] roads)
         {

@@ -116,11 +116,92 @@ namespace TrafficSim.Entity
             foreach (WebNode node in toBeRemoved.NextPossibles) { node.LastPossibles.Remove(toBeRemoved); }
         }
 
+        /// <summary>
+        /// Checks if the inputted road intersects with any roads already part of the roadweb
+        /// Assumes all the roads can be put into either y = ax+b or y = b
+        /// Comments coming soon™
+        /// </summary>
+        /// <param name="FirstRoad">The Road that possibly might intersect</param>
+        /// <returns></returns>
 #warning IntersectPoint & InsertIntersection are not yet completed
-        private void IntersectPoint(Road road)
+        private bool IntersectPoint(Road FirstRoad)
         {
-            return;
+            foreach (WebNode node in completeRoadList)
+                foreach (Road SecondRoad in node.Item.intersectionExits)
+                {
+                    float FirstStartItem1Calc = FirstRoad.StartPoint.Item1;
+                    float FirstEndItem1Calc = FirstRoad.EndPoint.Item1;
+                    float FirstStartItem2Calc = FirstRoad.StartPoint.Item2;
+                    float FirstEndItem2Calc = FirstRoad.EndPoint.Item2;
+
+                    float FirstSlope = (FirstStartItem2Calc - FirstEndItem2Calc) /
+                                     (FirstStartItem1Calc - FirstEndItem1Calc);
+
+                    float SecondStartItem1Calc = SecondRoad.StartPoint.Item1;
+                    float SecondEndItem1Calc = SecondRoad.EndPoint.Item1;
+                    float SecondStartItem2Calc = SecondRoad.StartPoint.Item2;
+                    float SecondEndItem2Calc = SecondRoad.EndPoint.Item2;
+
+                    float SecondSlope = (SecondStartItem2Calc - SecondEndItem2Calc) /
+                                      (SecondStartItem1Calc - SecondEndItem1Calc);
+
+                    float FirstStart = -1 * (FirstSlope * FirstStartItem1Calc - FirstStartItem2Calc);
+
+                    float SecondStart = -1 * (SecondSlope * SecondStartItem1Calc - SecondStartItem2Calc);
+ 
+                    if (FirstStartItem1Calc - FirstEndItem1Calc == 0)
+                    {
+                        if (SecondStart >= (FirstStartItem2Calc > FirstEndItem2Calc ? FirstStartItem2Calc : FirstEndItem2Calc) || (
+                           SecondStart <= (FirstStartItem2Calc < FirstEndItem2Calc ? FirstStartItem2Calc : FirstEndItem2Calc))
+                          )
+                            return false;
+
+                        else return true;
+                    }
+                    else if (SecondStartItem1Calc - SecondStartItem1Calc == 0)
+                    {
+                        if (FirstStart >= (SecondStartItem2Calc > SecondEndItem2Calc ? SecondStartItem2Calc : SecondEndItem2Calc) || (
+                            FirstStart <= (SecondStartItem2Calc < SecondEndItem2Calc ? SecondStartItem2Calc : SecondEndItem2Calc))
+                          )
+                            return false;
+                        else return true;
+                    }
+                    if (FirstSlope != SecondSlope)
+                    {
+                        float CrossingPointY = (SecondSlope * -FirstStart + FirstSlope * SecondStart) / (FirstSlope - SecondSlope);
+                        float CrossingPointX = (CrossingPointY - SecondStart) / SecondSlope;
+
+                        if ((
+                                    CrossingPointX >= (FirstRoad.StartPoint.Item1 > FirstRoad.EndPoint.Item1 ?
+                                                       FirstRoad.StartPoint.Item1 : FirstRoad.EndPoint.Item1) || (
+                                    CrossingPointX >= (SecondRoad.StartPoint.Item1 > SecondRoad.EndPoint.Item1 ?
+                                                       SecondRoad.StartPoint.Item1 : SecondRoad.EndPoint.Item1)) || (
+                                    CrossingPointX <= (FirstRoad.StartPoint.Item1 < FirstRoad.EndPoint.Item1 ?
+                                                       FirstRoad.StartPoint.Item1 : FirstRoad.EndPoint.Item1)) ||
+                                    CrossingPointX <= (SecondRoad.StartPoint.Item1 < SecondRoad.EndPoint.Item1 ?
+                                                       SecondRoad.StartPoint.Item1 : SecondRoad.EndPoint.Item1)) && (
+                                    CrossingPointY >= (FirstRoad.StartPoint.Item2 > FirstRoad.EndPoint.Item2 ?
+                                                       FirstRoad.StartPoint.Item2 : FirstRoad.EndPoint.Item2)) || (
+                                    CrossingPointY >= (SecondRoad.StartPoint.Item2 > SecondRoad.EndPoint.Item2 ?
+                                                       SecondRoad.StartPoint.Item2 : SecondRoad.EndPoint.Item2)) || (
+                                    CrossingPointY <= (FirstRoad.StartPoint.Item2 < FirstRoad.EndPoint.Item2 ?
+                                                       FirstRoad.StartPoint.Item2 : FirstRoad.EndPoint.Item2)) ||
+                                    CrossingPointY <= (SecondRoad.StartPoint.Item2 < SecondRoad.EndPoint.Item2 ?
+                                                       SecondRoad.StartPoint.Item2 : SecondRoad.EndPoint.Item2)
+                        )
+                        {
+                            Console.WriteLine("inside second if");
+                            return false;
+                        }
+
+                        else return true;
+
+                    }
+                    return false;
+                }
+            return false;
         }
+
         private void InsertIntersection(Road roadOne, Road roadTwo, Tuple<int, int> IntersectPoint)
         {
             Road[] roadPartsPostSplit = new Road[4];

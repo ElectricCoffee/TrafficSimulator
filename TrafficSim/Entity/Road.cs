@@ -36,6 +36,7 @@ namespace TrafficSim.Entity
 
         public Road Next {get; set;}
         public int RoadWidth { get; set; }
+        public int Angle { get; set; }
 
         public Road() 
         {
