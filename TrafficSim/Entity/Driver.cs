@@ -127,7 +127,24 @@ namespace TrafficSim.Entity
         protected void ReadSign()
         {
             // TODO: Scan the current road section for signs, then apply the signs (requires finished Road class)
-#warning Can't continue without Road class
+#warning Can't continue without Sign class
+            var signs = AssociatedVehicle.TheRoad.Signs;
+
+            try
+            {
+                signs.ForEach(sign =>
+                {
+                    // do stuff with the sign
+                });
+            }
+            catch (NullReferenceException nre)
+            {
+
+                throw new NullReferenceException("There's no allocated sign list");
+            }
+            
+            
+            
         }
 
         /// <summary>
