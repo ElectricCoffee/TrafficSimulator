@@ -8,6 +8,7 @@ using System.Drawing;
 
 
 
+
 namespace TrafficSim.Entity
 {
     public enum DrivingType { Drive, Brake }
@@ -22,11 +23,12 @@ namespace TrafficSim.Entity
         public Image Picture;
         public PictureBox PictureBox = new PictureBox();
         public Point Direction { get; set; }
-        public bool IsBreaking { get; set; }
+        public bool IsBraking { get; set; }
         public int Speed { get; set; }
         public Driver Driver { get; set; }
         public bool IsAcceleratin {get; set;}
         public RotateFlipType RotationType { get; set; }
+        public Road TheRoad { get; set; }
 
         /// <summary>
         /// Drawing the car, at it's coordinates.
@@ -54,7 +56,7 @@ namespace TrafficSim.Entity
             int cos = Direction.X;
             int sin = Direction.Y;
 
-            if (IsBreaking)
+            if (IsBraking)
                 ChangeGraphic(DrivingType.Brake); //Brakes();
 
             else ChangeGraphic(DrivingType.Drive); // UnBrakes();
@@ -93,7 +95,7 @@ namespace TrafficSim.Entity
             double directionEnhedX = Direction.X / direntionLenght;
             double directionEnhedY = Direction.Y / direntionLenght;
 
-            if (IsBreaking)
+            if (IsBraking)
                 Speed -= Decc * milisecond/1000;
             else if (IsAcceleratin)
                 Speed += Acc * milisecond/1000;

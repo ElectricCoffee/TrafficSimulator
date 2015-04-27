@@ -67,7 +67,7 @@ namespace UnitTests
             car1.Direction = new Point(50, 0);
             car1.Decc = 1;
             car1.Speed = 50;
-            car1.IsBreaking = true;
+            car1.IsBraking = true;
             car1.Drive(2000);
             Assert.AreEqual(car1.Coordinate, new Point(818, 50));
             Assert.AreEqual(car1.PictureBox.Location, new Point(818, 50));
