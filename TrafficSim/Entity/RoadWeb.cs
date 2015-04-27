@@ -129,11 +129,13 @@ namespace TrafficSim.Entity
             foreach (WebNode node in completeRoadList)
                 foreach (Road SecondRoad in node.Item.intersectionExits)
                 {
+                    //this is to ensure a float division instead of an integer division
                     float FirstStartItem1Calc = FirstRoad.StartPoint.Item1;
                     float FirstEndItem1Calc = FirstRoad.EndPoint.Item1;
                     float FirstStartItem2Calc = FirstRoad.StartPoint.Item2;
                     float FirstEndItem2Calc = FirstRoad.EndPoint.Item2;
 
+                    //it's the a in y = ax + b
                     float FirstSlope = (FirstStartItem2Calc - FirstEndItem2Calc) /
                                      (FirstStartItem1Calc - FirstEndItem1Calc);
 
@@ -145,10 +147,13 @@ namespace TrafficSim.Entity
                     float SecondSlope = (SecondStartItem2Calc - SecondEndItem2Calc) /
                                       (SecondStartItem1Calc - SecondEndItem1Calc);
 
+                    //it's the b in y = ax+b
                     float FirstStart = -1 * (FirstSlope * FirstStartItem1Calc - FirstStartItem2Calc);
 
                     float SecondStart = -1 * (SecondSlope * SecondStartItem1Calc - SecondStartItem2Calc);
  
+                    //this is in the cases where a might end up infinite
+                    //checks seperately for each road - possible to optimize?
                     if (FirstStartItem1Calc - FirstEndItem1Calc == 0)
                     {
                         if (SecondStart >= (FirstStartItem2Calc > FirstEndItem2Calc ? FirstStartItem2Calc : FirstEndItem2Calc) || (
@@ -166,11 +171,16 @@ namespace TrafficSim.Entity
                             return false;
                         else return true;
                     }
+                    //assumes that if the roads have the same growth
                     if (FirstSlope != SecondSlope)
                     {
+                        //the points that they cross
+                        //assumes that at some point they will cross
+                        //only takes into consideration the lines equation y = ax+b
                         float CrossingPointY = (SecondSlope * -FirstStart + FirstSlope * SecondStart) / (FirstSlope - SecondSlope);
                         float CrossingPointX = (CrossingPointY - SecondStart) / SecondSlope;
 
+                        //checks whether it crosses at a point within the line or not
                         if ((
                                     CrossingPointX >= (FirstRoad.StartPoint.Item1 > FirstRoad.EndPoint.Item1 ?
                                                        FirstRoad.StartPoint.Item1 : FirstRoad.EndPoint.Item1) || (
@@ -190,13 +200,11 @@ namespace TrafficSim.Entity
                                                        SecondRoad.StartPoint.Item2 : SecondRoad.EndPoint.Item2)
                         )
                         {
-                            Console.WriteLine("inside second if");
                             return false;
                         }
-
+                        //this one is when they cross, the others when it doesn't
                         else return true;
-
-                    }
+                    } 
                     return false;
                 }
             return false;
