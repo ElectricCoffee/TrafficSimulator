@@ -15,6 +15,10 @@ namespace TrafficSim
     class Priority : Sign
     {
 
+        /// <summary>
+        /// Get og Set hvilken prioritetsløsning der skal bruges
+        /// </summary>
+
         public PriorityType UsePriority { get; set; }
 
     }
