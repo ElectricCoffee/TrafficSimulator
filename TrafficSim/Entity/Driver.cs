@@ -74,6 +74,7 @@ namespace TrafficSim.Entity
         { 
             get 
             {
+                var speed = AssociatedVehicle.Speed;
                 throw new Exception("SafeDistance not currently Implemented");
             } 
         }
@@ -91,6 +92,10 @@ namespace TrafficSim.Entity
             Aggression = new DriverAggression();
         }
 
+        /// <summary>
+        /// Creates a new Driver with an associated TrafficEventHandler
+        /// </summary>
+        /// <param name="eventHandler">The event handler, that will be used to handle delegated events</param>
         public Driver(Event.TrafficEventHandler eventHandler) : this()
         {
             EventHandler = eventHandler;
@@ -108,6 +113,12 @@ namespace TrafficSim.Entity
 
             driver.Aggression.Acceleration = randomAggroLevel();
             driver.Aggression.Deceleration = randomAggroLevel();
+
+            // assigns a new vehicle at random, making sure the ratio of trucks is lower than cars
+            driver.AssociatedVehicle = rndm.Next(int.MaxValue) % 7 == 0 
+                ? new Truck(Globals.VehicleStartX, Globals.VehicleStartY) as Vehicle
+                : new Car(Globals.VehicleStartX, Globals.VehicleStartY) as Vehicle;
+
             // randomiser code goes here
             return driver;
         }
@@ -116,7 +127,7 @@ namespace TrafficSim.Entity
         /// <summary>
         /// Sets the near and far points
         /// </summary>
-        protected void SetTargets()
+        protected void SetPoints()
         {
             
         }
