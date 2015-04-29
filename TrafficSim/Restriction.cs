@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TrafficSim
 {
-    class Restriction
+    class Restriction : ISign
     {
 
         /// <summary>
