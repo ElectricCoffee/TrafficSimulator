@@ -6,23 +6,11 @@ using System.Threading.Tasks;
 
 namespace TrafficSim
 {
-
-    public enum RestrictionType
-    {
-        NoEntry, NoOvertaking
-    }
-
-    class Restriction : Sign
+    class Restriction
     {
 
         /// <summary>
-        /// Get og Set hvlke restriktioner der skal bruges
-        /// </summary>
-
-        public RestrictionType UseRestriction { get; set; }
-
-        /// <summary>
-        /// Get og Set hvad fartgrænsen skal være
+        /// Get og set hastighedsbegrænsning
         /// </summary>
 
         public int SpeedLimit { get; set; }
