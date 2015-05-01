@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace TrafficSim
 {
-    class TraficLight
+    class TraficLight : ISign
     {
 
         private int RedTime;
         private int YellowTime = 5;
         private int GreenTime;
-
 
         public void SetRedTime(int RedTime)
         {
@@ -23,14 +22,5 @@ namespace TrafficSim
         {
             this.GreenTime = GreenTime;
         }
-
-
-
-        
-
-
-
-
-
     }
 }
