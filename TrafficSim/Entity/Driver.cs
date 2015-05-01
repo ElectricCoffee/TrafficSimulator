@@ -129,7 +129,11 @@ namespace TrafficSim.Entity
         /// </summary>
         protected void SetPoints()
         {
-            
+            // set the near point just in front of the vehicle
+
+            // set the far point "at the horizon" this distance needs to be discussed
+            // if there's a leading vehicle closer than the horizon, 
+            // we need to set the far point at the leading vehicle
         }
 
         /// <summary>
