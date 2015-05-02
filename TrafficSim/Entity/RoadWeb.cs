@@ -47,7 +47,7 @@ namespace TrafficSim.Entity
         /// Creates a new road and adds it via the add function
         /// cannot figure out whether it is connected to a road by itself
         /// leave start null to link it to the road you give it
-        /// leave road null to not link it to any road
+        /// leave road null to either find the road it connects to or not connect it to anything
         /// </summary>
         /// <param name="Start">the startpoint, null it if linking with road</param>
         /// <param name="End">the end point of the road</param>
@@ -57,6 +57,9 @@ namespace TrafficSim.Entity
         public void CreateRoad(Tuple<int, int>Start, Tuple<int, int>End, int Angle, int Width, Road road)
         {
             Road NewRoad = new Road();
+            NewRoad.EndPoint = End;
+            NewRoad.Angle = Angle;
+            NewRoad.RoadWidth = Width;
 
             if (Start == null)
             {
@@ -66,13 +69,34 @@ namespace TrafficSim.Entity
             else
             {
                 NewRoad.StartPoint = Start;
+                road = FindConnectingRoad(NewRoad);
+                if (road != null)
+                    road.Next = NewRoad;
             }
 
-            NewRoad.EndPoint = End;
-            NewRoad.Angle = Angle;
-            NewRoad.RoadWidth = Width;
-
             Add(NewRoad, true);
+        }
+
+        /// <summary>
+        /// finds the road the input is connected to
+        /// compares the inputs StartPoint to the checkings endpoint
+        /// </summary>
+        /// <param name="road">the road to check if it is connected to anything</param>
+        /// <returns>the road it is connected to</returns>
+        public Road FindConnectingRoad(Road road)
+        {
+            foreach (WebNode node in completeRoadList)
+                foreach (Road TempRoad in node.Item.IntersectionExits)
+                {
+                    Road CheckingRoad = TempRoad;
+                    do{
+                        if (road.StartPoint == CheckingRoad.EndPoint)
+                            return CheckingRoad;
+
+                        CheckingRoad = CheckingRoad.Next;
+                    } while(CheckingRoad != null);
+                }
+            return null;
         }
 
         /// <summary>

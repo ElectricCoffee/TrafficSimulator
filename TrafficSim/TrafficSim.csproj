@@ -46,7 +46,6 @@
   <ItemGroup>
     <Compile Include="Entity\Intersection.cs" />
     <Compile Include="Entity\Proxy\Sign.cs" />
-    <Compile Include="Entity\RoadList.cs" />
     <Compile Include="Event\ContinuousEvent.cs" />
     <Compile Include="Event\ISimulatable.cs" />
     <Compile Include="Event\TrafficEvent.cs" />
