@@ -61,6 +61,7 @@
     <Compile Include="Util\Collections\PriorityTreeNode.cs" />
     <Compile Include="Util\Collections\TreeEmptyException.cs" />
     <Compile Include="Util\Error.cs" />
+    <Compile Include="Util\Extensions\RichPoint.cs" />
     <Compile Include="Util\Globals.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
