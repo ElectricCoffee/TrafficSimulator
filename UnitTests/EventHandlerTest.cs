@@ -10,27 +10,27 @@ namespace UnitTests
     {
         public class TestCallbackHolder : ISimulatable
         {
-            public TestCallbackHolder(TrafficEventHandler initEventHandler)
+            public TestCallbackHolder(TrafficEventHandler initeventhandler)
             {
-                EventHandler = initEventHandler;
+                EventHandler = initeventhandler;
                 EventHandler.AddDiscreteEvent(callMeMaybe, TimeSpan.FromMilliseconds(100));
                 EventHandler.AddContinuousEvent(callMeMaybe);
-                usedMethod = false;
+                UsedMethod = false;
             }
-            public bool usedMethod { get; private set; }
+            public bool UsedMethod { get; private set; }
             public TrafficEventHandler EventHandler {get; set;}
-            void callMeMaybe()
+            protected void callMeMaybe()
             {
-                usedMethod = true;
+                UsedMethod = true;
             }
         }
 
-        public TrafficEventHandler testEventHandler;
+        public TrafficEventHandler TestEventHandler;
 
         [TestInitialize]
         public void TestInialize()
         {
-            testEventHandler = new TrafficEventHandler(TimeSpan.FromMilliseconds(100));
+            TestEventHandler = new TrafficEventHandler(TimeSpan.FromMilliseconds(100));
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace UnitTests
         [TestMethod]
         public void RemoveFakeContinuousEvent()
         {
-            testEventHandler.RemoveContinuousEvent(() => { });
+            TestEventHandler.RemoveContinuousEvent(() => { });
 
             Assert.IsTrue(true); //It passes with no exceptions thrown
         }
@@ -54,10 +54,10 @@ namespace UnitTests
             bool success = true;
 
             Action callMeMaybe = () => { success = false; };
-            testEventHandler.AddContinuousEvent(callMeMaybe);
+            TestEventHandler.AddContinuousEvent(callMeMaybe);
 
-            testEventHandler.RemoveContinuousEvent(callMeMaybe);
-            testEventHandler.NextTick();
+            TestEventHandler.RemoveContinuousEvent(callMeMaybe);
+            TestEventHandler.NextTick();
 
             Assert.IsTrue(success);
         }
@@ -72,11 +72,11 @@ namespace UnitTests
             int expected = 3;
 
             Action callMeMaybe = () => { actual += 1; };
-            testEventHandler.AddContinuousEvent(callMeMaybe);
+            TestEventHandler.AddContinuousEvent(callMeMaybe);
 
             for (int ticks = 0; ticks < 3; ticks++)
             {
-                testEventHandler.NextTick();
+                TestEventHandler.NextTick();
             }
 
             Assert.AreEqual(actual, expected);
@@ -93,11 +93,11 @@ namespace UnitTests
 
             Action callMeMaybe = () => { actual += 1; };
 
-            testEventHandler.AddContinuousEvent(callMeMaybe);
-            testEventHandler.NextTick();
-            testEventHandler.NextTick();
-            testEventHandler.ClearContinuousEvents();
-            testEventHandler.NextTick();
+            TestEventHandler.AddContinuousEvent(callMeMaybe);
+            TestEventHandler.NextTick();
+            TestEventHandler.NextTick();
+            TestEventHandler.ClearContinuousEvents();
+            TestEventHandler.NextTick();
 
             Assert.AreEqual(actual, expected);
         }
@@ -112,10 +112,10 @@ namespace UnitTests
 
             Action callMeMaybe = () => { success = true; };
 
-            testEventHandler.AddDiscreteEvent(callMeMaybe, TimeSpan.FromSeconds(2));
-            for (int ticks = 0; ticks < 19; ticks++) testEventHandler.NextTick();
+            TestEventHandler.AddDiscreteEvent(callMeMaybe, TimeSpan.FromSeconds(2));
+            for (int ticks = 0; ticks < 19; ticks++) TestEventHandler.NextTick();
             Assert.IsFalse(success);
-            testEventHandler.NextTick();
+            TestEventHandler.NextTick();
             Assert.IsTrue(success);
         }
         /// <summary>
@@ -129,12 +129,12 @@ namespace UnitTests
 
             Action callMeMaybe = () => { success = false; };
 
-            testEventHandler.AddDiscreteEvent(callMeMaybe, TimeSpan.FromSeconds(1));
-            testEventHandler.AddDiscreteEvent(callMeMaybe, TimeSpan.FromSeconds(2));
-            testEventHandler.ClearDiscreteEvents();
+            TestEventHandler.AddDiscreteEvent(callMeMaybe, TimeSpan.FromSeconds(1));
+            TestEventHandler.AddDiscreteEvent(callMeMaybe, TimeSpan.FromSeconds(2));
+            TestEventHandler.ClearDiscreteEvents();
             for (int ticks = 0; ticks < 30; ticks++)
             {
-                testEventHandler.NextTick();
+                TestEventHandler.NextTick();
             }
 
             Assert.IsTrue(success);
@@ -152,41 +152,41 @@ namespace UnitTests
             Action callMeYes = () => { actual += 3; };
             Action callMeNo = () => { actual -= 1; };
 
-            testEventHandler.AddContinuousEvent(callMeYes);
-            testEventHandler.AddContinuousEvent(callMeNo);
+            TestEventHandler.AddContinuousEvent(callMeYes);
+            TestEventHandler.AddContinuousEvent(callMeNo);
             for (int ticks = 0; ticks < 3; ticks++)
             {
-                testEventHandler.NextTick();
+                TestEventHandler.NextTick();
             }
 
             Assert.AreEqual(actual, expected);
         }
         /// <summary>
         /// Calls an event from an object, that is added during object construction.
-        /// Expected: callbackHolder.usedMethod becomes true.
+        /// Expected: callbackHolder.UsedMethod becomes true.
         /// </summary>
         [TestMethod]
         public void CallFromObject()
         {
-          var callbackHolder = new TestCallbackHolder(testEventHandler);
+          var callbackHolder = new TestCallbackHolder(TestEventHandler);
 
-          testEventHandler.NextTick();
+          TestEventHandler.NextTick();
 
-          Assert.IsTrue(callbackHolder.usedMethod);
+          Assert.IsTrue(callbackHolder.UsedMethod);
         }
         /// <summary>
         /// Clears all events from an object. (The one that is added during object construction)
-        /// Expected: callbackHolder.usedMethod stays false, the event is cleared before callback.
+        /// Expected: callbackHolder.UsedMethod stays false, the event is cleared before callback.
         /// </summary>
         [TestMethod]
         public void ClearCallsFromObject()
         {
-          var callbackHolder = new TestCallbackHolder(testEventHandler);
+          var callbackHolder = new TestCallbackHolder(TestEventHandler);
 
-          testEventHandler.ClearEventsFromObject(callbackHolder);
-          testEventHandler.NextTick();
+          TestEventHandler.ClearEventsFromObject(callbackHolder);
+          TestEventHandler.NextTick();
 
-          Assert.IsFalse(callbackHolder.usedMethod);
+          Assert.IsFalse(callbackHolder.UsedMethod);
         }
     }
 }
