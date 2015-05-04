@@ -8,9 +8,9 @@ namespace TrafficSim.Event
 {
     public class DiscreteEvent : TrafficEvent
     {
-        public DiscreteEvent(Action initCallbackMethod, TimeSpan initEventTime) : base(initCallbackMethod)
+        public DiscreteEvent(Action initcallbackmethod, TimeSpan initeventtime) : base(initcallbackmethod)
         {
-            EventTime = initEventTime;
+            EventTime = initeventtime;
         }
         public TimeSpan EventTime { get; protected set; }
     }
