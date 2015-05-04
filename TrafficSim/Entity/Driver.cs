@@ -129,7 +129,9 @@ namespace TrafficSim.Entity
         /// </summary>
         protected void SetPoints()
         {
+            var direction = AssociatedVehicle.Direction; // the direction dictates where the vehicle goes
             // set the near point just in front of the vehicle
+            var nearPoint = AssociatedVehicle.Coordinate;
 
             // set the far point "at the horizon" this distance needs to be discussed
             // if there's a leading vehicle closer than the horizon, 
@@ -142,13 +144,13 @@ namespace TrafficSim.Entity
         protected void ReadSign()
         {
             // TODO: Scan the current road section for signs, then apply the signs (requires finished Road class)
-#warning Can't continue without Sign class
             var signs = AssociatedVehicle.TheRoad.Signs;
 
             try
             {
                 signs.ForEach(sign =>
                 {
+#warning Can't continue without a finished Sign class
                     // do stuff with the sign
                 });
             }
@@ -158,9 +160,6 @@ namespace TrafficSim.Entity
 
                 throw new NullReferenceException("There's no allocated sign list", nre);
             }
-            
-            
-            
         }
 
         /// <summary>
