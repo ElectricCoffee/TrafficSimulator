@@ -75,6 +75,7 @@ namespace TrafficSim.Entity
             get 
             {
                 var speed = AssociatedVehicle.Speed;
+                var distance = AssociatedVehicle.Length;
                 throw new Exception("SafeDistance not currently Implemented");
             } 
         }
