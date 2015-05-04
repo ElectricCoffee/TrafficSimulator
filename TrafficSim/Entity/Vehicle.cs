@@ -84,7 +84,7 @@ namespace TrafficSim.Entity
         /// </summary>
         public Road TheRoad { get; set; }
 
-        public abstract int Lenght { get; protected set; }  
+        public abstract int Length { get; protected set; }  
 
         /// <summary>
         /// Drawing the car, at it's coordinates.
