@@ -13,6 +13,7 @@ namespace TrafficSim.Entity
         {
             Coordinate = new Point(x, y);
             Picture = TrafficSim.Properties.Resources.TruckLeft;
+            Lenght = 57;
         }
 
         public override void ChangeGraphic(DrivingType dt)

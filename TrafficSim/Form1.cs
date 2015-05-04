@@ -22,10 +22,7 @@ namespace TrafficSim
             Car car1 = new Car(50, 50);
             
             AddAndDrawVehicle(car1);
-            
-            car1.Direction = new Point(50, 0);
-            car1.Speed = 50;
-            car1.TurnCar(1.5, new TimeSpan(0, 0, 2));
+          
 
             Truck lastbil = new Truck(50, 50);
             AddAndDrawVehicle(lastbil);
