@@ -67,18 +67,9 @@ namespace TrafficSim.Entity
         public Point FarPoint { get; protected set; }
 
         /// <summary>
-        /// Determines the safe distance based on the speed and the points
+        /// Determines the safe distance
         /// </summary>
-#warning TODO: implement distance algorithm
-        public int SafeDistance 
-        { 
-            get 
-            {
-                var speed = AssociatedVehicle.Speed;
-                var distance = AssociatedVehicle.Length;
-                throw new Exception("SafeDistance not currently Implemented");
-            } 
-        }
+        public int SafeDistance { get { return AssociatedVehicle.Length; } }
 
         /// <summary>
         /// The driver's name, used for easier tracking
