@@ -129,7 +129,10 @@ namespace TrafficSim.Entity
         /// </summary>
         protected void SetPoints()
         {
-            var direction = AssociatedVehicle.Direction; // the direction dictates where the vehicle goes
+            // the direction dictates where the vehicle goes, 
+            // ( 0, 1) is up, (1, 0) is right 
+            // (-1, 0) is left, and (0, -1) is down
+            var direction = AssociatedVehicle.Direction;
             // set the near point just in front of the vehicle
             var nearPoint = AssociatedVehicle.Coordinate;
 
