@@ -14,20 +14,77 @@ namespace TrafficSim.Entity
 
     public abstract class Vehicle : IDrawable 
     {
+        /// <summary>
+        /// THe Coordinate where the Vehicle are.
+        /// </summary>
         public Point Coordinate {get; protected set;}
+
+        /// <summary>
+        /// The Vehicle mac Acceleration.
+        /// </summary>
         public int MaxAcc {get; protected set;}
+
+        /// <summary>
+        /// The Vehicle max Decceleration
+        /// </summary>
         public int MaxDecc {get; protected set;}
+
+        /// <summary>
+        /// The Vehicles actual Acceleration
+        /// </summary>
         public int Acc { get; set; }
+
+        /// <summary>
+        /// The Vehicle actual Deccelaeration
+        /// </summary>
         public int Decc { get; set; }
+
+        /// <summary>
+        /// The Picture of the vehicle.
+        /// </summary>
         public Image Picture;
+
+        /// <summary>
+        /// THe PIcturebox in where the picture is shown.
+        /// </summary>
         public PictureBox PictureBox = new PictureBox();
+
+        /// <summary>
+        /// The Direction af the vehicle, set as a vector of the center of the Vehicle.
+        /// </summary>
         public Point Direction { get; set; }
+
+        /// <summary>
+        /// A bbolean value to brake the vehicle.
+        /// </summary>
         public bool IsBraking { get; set; }
+
+        /// <summary>
+        /// The actual speed of the vehicle.
+        /// </summary>
         public int Speed { get; set; }
+
+        /// <summary>
+        /// The actual Driver of the vehicle
+        /// </summary>
         public Driver Driver { get; set; }
+
+        /// <summary>
+        /// A boolean to accelerate the vehicle.
+        /// </summary>
         public bool IsAcceleratin {get; set;}
+
+        /// <summary>
+        /// The graphic direktion of the vehicle.
+        /// </summary>
         public RotateFlipType RotationType { get; set; }
+
+        /// <summary>
+        /// The road under the vehicle.
+        /// </summary>
         public Road TheRoad { get; set; }
+
+        public abstract int Lenght { get; protected set; }  
 
         /// <summary>
         /// Drawing the car, at it's coordinates.
@@ -39,6 +96,11 @@ namespace TrafficSim.Entity
             PictureBox.Enabled = true;
             
             PictureBox.Image = Picture;
+
+
+            Graphics graf;
+            graf = PictureBox.CreateGraphics();
+            graf.DrawEllipse(new Pen(Color.Red),50,50,50,50);
         }
 
 
@@ -71,8 +133,7 @@ namespace TrafficSim.Entity
 
             PictureBox.Image.RotateFlip(RotationType);
 
-            PictureBox.Update(); 
-            
+            PictureBox.Update();
         }
 
         /// <summary>
@@ -106,8 +167,8 @@ namespace TrafficSim.Entity
         /// <summary>
         /// Turn and move the car
         /// </summary>
-        /// <param name="Angle">The Angel</param>
-        /// <param name="Time"></param>
+        /// <param name="Angle">The Angle where the car is turning.</param>
+        /// <param name="Time">the time the turn takes.</param>
         public void TurnCar(double Angle, TimeSpan Time)
         {
             double newX = RotateX(Direction.X, Direction.Y, Angle) + Coordinate.X - RotateX(Coordinate.X, Coordinate.Y, Angle);
