@@ -10,17 +10,11 @@ using System.Windows.Forms;
 
 namespace TrafficSim
 {
-    public partial class Form1 : Form
+    public partial class Light : Form
     {
-        public Form1()
+        public Light()
         {
             InitializeComponent();
-
-            TraficLight light = new TraficLight();
-            light.Location = new Point(50, 50);
-            light.DrawGreenLight();
-            Controls.Add(light.TLight);
-            
         }
     }
 }
