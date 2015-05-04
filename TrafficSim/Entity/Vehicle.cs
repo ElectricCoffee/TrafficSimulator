@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
-
-
+using System.Diagnostics;
 
 
 namespace TrafficSim.Entity
@@ -86,7 +85,7 @@ namespace TrafficSim.Entity
         /// Sets the new speed, by acceleration and moves the vehicle, by the time.
         /// </summary>
         /// <param name="milisecond">The time in miliseconds that will set the speed, and the new location by diredtion.</param>
-        public void Drive(int milisecond)
+        public void Drive(TimeSpan Time)
         {
             if (Direction.X == 0 && Direction.Y == 0)
                 throw new Util.NoDirectionException();      //trow exception
@@ -96,12 +95,35 @@ namespace TrafficSim.Entity
             double directionEnhedY = Direction.Y / direntionLenght;
 
             if (IsBraking)
-                Speed -= Decc * milisecond/1000;
+                Speed -= Decc * Time.Seconds;
             else if (IsAcceleratin)
-                Speed += Acc * milisecond/1000;
+                Speed += Acc * Time.Seconds;
 
-            int lenght = Speed * milisecond/1000 * 8; //8px pr. m
+            int lenght = Speed * Time.Seconds * 8; //8px pr. m
             Move(Coordinate.X + (int)(directionEnhedX * lenght), Coordinate.Y + (int)(directionEnhedY * lenght));
+        }
+
+        /// <summary>
+        /// Turn and move the car
+        /// </summary>
+        /// <param name="Angle">The Angel</param>
+        /// <param name="Time"></param>
+        public void TurnCar(double Angle, TimeSpan Time)
+        {
+            double newX = RotateX(Direction.X, Direction.Y, Angle) + Coordinate.X - RotateX(Coordinate.X, Coordinate.Y, Angle);
+            double newY = RotateY(Direction.X, Direction.Y, Angle) + Coordinate.Y - RotateY(Coordinate.X, Coordinate.Y, Angle);
+            Direction = new Point((int)newX, (int)newY);
+            Drive(Time);
+        }
+
+        private double RotateX(int X, int Y, double Angle)
+        {
+            return Math.Cos(Angle) * X - Math.Sin(Angle) * Y;
+        }
+
+        private double RotateY(int X, int Y, Double Angle)
+        {
+            return Math.Sin(Angle) * X + Math.Cos(Angle) * Y;
         }
         
     }
