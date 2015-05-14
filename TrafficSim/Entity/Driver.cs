@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 
 using TrafficSim.Util;
+using TrafficSim.Util.Extensions;
 
 namespace TrafficSim.Entity
 {
@@ -125,8 +126,11 @@ namespace TrafficSim.Entity
             // ( 0, 1) is up, (1, 0) is right 
             // (-1, 0) is left, and (0, -1) is down
             var direction = AssociatedVehicle.Direction;
+            var coord = AssociatedVehicle.Coordinate;
+
             // set the near point just in front of the vehicle
-            var nearPoint = AssociatedVehicle.Coordinate;
+#warning 4 is just an arbitrary number, consult group for actual value
+            NearPoint = new Point(coord.X + direction.X * 4, coord.Y + direction.Y * 4);
 
             // set the far point "at the horizon" this distance needs to be discussed
             // if there's a leading vehicle closer than the horizon, 
@@ -143,11 +147,11 @@ namespace TrafficSim.Entity
 
             try
             {
-                signs.ForEach(sign =>
+                foreach (var sign in signs)
                 {
 #warning Can't continue without a finished Sign class
                     // do stuff with the sign
-                });
+                };
             }
             catch (NullReferenceException nre)
             {
