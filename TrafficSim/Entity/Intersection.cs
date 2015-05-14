@@ -23,28 +23,40 @@ namespace TrafficSim.Entity
             }
         }
 
-        private Road[] intersectionExits;
+        public List<Road> IntersectionExits { get; private set; }
 
         public Intersection(Tuple<int, int> Center, params Road[] roads)
         {
             CenterPoint = Center;
-            intersectionExits = roads;
-        }
-        public Intersection(params Road[] exits)
-        {
-            CenterPoint = exits[0].StartPoint;
-            intersectionExits = exits;
+            IntersectionExits = new List<Road>(roads);
         }
         public Intersection() { }
 
         public void AddRoadChoice(Road road)
         {
-            Road[] newRoads = new Road[intersectionExits.Length + 1];
+            IntersectionExits.Add(road);
+        }
 
-            for (int i = 0; i < intersectionExits.Length; i++) { newRoads[i] = intersectionExits[i]; }
-            newRoads[newRoads.Length - 1] = road;
+        public Road[] Options (Road current)
+        {
+            Road[] options = new Road[IntersectionExits.Count - 1];
 
-            intersectionExits = newRoads;
+            bool foundCurrent = false;
+            for (int i = 0; i < IntersectionExits.Count; i++) 
+            {
+                options[foundCurrent ? i - 1 : i] = IntersectionExits[i];
+                foundCurrent = IntersectionExits[i] == current;
+            }
+
+            return options;
+        }
+
+        public void ReplaceOption(Road toBeReplaced, Road replacement)
+        {
+            for (int i = 0; i < IntersectionExits.Count; i++)
+            {
+                if (IntersectionExits[i].Equals(toBeReplaced)) IntersectionExits[i] = replacement;
+            }
         }
     }
 }

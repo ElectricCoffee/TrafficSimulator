@@ -10,13 +10,33 @@ namespace TrafficSim.Entity
 {
     public class Road
     {
+        private Intersection startPoint, endPoint;
+        public Tuple<int, int> StartPoint
+        {
+            get { return startPoint.CenterPoint; }
+            set { startPoint = new Intersection(value, this); }
+        }
+        public Tuple<int, int> EndPoint
+        {
+            get { return endPoint.CenterPoint; }
+            set { startPoint = new Intersection(value, this); }
+        }
+        public Intersection StartIntersection
+        {
+            get { return startPoint; }
+            set { startPoint = value; }
+        }
+        public Intersection EndIntersection
+        {
+            get { return endPoint; }
+            set { endPoint = value; }
+        }
 #warning sign is not yet implemented
         public List<Sign> Signs { get; set; }
 
         public Road Next {get; set;}
-        public Tuple<int, int> StartPoint { get; set; }
-        public Tuple<int, int> EndPoint { get; set; }
         public int RoadWidth { get; set; }
+        public int Angle { get; set; }
 
         public Road() 
         {
@@ -31,6 +51,18 @@ namespace TrafficSim.Entity
         }
 
         public Road(Tuple<int, int> start, Tuple<int, int> end, int width) : this(start, end)
+        {
+            RoadWidth = width;
+        }
+
+        public Road(Intersection start, Intersection end) : this()
+        {
+            startPoint = start;
+            endPoint = end;
+            RoadWidth = 1;
+        }
+
+        public Road(Intersection start, Intersection end, int width) : this(start, end)
         {
             RoadWidth = width;
         }
