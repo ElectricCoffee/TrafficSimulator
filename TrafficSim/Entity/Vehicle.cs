@@ -20,7 +20,7 @@ namespace TrafficSim.Entity
         public Point Coordinate {get; protected set;}
 
         /// <summary>
-        /// The Vehicle mac Acceleration.
+        /// The Vehicle max Acceleration.
         /// </summary>
         public int MaxAcc {get; protected set;}
 
@@ -185,6 +185,11 @@ namespace TrafficSim.Entity
         private double RotateY(int X, int Y, Double Angle)
         {
             return Math.Sin(Angle) * X + Math.Cos(Angle) * Y;
+        }
+
+        public void ChangeRoad()
+        {
+            
         }
         
     }
