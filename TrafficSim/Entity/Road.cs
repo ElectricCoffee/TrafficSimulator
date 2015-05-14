@@ -11,15 +11,15 @@ namespace TrafficSim.Entity
     public class Road
     {
         private Intersection startPoint, endPoint;
-        public Tuple<int, int> StartPoint
+        public Point StartPoint
         {
-            get { return startPoint.CenterPoint; }
-            set { startPoint = new Intersection(value, this); }
+            get;
+            set;
         }
-        public Tuple<int, int> EndPoint
+        public Point EndPoint
         {
-            get { return endPoint.CenterPoint; }
-            set { startPoint = new Intersection(value, this); }
+            get;
+            set;
         }
         public Intersection StartIntersection
         {
@@ -43,14 +43,14 @@ namespace TrafficSim.Entity
              Signs = new List<Sign>();
         }
 
-        public Road(Tuple<int, int> start, Tuple<int, int> end) : this()
+        public Road(Point start, Point end) : this()
         { 
             StartPoint = start; 
             EndPoint = end; 
             RoadWidth = 1; 
         }
 
-        public Road(Tuple<int, int> start, Tuple<int, int> end, int width) : this(start, end)
+        public Road(Point start, Point end, int width) : this(start, end)
         {
             RoadWidth = width;
         }
