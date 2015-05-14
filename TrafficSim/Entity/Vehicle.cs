@@ -189,7 +189,31 @@ namespace TrafficSim.Entity
 
         public void ChangeRoad()
         {
-            
+            if (TheRoad.StartPoint.X > TheRoad.EndPoint.X)
+            {
+                if (Coordinate.X < TheRoad.EndPoint.X)
+                    TheRoad = TheRoad.Next;
+
+            }
+            else if (TheRoad.StartPoint.X < TheRoad.EndPoint.X)
+            {
+                if (Coordinate.X > TheRoad.EndPoint.X)
+                    TheRoad = TheRoad.Next;
+            }
+            else if (TheRoad.StartPoint.Y > TheRoad.EndPoint.Y)
+            {
+                if (Coordinate.Y < TheRoad.EndPoint.Y)
+                    TheRoad = TheRoad.Next;
+            }
+            else if (TheRoad.StartPoint.Y < TheRoad.EndPoint.Y)
+            {
+                if (Coordinate.Y > TheRoad.EndPoint.Y)
+                    TheRoad = TheRoad.Next;
+            }
+            else
+            {
+#warning            throw new StartAndEndPointIsEquelExeption();
+            }
         }
         
     }
