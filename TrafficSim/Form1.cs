@@ -26,7 +26,7 @@ namespace TrafficSim
 
             Truck lastbil = new Truck(50, 50);
             AddAndDrawVehicle(lastbil);
-            
+           
             
         }
         /// <summary>

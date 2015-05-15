@@ -97,10 +97,6 @@ namespace TrafficSim.Entity
             
             PictureBox.Image = Picture;
 
-
-            Graphics graf;
-            graf = PictureBox.CreateGraphics();
-            graf.DrawEllipse(new Pen(Color.Red),50,50,50,50);
         }
 
 
