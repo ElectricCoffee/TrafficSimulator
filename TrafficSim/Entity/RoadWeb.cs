@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using TrafficSim;
 using TrafficSim.Entity.Proxy;
+using System.Drawing;
 
 namespace TrafficSim.Entity
 {
@@ -54,7 +55,7 @@ namespace TrafficSim.Entity
         /// <param name="Angle">the angle of the road (for when the road turns)</param>
         /// <param name="Width">The width of the road</param>
         /// <param name="road">The road it should be linked with, leave null if it is a seperate road</param>
-        public void CreateRoad(Tuple<int, int>Start, Tuple<int, int>End, int Angle, int Width, Road road)
+        public void CreateRoad(Point Start, Point End, int Angle, int Width, Road road)
         {
             Road NewRoad = new Road();
             NewRoad.EndPoint = End;

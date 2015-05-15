@@ -16,6 +16,12 @@ namespace TrafficSim.Entity
             Length = 57;
         }
 
+        public override int Length
+        {
+            get;
+            protected set;
+        }
+
         public override void ChangeGraphic(DrivingType dt)
         {
             switch (dt)

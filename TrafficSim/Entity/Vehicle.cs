@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Diagnostics;
+using TrafficSim.Event;
 
 
 namespace TrafficSim.Entity
 {
     public enum DrivingType { Drive, Brake }
 
-    public abstract class Vehicle : IDrawable 
+    public abstract class Vehicle : IDrawable ,ISimulatable
     {
         /// <summary>
         /// THe Coordinate where the Vehicle are.
@@ -84,7 +85,9 @@ namespace TrafficSim.Entity
         /// </summary>
         public Road TheRoad { get; set; }
 
-        public abstract int Length { get; protected set; }  
+        public abstract int Length { get; protected set; }
+
+        public TrafficEventHandler eventHandler { get; set; }
 
         /// <summary>
         /// Drawing the car, at it's coordinates.
@@ -110,13 +113,14 @@ namespace TrafficSim.Entity
             Coordinate = new Point(x, y);
             PictureBox.Location = Coordinate;
 
-            int cos = Direction.X;
-            int sin = Direction.Y;
 
             if (IsBraking)
                 ChangeGraphic(DrivingType.Brake); //Brakes();
 
             else ChangeGraphic(DrivingType.Drive); // UnBrakes();
+
+            int cos = Direction.X;
+            int sin = Direction.Y;
 
             if (cos < 0 && sin < 0)
                 RotationType = RotateFlipType.RotateNoneFlipNone;
@@ -130,6 +134,8 @@ namespace TrafficSim.Entity
             PictureBox.Image.RotateFlip(RotationType);
 
             PictureBox.Update();
+
+            ChangeRoad();
         }
 
         /// <summary>
@@ -185,7 +191,11 @@ namespace TrafficSim.Entity
 
         public void ChangeRoad()
         {
-            if (TheRoad.StartPoint.X > TheRoad.EndPoint.X)
+            if (TheRoad == null)
+            {
+                eventHandler.ClearEventsFromObject(this);
+            }
+            else if (TheRoad.StartPoint.X > TheRoad.EndPoint.X)
             {
                 if (Coordinate.X < TheRoad.EndPoint.X)
                     TheRoad = TheRoad.Next;

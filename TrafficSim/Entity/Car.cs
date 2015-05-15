@@ -21,6 +21,11 @@ namespace TrafficSim.Entity
             Picture = TrafficSim.Properties.Resources.CarLeft;
             Length = 29;
         }
+        public override int Length
+        {
+            get;
+            protected set;
+        }
 
         public override void ChangeGraphic(DrivingType dt)
         {
