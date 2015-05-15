@@ -7,7 +7,7 @@ using System.Threading;
 using System.Drawing;
 using TrafficSim;
 using TrafficSim.Entity.Proxy;
-using System.Drawing;
+
 
 namespace TrafficSim.Entity
 {
