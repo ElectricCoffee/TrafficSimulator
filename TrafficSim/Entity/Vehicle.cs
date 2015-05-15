@@ -5,8 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+<<<<<<< HEAD
 using TrafficSim.Event;
 
+=======
+using System.Diagnostics;
+>>>>>>> origin/Vehicle
 
 
 namespace TrafficSim.Entity
@@ -15,20 +19,78 @@ namespace TrafficSim.Entity
 
     public abstract class Vehicle : IDrawable ,ISimulatable 
     {
+        /// <summary>
+        /// THe Coordinate where the Vehicle are.
+        /// </summary>
         public Point Coordinate {get; protected set;}
+
+        /// <summary>
+        /// The Vehicle max Acceleration.
+        /// </summary>
         public int MaxAcc {get; protected set;}
+
+        /// <summary>
+        /// The Vehicle max Decceleration
+        /// </summary>
         public int MaxDecc {get; protected set;}
+
+        /// <summary>
+        /// The Vehicles actual Acceleration
+        /// </summary>
         public int Acc { get; set; }
+
+        /// <summary>
+        /// The Vehicle actual Deccelaeration
+        /// </summary>
         public int Decc { get; set; }
+
+        /// <summary>
+        /// The Picture of the vehicle.
+        /// </summary>
         public Image Picture;
+
+        /// <summary>
+        /// THe PIcturebox in where the picture is shown.
+        /// </summary>
         public PictureBox PictureBox = new PictureBox();
+
+        /// <summary>
+        /// The Direction af the vehicle, set as a vector of the center of the Vehicle.
+        /// </summary>
         public Point Direction { get; set; }
-        public bool IsBreaking { get; set; }
+
+        /// <summary>
+        /// A bbolean value to brake the vehicle.
+        /// </summary>
+        public bool IsBraking { get; set; }
+
+        /// <summary>
+        /// The actual speed of the vehicle.
+        /// </summary>
         public int Speed { get; set; }
+
+        /// <summary>
+        /// The actual Driver of the vehicle
+        /// </summary>
         public Driver Driver { get; set; }
+
+        /// <summary>
+        /// A boolean to accelerate the vehicle.
+        /// </summary>
         public bool IsAcceleratin {get; set;}
+
+        /// <summary>
+        /// The graphic direktion of the vehicle.
+        /// </summary>
         public RotateFlipType RotationType { get; set; }
         public TrafficEventHandler EventHandler { get; set; }
+
+        /// <summary>
+        /// The road under the vehicle.
+        /// </summary>
+        public Road TheRoad { get; set; }
+
+        public abstract int Length { get; protected set; }  
 
         /// <summary>
         /// Drawing the car, at it's coordinates.
@@ -40,6 +102,7 @@ namespace TrafficSim.Entity
             PictureBox.Enabled = true;
             
             PictureBox.Image = Picture;
+
         }
 
 
@@ -56,7 +119,7 @@ namespace TrafficSim.Entity
             int cos = Direction.X;
             int sin = Direction.Y;
 
-            if (IsBreaking)
+            if (IsBraking)
                 ChangeGraphic(DrivingType.Brake); //Brakes();
 
             else ChangeGraphic(DrivingType.Drive); // UnBrakes();
@@ -72,8 +135,7 @@ namespace TrafficSim.Entity
 
             PictureBox.Image.RotateFlip(RotationType);
 
-            PictureBox.Update(); 
-            
+            PictureBox.Update();
         }
 
         /// <summary>
@@ -86,7 +148,11 @@ namespace TrafficSim.Entity
         /// Sets the new speed, by acceleration and moves the vehicle, by the time.
         /// </summary>
         /// <param name="milisecond">The time in miliseconds that will set the speed, and the new location by diredtion.</param>
+<<<<<<< HEAD
         public void Drive(TimeSpan driveDuration)
+=======
+        public void Drive(TimeSpan Time)
+>>>>>>> origin/Vehicle
         {
             if (Direction.X == 0 && Direction.Y == 0)
                 throw new Util.NoDirectionException();      //trow exception
@@ -95,6 +161,7 @@ namespace TrafficSim.Entity
             double directionEnhedX = Direction.X / direntionLenght;
             double directionEnhedY = Direction.Y / direntionLenght;
 
+<<<<<<< HEAD
             if (IsBreaking)
                 Speed -= Decc * driveDuration.Seconds;
             else if (IsAcceleratin)
@@ -105,6 +172,68 @@ namespace TrafficSim.Entity
         }
 
 
+=======
+            if (IsBraking)
+                Speed -= Decc * Time.Seconds;
+            else if (IsAcceleratin)
+                Speed += Acc * Time.Seconds;
+
+            int lenght = Speed * Time.Seconds * 8; //8px pr. m
+            Move(Coordinate.X + (int)(directionEnhedX * lenght), Coordinate.Y + (int)(directionEnhedY * lenght));
+        }
+
+        /// <summary>
+        /// Turn and move the car
+        /// </summary>
+        /// <param name="Angle">The Angle where the car is turning.</param>
+        /// <param name="Time">the time the turn takes.</param>
+        public void TurnCar(double Angle, TimeSpan Time)
+        {
+            double newX = RotateX(Direction.X, Direction.Y, Angle) + Coordinate.X - RotateX(Coordinate.X, Coordinate.Y, Angle);
+            double newY = RotateY(Direction.X, Direction.Y, Angle) + Coordinate.Y - RotateY(Coordinate.X, Coordinate.Y, Angle);
+            Direction = new Point((int)newX, (int)newY);
+            Drive(Time);
+        }
+
+        private double RotateX(int X, int Y, double Angle)
+        {
+            return Math.Cos(Angle) * X - Math.Sin(Angle) * Y;
+        }
+
+        private double RotateY(int X, int Y, Double Angle)
+        {
+            return Math.Sin(Angle) * X + Math.Cos(Angle) * Y;
+        }
+
+        public void ChangeRoad()
+        {
+            if (TheRoad.StartPoint.X > TheRoad.EndPoint.X)
+            {
+                if (Coordinate.X < TheRoad.EndPoint.X)
+                    TheRoad = TheRoad.Next;
+
+            }
+            else if (TheRoad.StartPoint.X < TheRoad.EndPoint.X)
+            {
+                if (Coordinate.X > TheRoad.EndPoint.X)
+                    TheRoad = TheRoad.Next;
+            }
+            else if (TheRoad.StartPoint.Y > TheRoad.EndPoint.Y)
+            {
+                if (Coordinate.Y < TheRoad.EndPoint.Y)
+                    TheRoad = TheRoad.Next;
+            }
+            else if (TheRoad.StartPoint.Y < TheRoad.EndPoint.Y)
+            {
+                if (Coordinate.Y > TheRoad.EndPoint.Y)
+                    TheRoad = TheRoad.Next;
+            }
+            else
+            {
+#warning            throw new StartAndEndPointIsEquelExeption();
+            }
+        }
+>>>>>>> origin/Vehicle
         
     }
 }

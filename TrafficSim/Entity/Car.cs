@@ -20,7 +20,11 @@ namespace TrafficSim.Entity
         {
             Coordinate = new Point(x, y);
             Picture = TrafficSim.Properties.Resources.CarLeft;
+<<<<<<< HEAD
             base.EventHandler = eventHandler;
+=======
+            Length = 29;
+>>>>>>> origin/Vehicle
         }
 
         public override void ChangeGraphic(DrivingType dt)

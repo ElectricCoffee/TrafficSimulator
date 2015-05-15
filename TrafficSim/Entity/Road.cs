@@ -4,31 +4,68 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using TrafficSim.Entity.Proxy;
 
-namespace TrafficSim
+namespace TrafficSim.Entity
 {
-    class road
+    public class Road
     {
-        /// <summary>
-        /// the parameters
-        /// might be better to convert it to a list
-        /// this however is easier for others to access
-        /// keep it like this for now, but ask others what they would prefer later
-        /// </summary>
-        /// <param name="StartX, StartY">start point of it</param>
-        /// <param name="EndX, EndY">end point of it</param>
-        /// <param name="RoadWidth">width of the road</param>
-        int StartX, StartY;
-        int EndX, EndY;
-        int RoadWidth;
-
+        private Intersection startPoint, endPoint;
+        public Point StartPoint
+        {
+            get;
+            set;
+        }
+        public Point EndPoint
+        {
+            get;
+            set;
+        }
+        public Intersection StartIntersection
+        {
+            get { return startPoint; }
+            set { startPoint = value; }
+        }
+        public Intersection EndIntersection
+        {
+            get { return endPoint; }
+            set { endPoint = value; }
+        }
 #warning sign is not yet implemented
-<<<<<<< HEAD
-        //public List<Sign> Signs = new List<Sign>();
+        public List<Sign> Signs { get; set; }
 
-=======
-        public List<Sign> Signs = new List<Sign>();
->>>>>>> origin/Vehicle
+        public Road Next {get; set;}
+        public int RoadWidth { get; set; }
+        public int Angle { get; set; }
+
+        public Road() 
+        {
+             Signs = new List<Sign>();
+        }
+
+        public Road(Point start, Point end) : this()
+        { 
+            StartPoint = start; 
+            EndPoint = end; 
+            RoadWidth = 1; 
+        }
+
+        public Road(Point start, Point end, int width) : this(start, end)
+        {
+            RoadWidth = width;
+        }
+
+        public Road(Intersection start, Intersection end) : this()
+        {
+            startPoint = start;
+            endPoint = end;
+            RoadWidth = 1;
+        }
+
+        public Road(Intersection start, Intersection end, int width) : this(start, end)
+        {
+            RoadWidth = width;
+        }
 
         /// <summary>
         /// Each Passing function finds the coordinate required to pass a car in front of it
@@ -43,7 +80,7 @@ namespace TrafficSim
         /// <param name="Angle">the angle the car points at
         /// only takes north, south etc
         /// need to ensure the angle values are used the same way as in other classes</param>
-        /// <param name="PassBool">Remind self to ask Andreas about this one</param>
+        /// <param name="PassRight">Wether or not to pass right around, if False, it'll pass left</param>
         /// <returns></returns>
 
         [Obsolete("Use PassingHorizontal instead")]
