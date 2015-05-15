@@ -23,12 +23,12 @@ namespace TrafficSim.Entity
         /// <summary>
         /// The Vehicle max Acceleration.
         /// </summary>
-        public int MaxAcc {get; protected set;}
+        public int MaxAcc {get; set;}
 
         /// <summary>
         /// The Vehicle max Decceleration
         /// </summary>
-        public int MaxDecc {get; protected set;}
+        public int MaxDecc {get; set;}
 
         /// <summary>
         /// The Vehicles actual Acceleration

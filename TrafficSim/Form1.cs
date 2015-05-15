@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 using TrafficSim.Entity;
 using System.Diagnostics;
+using TrafficSim.Event;
+using System.Threading;
 
 namespace TrafficSim
 {
@@ -18,14 +20,27 @@ namespace TrafficSim
         public Form1()
         {
             InitializeComponent();
-            
-            Car car1 = new Car(50, 50);
-            
-            AddAndDrawVehicle(car1);
-          
 
-            Truck lastbil = new Truck(50, 50);
-            AddAndDrawVehicle(lastbil);
+            TrafficEventHandler Eventhandler = new TrafficEventHandler(new TimeSpan(100));
+
+            Road VesterBro = new Road(new Point(50, 50), new Point(500, 50));
+            Car bil1 = new Car(50, 50)
+            {
+                TheRoad = VesterBro,
+                MaxAcc = 1,
+                MaxDecc = 10,
+                Driver = new Driver(),
+                eventHandler = Eventhandler,
+            };
+
+            AddAndDrawVehicle(bil1);
+
+            while(true)
+            {
+                Eventhandler.NextTick();
+                Thread.Sleep(100);
+
+            }
            
             
         }
