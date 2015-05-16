@@ -17,32 +17,31 @@ namespace TrafficSim
 {
     public partial class Form1 : Form
     {
+
+        public static TrafficEventHandler Eventhandler = new TrafficEventHandler(new TimeSpan(100));
+
+        public static Road VesterBro = new Road(new Point(50, 50), new Point(500, 50));
+        
+        
+
+        public bool run{get;set;}
         public Form1()
         {
             InitializeComponent();
 
-            TrafficEventHandler Eventhandler = new TrafficEventHandler(new TimeSpan(100));
+            CarList.Cars.Add(new Car(50, 50)
+        {
+            TheRoad = VesterBro,
+            MaxAcc = 1,
+            MaxDecc = 10,
+            Driver = new Driver(),
+            eventHandler = Eventhandler,
+            Direction = new Point(100, 0),
+        });
 
-            Road VesterBro = new Road(new Point(50, 50), new Point(500, 50));
-            Car bil1 = new Car(50, 50)
-            {
-                TheRoad = VesterBro,
-                MaxAcc = 1,
-                MaxDecc = 10,
-                Driver = new Driver(),
-                eventHandler = Eventhandler,
-            };
+            AddAndDrawVehicle(CarList.Cars[0]);
 
-            AddAndDrawVehicle(bil1);
-
-            while(true)
-            {
-                Eventhandler.NextTick();
-                Thread.Sleep(100);
-
-            }
-           
-            
+            run = false;
         }
         /// <summary>
         /// Adder the vehicle image to the form, and calls the method Draw from the Vehicle.
@@ -52,6 +51,37 @@ namespace TrafficSim
         {
             Controls.Add(vehicle.PictureBox);
             vehicle.Draw();
+        }
+
+        private void buttonRun_Click(object sender, EventArgs e)
+        {
+
+
+            if(buttonRun.Text == "Run")
+            {
+                buttonRun.Text = "Stop";
+                run = true;
+            }
+            else
+            {
+                buttonRun.Text = "Run";
+                run = false;
+            }
+
+
+            Thread Simulation = new Thread(new ThreadStart(start));
+            Simulation.Start();
+            
+        }
+        public void start()
+        {
+            while (run)
+            {
+                CarList.Cars[0].Drive(new TimeSpan(100));
+                Eventhandler.NextTick();
+                Thread.Sleep(100);
+
+            }
         }
         
 

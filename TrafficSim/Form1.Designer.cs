@@ -28,23 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.trackBarTrafficFlow = new System.Windows.Forms.TrackBar();
             this.label1 = new System.Windows.Forms.Label();
             this.checkBoxASK = new System.Windows.Forms.CheckBox();
+            this.buttonRun = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarTrafficFlow)).BeginInit();
             this.SuspendLayout();
             // 
             // trackBarTrafficFlow
             // 
+            this.trackBarTrafficFlow.LargeChange = 2;
             this.trackBarTrafficFlow.Location = new System.Drawing.Point(238, 379);
-            this.trackBarTrafficFlow.Maximum = 100;
-            this.trackBarTrafficFlow.Minimum = 10;
+            this.trackBarTrafficFlow.Maximum = 20;
+            this.trackBarTrafficFlow.Minimum = 5;
             this.trackBarTrafficFlow.Name = "trackBarTrafficFlow";
             this.trackBarTrafficFlow.Size = new System.Drawing.Size(104, 45);
             this.trackBarTrafficFlow.TabIndex = 0;
-            this.trackBarTrafficFlow.TickFrequency = 5;
             this.trackBarTrafficFlow.Value = 10;
             // 
             // label1
@@ -66,11 +65,22 @@
             this.checkBoxASK.Text = "ASK";
             this.checkBoxASK.UseVisualStyleBackColor = true;
             // 
+            // buttonRun
+            // 
+            this.buttonRun.Location = new System.Drawing.Point(522, 390);
+            this.buttonRun.Name = "buttonRun";
+            this.buttonRun.Size = new System.Drawing.Size(75, 23);
+            this.buttonRun.TabIndex = 3;
+            this.buttonRun.Text = "Run";
+            this.buttonRun.UseVisualStyleBackColor = true;
+            this.buttonRun.Click += new System.EventHandler(this.buttonRun_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(783, 454);
+            this.Controls.Add(this.buttonRun);
             this.Controls.Add(this.checkBoxASK);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.trackBarTrafficFlow);
@@ -84,11 +94,10 @@
 
         #endregion
 
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.TrackBar trackBarTrafficFlow;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox checkBoxASK;
+        private System.Windows.Forms.Button buttonRun;
     }
 }
 

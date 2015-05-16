@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\CarList.cs" />
     <Compile Include="Entity\Driver.cs" />
     <Compile Include="Entity\Car.cs" />
     <Compile Include="Entity\Intersection.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Entity\Truck.cs" />
     <Compile Include="Entity\Vehicle.cs" />
     <Compile Include="Util\NoDirectionException.cs" />
+    <Compile Include="Util\StartAndEndPointIsEquelExeption.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

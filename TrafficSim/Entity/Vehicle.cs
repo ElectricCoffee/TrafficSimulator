@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Diagnostics;
 using TrafficSim.Event;
+using TrafficSim.Util;
 
 
 namespace TrafficSim.Entity
@@ -89,6 +90,8 @@ namespace TrafficSim.Entity
 
         public TrafficEventHandler eventHandler { get; set; }
 
+        public bool ASK { get; set; }
+
         /// <summary>
         /// Drawing the car, at it's coordinates.
         /// </summary>
@@ -157,10 +160,22 @@ namespace TrafficSim.Entity
             double directionEnhedX = Direction.X / direntionLenght;
             double directionEnhedY = Direction.Y / direntionLenght;
 
+            if (ASK)
+            {
+                Car front = GetNearestCar();
+                if (front != null)
+                {
+                    IsBraking = front.IsBraking;
+                    IsAcceleratin = front.IsAcceleratin;
+                    Speed = front.Speed;
+                }
+            }
+           
             if (IsBraking)
                 Speed -= Decc * Time.Seconds;
             else if (IsAcceleratin)
                 Speed += Acc * Time.Seconds;
+            
 
             int lenght = Speed * Time.Seconds * 8; //8px pr. m
             Move(Coordinate.X + (int)(directionEnhedX * lenght), Coordinate.Y + (int)(directionEnhedY * lenght));
@@ -218,8 +233,50 @@ namespace TrafficSim.Entity
             }
             else
             {
-#warning            throw new StartAndEndPointIsEquelExeption();
+                throw new StartAndEndPointIsEquelExeption();
             }
+        }
+
+        public Car GetNearestCar()
+        {
+            Car temp = null;
+            double mindis = 1000;
+
+            foreach(Car element in CarList.Cars)
+            {
+                if(element.Coordinate == this.Coordinate)
+                {
+                    // gør ingenting
+                }
+                else if(this.Direction.X >= 0 && this.Direction.Y >= 0 && this.Coordinate.X <= element.Coordinate.X && this.Coordinate.Y <= element.Coordinate.Y)
+                {
+                    if(GetLenght(element)<mindis)
+                        temp = element;
+                }
+                else if(this.Direction.X <= 0 && this.Direction.Y >= 0 && this.Coordinate.X >= element.Coordinate.X && this.Coordinate.Y <= element.Coordinate.Y)
+                {
+                    if(GetLenght(element)<mindis)
+                        temp = element;
+                }
+                else if(this.Direction.X >= 0 && this.Direction.Y <= 0 && this.Coordinate.X <= element.Coordinate.X && this.Coordinate.Y >= element.Coordinate.Y)
+                {
+                    if(GetLenght(element)<mindis)
+                        temp = element;
+                }
+                else if(this.Direction.X <= 0 && this.Direction.Y <= 0 && this.Coordinate.X >= element.Coordinate.X && this.Coordinate.Y >= element.Coordinate.Y)
+                {
+                    if(GetLenght(element)<mindis)
+                        temp = element;
+                }
+            }
+
+            
+            return temp;
+        }
+
+        public double GetLenght(Car obj)
+        {
+            return Math.Sqrt(Math.Pow((this.Coordinate.X - obj.Coordinate.X), 2) + Math.Pow((this.Coordinate.Y - obj.Coordinate.Y), 2));
         }
         
     }
