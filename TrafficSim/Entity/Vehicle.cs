@@ -88,7 +88,7 @@ namespace TrafficSim.Entity
 
         public abstract int Length { get; protected set; }
 
-        public TrafficEventHandler eventHandler { get; set; }
+        public TrafficEventHandler EventHandler { get; set; }
 
         public bool ASK { get; set; }
 
@@ -134,7 +134,9 @@ namespace TrafficSim.Entity
             else
                 RotationType = RotateFlipType.Rotate270FlipNone;
 
-            PictureBox.Image.RotateFlip(RotationType);
+            //PictureBox.Image.RotateFlip(RotationType);
+
+            
 
             PictureBox.Update();
 
@@ -211,7 +213,7 @@ namespace TrafficSim.Entity
         {
             if (TheRoad == null)
             {
-                eventHandler.ClearEventsFromObject(this);
+                EventHandler.ClearEventsFromObject(this);
             }
             else if (TheRoad.StartPoint.X > TheRoad.EndPoint.X)
             {

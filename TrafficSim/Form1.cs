@@ -28,14 +28,14 @@ namespace TrafficSim
         public Form1()
         {
             InitializeComponent();
-
+            Form1.CheckForIllegalCrossThreadCalls = false;
             CarList.Cars.Add(new Car(50, 50)
         {
             TheRoad = VesterBro,
             MaxAcc = 1,
             MaxDecc = 10,
             Driver = new Driver(),
-            eventHandler = Eventhandler,
+            EventHandler = Eventhandler,
             Direction = new Point(100, 0),
         });
 
@@ -83,10 +83,6 @@ namespace TrafficSim
 
             }
         }
-        
-
-        
-
         
     }
 }
