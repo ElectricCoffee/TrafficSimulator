@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DriverAggression.cs" />
     <Compile Include="Entity\Driver.cs" />
     <Compile Include="Entity\Car.cs" />
 <<<<<<< HEAD
@@ -51,6 +52,9 @@
     <Compile Include="Entity\Intersection.cs" />
     <Compile Include="Entity\Proxy\Sign.cs" />
 >>>>>>> origin/Vehicle
+    <Compile Include="Entity\Intersection.cs" />
+    <Compile Include="Entity\Proxy\Sign.cs" />
+    <Compile Include="Entity\RoadList.cs" />
     <Compile Include="Event\ContinuousEvent.cs" />
     <Compile Include="Event\ISimulatable.cs" />
     <Compile Include="Event\TrafficEvent.cs" />
@@ -79,6 +83,8 @@
     <Compile Include="Util\Collections\PriorityTree.cs" />
     <Compile Include="Util\Collections\PriorityTreeNode.cs" />
     <Compile Include="Util\Collections\TreeEmptyException.cs" />
+    <Compile Include="Util\Error.cs" />
+    <Compile Include="Util\Extensions\RichPoint.cs" />
     <Compile Include="Util\Globals.cs" />
     <Compile Include="Entity\Truck.cs" />
     <Compile Include="Entity\Vehicle.cs" />

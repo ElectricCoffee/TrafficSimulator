@@ -12,58 +12,62 @@ namespace TrafficSim.Event
         /// <summary>
         /// Handles callbacks for both discrete and continuous events. All continuous events are stored in a callback-list.
         /// </summary>
-        /// <param name="initTickLength">Duration between each callback of the continuous events</param>
-        public TrafficEventHandler(TimeSpan initTickLength)
+        /// <param name="ticklength">Duration between each callback of the continuous events</param>
+        public TrafficEventHandler(TimeSpan ticklength)
         {
-            tickLength = initTickLength;
+            TickLength = ticklength;
         }
-        protected List<DiscreteEvent> DiscreteEventList = new List<DiscreteEvent>();
-        protected Dictionary<Action, ContinuousEvent> ContinuousEventList = new Dictionary<Action, ContinuousEvent>();
+        protected List<DiscreteEvent> discreteEventList = new List<DiscreteEvent>();
+        protected Dictionary<Action, ContinuousEvent> continuousEventList = new Dictionary<Action, ContinuousEvent>();
         protected TimeSpan currentTime;
         /// <summary>
         /// Duration between each callback of the continuous events
         /// </summary>
-        public TimeSpan tickLength {get; private set;}
+        public TimeSpan TickLength {get; private set;}
 
         /// <summary>
         /// Queues up a callback to be called after a certain delay
+        /// Should be used by ISimulatables
         /// </summary>
-        /// <param name="callbackMethod">Method to be called</param>
+        /// <param name="callbackmethod">Method to be called</param>
         /// <param name="delay">Trigger delay</param>
-        public void AddDiscreteEvent(Action callbackMethod, TimeSpan delay)
+        public void AddDiscreteEvent(Action callbackmethod, TimeSpan delay)
         {
-            DiscreteEventList.Add(new DiscreteEvent(callbackMethod, currentTime + delay));
-            DiscreteEventList = DiscreteEventList.OrderBy(TE => TE.EventTime).ToList();
+            discreteEventList.Add(new DiscreteEvent(callbackmethod, currentTime + delay));
+            discreteEventList = discreteEventList.OrderBy(TE => TE.EventTime).ToList();
         }
 
         /// <summary>
         /// Adds a callback to the callback-list
+        /// Should be used by ISimulatables
         /// </summary>
-        /// <param name="callbackMethod">Method to be added</param>
-        public void AddContinuousEvent(Action callbackMethod)
+        /// <param name="callbackmethod">Method to be added</param>
+        public void AddContinuousEvent(Action callbackmethod)
         {
-            ContinuousEventList.Add(callbackMethod, new ContinuousEvent(callbackMethod));
+            continuousEventList.Add(callbackmethod, new ContinuousEvent(callbackmethod));
         }
 
         /// <summary>
         /// Removes the specified callback from the callback-list
+        /// Should be used by ISimulatables
         /// </summary>
-        /// <param name="callbackMethod">Method to be removed</param>
-        public void RemoveContinuousEvent(Action callbackMethod)
+        /// <param name="callbackmethod">Method to be removed</param>
+        public void RemoveContinuousEvent(Action callbackmethod)
         {
-            if (ContinuousEventList.ContainsKey(callbackMethod)) ContinuousEventList.Remove(callbackMethod);
+            if (continuousEventList.ContainsKey(callbackmethod)) continuousEventList.Remove(callbackmethod);
         }
 
         /// <summary>
         /// Clears all callbacks for the specified object from the callback-list
+        /// Should be used by ISimulatables when removed from the simulation
         /// </summary>
         /// <param name="identity">The specified object</param>
         public void ClearEventsFromObject(ISimulatable identity)
         {
-            ContinuousEventList = ContinuousEventList
+            continuousEventList = continuousEventList
                 .Where(x => x.Key.Target != identity)
                 .ToDictionary(x => x.Key, x => x.Value);
-            DiscreteEventList = DiscreteEventList
+            discreteEventList = discreteEventList
                 .Where(x => x.Callback.Target != identity)
                 .ToList();
         }
@@ -73,7 +77,7 @@ namespace TrafficSim.Event
         /// </summary>
         public void ClearContinuousEvents()
         {
-            ContinuousEventList.Clear();
+            continuousEventList.Clear();
         }
 
         /// <summary>
@@ -81,7 +85,7 @@ namespace TrafficSim.Event
         /// </summary>
         public void ClearDiscreteEvents()
         {
-            DiscreteEventList.Clear();
+            discreteEventList.Clear();
         }
 
         /// <summary>
@@ -89,15 +93,15 @@ namespace TrafficSim.Event
         /// </summary>
         public void NextTick()
         {
-            currentTime += tickLength;
-            foreach (var kvp in ContinuousEventList)
+            currentTime += TickLength;
+            foreach (var kvp in continuousEventList)
             {
                 kvp.Value.Callback();
             }
-            if (DiscreteEventList.Count != 0 && DiscreteEventList[0].EventTime <= currentTime)
+            if (discreteEventList.Count != 0 && discreteEventList[0].EventTime <= currentTime)
             {
-                DiscreteEventList[0].Callback();
-                DiscreteEventList.RemoveAt(0);
+                discreteEventList[0].Callback();
+                discreteEventList.RemoveAt(0);
             }
         }
     }
