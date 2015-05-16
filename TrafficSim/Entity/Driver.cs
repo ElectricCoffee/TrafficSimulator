@@ -166,7 +166,13 @@ namespace TrafficSim.Entity
         /// </summary>
         protected void React()
         {
+            if(AssociatedVehicle.GetLenght(AssociatedVehicle.GetNearestCar()) < NearPoint.LenghtBetween(AssociatedVehicle.Coordinate))
+            {
+                AssociatedVehicle.IsBraking = true;
+                AssociatedVehicle.IsAcceleratin = false;
 
+                EventHandler.AddContinuousEvent(() => AssociatedVehicle.Drive(EventHandler.TickLength));
+            }
         }
 
     }

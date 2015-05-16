@@ -18,5 +18,10 @@ namespace TrafficSim.Util.Extensions
         {
             return left.X * right.X + left.Y * right.Y;
         }
+
+        public static double LenghtBetween(this System.Drawing.Point point1, System.Drawing.Point point2)
+        {
+            return Math.Sqrt(Math.Pow((point1.X-point2.X),2)+Math.Pow((point1.Y-point2.Y),2));
+        }
     }
 }

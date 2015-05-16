@@ -204,6 +204,9 @@ namespace TrafficSim.Entity
             return Math.Sin(Angle) * X + Math.Cos(Angle) * Y;
         }
 
+        /// <summary>
+        /// Finds the next road, is there is no next road the car should disapear.
+        /// </summary>
         public void ChangeRoad()
         {
             if (TheRoad == null)
@@ -237,6 +240,10 @@ namespace TrafficSim.Entity
             }
         }
 
+        /// <summary>
+        /// Find and returns the car in front, if there is no car in front the return will be null.
+        /// </summary>
+        /// <returns></returns>
         public Car GetNearestCar()
         {
             Car temp = null;
@@ -274,6 +281,11 @@ namespace TrafficSim.Entity
             return temp;
         }
 
+        /// <summary>
+        /// Return th lenght between two cars.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public double GetLenght(Car obj)
         {
             return Math.Sqrt(Math.Pow((this.Coordinate.X - obj.Coordinate.X), 2) + Math.Pow((this.Coordinate.Y - obj.Coordinate.Y), 2));
