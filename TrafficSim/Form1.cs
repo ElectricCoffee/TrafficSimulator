@@ -16,11 +16,11 @@ namespace TrafficSim
         {
             InitializeComponent();
 
-            TraficLight light = new TraficLight();
-            light.Location = new Point(50, 50);
-            light.DrawGreenLight();
+            TraficLight light = new TraficLight(50, 50);
+            light.Animate(5, Timeinput);
             Controls.Add(light.TLight);
             
+
         }
     }
 }
