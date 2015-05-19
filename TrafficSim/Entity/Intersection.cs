@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 using System.Threading.Tasks;
 using TrafficSim.Entity.Proxy;
 
@@ -9,7 +10,7 @@ namespace TrafficSim.Entity
 {
     public class Intersection
     {
-        public Tuple<int, int> CenterPoint { get; private set; }
+        public Point CenterPoint { get; private set; }
         public bool IsSignalIntersection { get; private set; }
 
         private SignalLight signal;
@@ -25,7 +26,7 @@ namespace TrafficSim.Entity
 
         public List<Road> IntersectionExits { get; private set; }
 
-        public Intersection(Tuple<int, int> Center, params Road[] roads)
+        public Intersection(Point Center, params Road[] roads)
         {
             CenterPoint = Center;
             IntersectionExits = new List<Road>(roads);

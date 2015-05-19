@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Drawing;
 using TrafficSim;
 using TrafficSim.Entity.Proxy;
 
@@ -11,6 +12,16 @@ namespace TrafficSim.Entity
 {
     public class RoadWeb
     {
+        /*How to use this class
+         * Create a road with CreateRoad
+         * When you get to the end of the road get the next road with road.Next
+         * if there is a intersection use IntersectTurn to get the next road
+         *   as of yet, it requires the Angle of the road you want to turn to
+         * The complete list of roads is contained in a combination of .Next and intersections
+         *   to get them: forEach(Webnode node in completeRoadList) forEach(Road road in node.Item.IntersectionExits)
+         *     Road CheckingRoad = road do { bla; CheckingRoad = CheckingRoad.Next} while(CheckingRoad != null)
+         *   
+         */
         public static RoadWeb operator +(RoadWeb lhs, Road rhs) { lhs.Add(rhs); return lhs; }
         public static RoadWeb operator +(RoadWeb lhs, Road[] rhs) { foreach (Road road in rhs) lhs.Add(road); return lhs; }
         public static RoadWeb operator -(RoadWeb lhs, Road rhs) { lhs.Remove(rhs); return lhs; }
@@ -32,6 +43,18 @@ namespace TrafficSim.Entity
 
         private WebNode head;
         private List<WebNode> completeRoadList;
+        private List <Point> SpawnPoint;
+        private List <Point> DeSpawnPoint;
+
+        public void CreateSpawnPoint(Point ThePoint)
+        {
+            SpawnPoint.Add(ThePoint);
+        }
+
+        public void CreateDeSpawnPoint(Point ThePoint)
+        {
+            DeSpawnPoint.Add(ThePoint);
+        }
 
         /// <summary>
         /// Adds Several roads into the network
@@ -54,7 +77,7 @@ namespace TrafficSim.Entity
         /// <param name="Angle">the angle of the road (for when the road turns)</param>
         /// <param name="Width">The width of the road</param>
         /// <param name="road">The road it should be linked with, leave null if it is a seperate road</param>
-        public void CreateRoad(Tuple<int, int>Start, Tuple<int, int>End, int Angle, int Width, Road road)
+        public void CreateRoad(Point Start, Point End, int Angle, int Width, Road road)
         {
             Road NewRoad = new Road();
             NewRoad.EndPoint = End;
@@ -205,7 +228,7 @@ namespace TrafficSim.Entity
         /// </summary>
         /// <param name="FirstRoad">The Road that possibly might intersect</param>
         /// <returns></returns>
-        private Tuple<int, int> IntersectPoint(Road FirstRoad)
+        private Point IntersectPoint(Road FirstRoad)
         {
             foreach (WebNode node in completeRoadList)
                 foreach (Road CheckingRoad in node.Item.IntersectionExits)
@@ -213,19 +236,19 @@ namespace TrafficSim.Entity
                     Road SecondRoad = CheckingRoad;
                     do {
                          //this is to ensure a float division instead of an integer division
-                        float FirstStartItem1Calc = FirstRoad.StartPoint.Item1;
-                        float FirstEndItem1Calc = FirstRoad.EndPoint.Item1;
-                        float FirstStartItem2Calc = FirstRoad.StartPoint.Item2;
-                        float FirstEndItem2Calc = FirstRoad.EndPoint.Item2;
+                        float FirstStartItem1Calc = FirstRoad.StartPoint.X;
+                        float FirstEndItem1Calc = FirstRoad.EndPoint.X;
+                        float FirstStartItem2Calc = FirstRoad.StartPoint.Y;
+                        float FirstEndItem2Calc = FirstRoad.EndPoint.Y;
 
                     //it's the a in y = ax + b
                         float FirstSlope = (FirstStartItem2Calc - FirstEndItem2Calc) /
                                            (FirstStartItem1Calc - FirstEndItem1Calc);
 
-                        float SecondStartItem1Calc = SecondRoad.StartPoint.Item1;
-                        float SecondEndItem1Calc = SecondRoad.EndPoint.Item1;
-                        float SecondStartItem2Calc = SecondRoad.StartPoint.Item2;
-                        float SecondEndItem2Calc = SecondRoad.EndPoint.Item2;
+                        float SecondStartItem1Calc = SecondRoad.StartPoint.X;
+                        float SecondEndItem1Calc = SecondRoad.EndPoint.X;
+                        float SecondStartItem2Calc = SecondRoad.StartPoint.Y;
+                        float SecondEndItem2Calc = SecondRoad.EndPoint.Y;
 
                         float SecondSlope = (SecondStartItem2Calc - SecondEndItem2Calc) /
                                             (SecondStartItem1Calc - SecondEndItem1Calc);
@@ -242,13 +265,13 @@ namespace TrafficSim.Entity
                             if (SecondStart >= (FirstStartItem2Calc > FirstEndItem2Calc ? FirstStartItem2Calc : FirstEndItem2Calc) || (
                                 SecondStart <= (FirstStartItem2Calc < FirstEndItem2Calc ? FirstStartItem2Calc : FirstEndItem2Calc))
                              )
-                                return null;
+                                return new Point(null, null);
 
                             else{
-                                int CrossingPointX = FirstRoad.StartPoint.Item1;
-                                int CrossingPointY = (int)SecondSlope * SecondRoad.StartPoint.Item1 + (int)SecondStart;
-                                InsertIntersection(FirstRoad, SecondRoad, new Tuple<int, int>((int)CrossingPointX, (int)CrossingPointY));
-                                return new Tuple<int, int>((int)CrossingPointX, (int)CrossingPointY);
+                                int CrossingPointX = FirstRoad.StartPoint.X;
+                                int CrossingPointY = (int)SecondSlope * SecondRoad.StartPoint.X + (int)SecondStart;
+                                InsertIntersection(FirstRoad, SecondRoad, new Point ((int)CrossingPointX, (int)CrossingPointY));
+                                return new Point((int)CrossingPointX, (int)CrossingPointY);
                             }
                         }
                         else if (SecondStartItem1Calc - SecondStartItem1Calc == 0)
@@ -256,13 +279,13 @@ namespace TrafficSim.Entity
                             if (FirstStart >= (SecondStartItem2Calc > SecondEndItem2Calc ? SecondStartItem2Calc : SecondEndItem2Calc) || (
                                 FirstStart <= (SecondStartItem2Calc < SecondEndItem2Calc ? SecondStartItem2Calc : SecondEndItem2Calc))
                               )
-                                return null;
+                                return new Point(null, null);
                             else
                             {
-                                int CrossingPointX = SecondRoad.StartPoint.Item1;
-                                int CrossingPointY = (int)FirstSlope * FirstRoad.StartPoint.Item1 + (int)FirstStart;
-                                InsertIntersection(FirstRoad, SecondRoad, new Tuple<int, int>((int)CrossingPointX, (int)CrossingPointY));
-                                return new Tuple<int, int>((int)CrossingPointX, (int)CrossingPointY);
+                                int CrossingPointX = SecondRoad.StartPoint.X;
+                                int CrossingPointY = (int)FirstSlope * FirstRoad.StartPoint.X + (int)FirstStart;
+                                InsertIntersection(FirstRoad, SecondRoad, new Point((int)CrossingPointX, (int)CrossingPointY));
+                                return new Point((int)CrossingPointX, (int)CrossingPointY);
                             }
                         }
                         //assumes that if the roads have the same growth then they won't intersect
@@ -276,39 +299,39 @@ namespace TrafficSim.Entity
 
                             //checks whether it crosses at a point within the line or not
                             if ((
-                                 CrossingPointX >= (FirstRoad.StartPoint.Item1 > FirstRoad.EndPoint.Item1 ?
-                                                    FirstRoad.StartPoint.Item1 : FirstRoad.EndPoint.Item1) || (
-                                 CrossingPointX >= (SecondRoad.StartPoint.Item1 > SecondRoad.EndPoint.Item1 ?
-                                                    SecondRoad.StartPoint.Item1 : SecondRoad.EndPoint.Item1)) || (
-                                 CrossingPointX <= (FirstRoad.StartPoint.Item1 < FirstRoad.EndPoint.Item1 ?
-                                                    FirstRoad.StartPoint.Item1 : FirstRoad.EndPoint.Item1)) ||
-                                 CrossingPointX <= (SecondRoad.StartPoint.Item1 < SecondRoad.EndPoint.Item1 ?
-                                                    SecondRoad.StartPoint.Item1 : SecondRoad.EndPoint.Item1)) && (
-                                 CrossingPointY >= (FirstRoad.StartPoint.Item2 > FirstRoad.EndPoint.Item2 ?
-                                                    FirstRoad.StartPoint.Item2 : FirstRoad.EndPoint.Item2)) || (
-                                 CrossingPointY >= (SecondRoad.StartPoint.Item2 > SecondRoad.EndPoint.Item2 ?
-                                                    SecondRoad.StartPoint.Item2 : SecondRoad.EndPoint.Item2)) || (
-                                 CrossingPointY <= (FirstRoad.StartPoint.Item2 < FirstRoad.EndPoint.Item2 ?
-                                                    FirstRoad.StartPoint.Item2 : FirstRoad.EndPoint.Item2)) ||
-                                 CrossingPointY <= (SecondRoad.StartPoint.Item2 < SecondRoad.EndPoint.Item2 ?
-                                                    SecondRoad.StartPoint.Item2 : SecondRoad.EndPoint.Item2)
+                                 CrossingPointX >= (FirstRoad.StartPoint.X > FirstRoad.EndPoint.X ?
+                                                    FirstRoad.StartPoint.X : FirstRoad.EndPoint.X) || (
+                                 CrossingPointX >= (SecondRoad.StartPoint.X > SecondRoad.EndPoint.X ?
+                                                    SecondRoad.StartPoint.X : SecondRoad.EndPoint.X)) || (
+                                 CrossingPointX <= (FirstRoad.StartPoint.X < FirstRoad.EndPoint.X ?
+                                                    FirstRoad.StartPoint.X : FirstRoad.EndPoint.X)) ||
+                                 CrossingPointX <= (SecondRoad.StartPoint.X < SecondRoad.EndPoint.X ?
+                                                    SecondRoad.StartPoint.X : SecondRoad.EndPoint.X)) && (
+                                 CrossingPointY >= (FirstRoad.StartPoint.Y > FirstRoad.EndPoint.Y ?
+                                                    FirstRoad.StartPoint.Y : FirstRoad.EndPoint.Y)) || (
+                                 CrossingPointY >= (SecondRoad.StartPoint.Y > SecondRoad.EndPoint.Y ?
+                                                    SecondRoad.StartPoint.Y : SecondRoad.EndPoint.Y)) || (
+                                 CrossingPointY <= (FirstRoad.StartPoint.Y < FirstRoad.EndPoint.Y ?
+                                                    FirstRoad.StartPoint.Y : FirstRoad.EndPoint.Y)) ||
+                                 CrossingPointY <= (SecondRoad.StartPoint.Y < SecondRoad.EndPoint.Y ?
+                                                    SecondRoad.StartPoint.Y : SecondRoad.EndPoint.Y)
                                )
                             {
                             }
                             else 
                             {
                                 //This one's for when they cross, the other's for when they don't
-                               InsertIntersection(FirstRoad, SecondRoad, new Tuple<int, int>((int)CrossingPointX, (int)CrossingPointY));
-                                return new Tuple<int, int>((int)CrossingPointX, (int)CrossingPointY);
+                               InsertIntersection(FirstRoad, SecondRoad, new Point((int)CrossingPointX, (int)CrossingPointY));
+                                return new Point((int)CrossingPointX, (int)CrossingPointY);
                             }
                         }
                         SecondRoad = SecondRoad.Next;
                         } while(SecondRoad != null);
                     }
-                return null;
+                return new Point(null, null);
             }
 
-        private void InsertIntersection(Road roadOne, Road roadTwo, Tuple<int, int> IntersectPoint)
+        private void InsertIntersection(Road roadOne, Road roadTwo, Point IntersectPoint)
         {
             Road[] roadPartsPostSplit = new Road[4];
             WebNode[] wns = new WebNode[4];
@@ -351,7 +374,7 @@ namespace TrafficSim.Entity
         /*
          * Splits a road in two, and returns an array of the two new pieces
          */
-        private Road[] SplitRoad(Road road, Tuple<int, int> splitPoint)
+        private Road[] SplitRoad(Road road, Point splitPoint)
         {
             Road[] temp = new Road[2];
 
