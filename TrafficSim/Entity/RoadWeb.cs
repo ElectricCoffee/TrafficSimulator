@@ -56,6 +56,15 @@ namespace TrafficSim.Entity
             DeSpawnPoint.Add(ThePoint);
         }
 
+        public bool CheckDeSpawn(Point ThePoint)
+        {
+            foreach (Point Checking in DeSpawnPoint)
+            {
+                if (ThePoint == Checking)
+                    return true;
+            }
+            return false;
+        }
         /// <summary>
         /// Adds Several roads into the network
         /// Requires pre-made roads, if you don't have that use CreateRoad
@@ -170,8 +179,17 @@ namespace TrafficSim.Entity
         public void Add(Road road, bool CheckIfIntersect)
         {
             Add(road);
-            if (CheckIfIntersect)
-                new Thread(() => IntersectPoint(road)).Start();
+            try
+            {
+                if (CheckIfIntersect)
+                {
+                    new Thread(() => IntersectPoint(road)).Start();
+                }
+            }
+            catch (System.Exception TheException)
+            {
+                //this is for when it doesn't intersect
+            }
         }
 
         /* <summary>
@@ -262,26 +280,21 @@ namespace TrafficSim.Entity
                     //checks seperately for each road - possible to optimize?
                         if (FirstStartItem1Calc - FirstEndItem1Calc == 0)
                         {
-                            if (SecondStart >= (FirstStartItem2Calc > FirstEndItem2Calc ? FirstStartItem2Calc : FirstEndItem2Calc) || (
-                                SecondStart <= (FirstStartItem2Calc < FirstEndItem2Calc ? FirstStartItem2Calc : FirstEndItem2Calc))
-                             )
-                                return new Point(null, null);
-
-                            else{
+                            if ( !(SecondStart >= (FirstStartItem2Calc > FirstEndItem2Calc ? FirstStartItem2Calc : FirstEndItem2Calc)) ||
+                                 !(SecondStart <= (FirstStartItem2Calc < FirstEndItem2Calc ? FirstStartItem2Calc : FirstEndItem2Calc)) )
+                            {
                                 int CrossingPointX = FirstRoad.StartPoint.X;
                                 int CrossingPointY = (int)SecondSlope * SecondRoad.StartPoint.X + (int)SecondStart;
-                                InsertIntersection(FirstRoad, SecondRoad, new Point ((int)CrossingPointX, (int)CrossingPointY));
+                                InsertIntersection(FirstRoad, SecondRoad, new Point((int)CrossingPointX, (int)CrossingPointY));
                                 return new Point((int)CrossingPointX, (int)CrossingPointY);
                             }
                         }
                         else if (SecondStartItem1Calc - SecondStartItem1Calc == 0)
                         {
-                            if (FirstStart >= (SecondStartItem2Calc > SecondEndItem2Calc ? SecondStartItem2Calc : SecondEndItem2Calc) || (
-                                FirstStart <= (SecondStartItem2Calc < SecondEndItem2Calc ? SecondStartItem2Calc : SecondEndItem2Calc))
-                              )
-                                return new Point(null, null);
-                            else
+                            if (!(FirstStart >= (SecondStartItem2Calc > SecondEndItem2Calc ? SecondStartItem2Calc : SecondEndItem2Calc)) ||
+                                !((FirstStart <= (SecondStartItem2Calc < SecondEndItem2Calc ? SecondStartItem2Calc : SecondEndItem2Calc))) )
                             {
+
                                 int CrossingPointX = SecondRoad.StartPoint.X;
                                 int CrossingPointY = (int)FirstSlope * FirstRoad.StartPoint.X + (int)FirstStart;
                                 InsertIntersection(FirstRoad, SecondRoad, new Point((int)CrossingPointX, (int)CrossingPointY));
@@ -328,7 +341,7 @@ namespace TrafficSim.Entity
                         SecondRoad = SecondRoad.Next;
                         } while(SecondRoad != null);
                     }
-                return new Point(null, null);
+                throw new System.Exception("Does not intersect");
             }
 
         private void InsertIntersection(Road roadOne, Road roadTwo, Point IntersectPoint)
