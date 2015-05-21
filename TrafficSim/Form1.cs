@@ -22,9 +22,8 @@ namespace TrafficSim
 
         public static Road VesterBro = new Road(new Point(50, 50), new Point(500, 50));
         
-        
-
         public bool run{get;set;}
+
         public Form1()
         {
             InitializeComponent();
