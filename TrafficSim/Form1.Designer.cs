@@ -64,6 +64,7 @@
             this.checkBoxASK.TabIndex = 2;
             this.checkBoxASK.Text = "ASK";
             this.checkBoxASK.UseVisualStyleBackColor = true;
+            this.checkBoxASK.CheckedChanged += new System.EventHandler(this.checkBoxASK_CheckedChanged);
             // 
             // buttonRun
             // 

@@ -109,10 +109,12 @@ namespace TrafficSim
                         Decc = 2,
                         Speed = 0,
                         IsBraking = true,
+                        ASK=checkBoxASK.Checked,
                     },
                     EventHandler = Eventhandler,
                     SpeedLimit = 10,
                     ReactionTime = 1,
+                    NearPoint=new Point(5,0),
 
                 });
                 
@@ -124,6 +126,14 @@ namespace TrafficSim
                 Eventhandler.NextTick();
                 Thread.Sleep(1000/trackBarTrafficFlow.Value);
 
+            }
+        }
+
+        private void checkBoxASK_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach(Driver element in DriverList.Drivers)
+            {
+                element.AssociatedVehicle.ASK = checkBoxASK.Checked;
             }
         }
         
