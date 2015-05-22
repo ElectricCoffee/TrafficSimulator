@@ -18,11 +18,7 @@ namespace TrafficSim.Event
             TickLength = ticklength;
         }
         protected List<DiscreteEvent> discreteEventList = new List<DiscreteEvent>();
-<<<<<<< HEAD
-        protected Dictionary<Action, ContinuousEvent> continuousEventList = new Dictionary<Action, ContinuousEvent>();
-=======
         protected List<ContinuousEvent> continuousEventList = new List<ContinuousEvent>();
->>>>>>> origin/master
         protected TimeSpan currentTime;
         /// <summary>
         /// Duration between each callback of the continuous events
@@ -48,11 +44,7 @@ namespace TrafficSim.Event
         /// <param name="callbackmethod">Method to be added</param>
         public void AddContinuousEvent(Action callbackmethod)
         {
-<<<<<<< HEAD
-            continuousEventList.Add(callbackmethod, new ContinuousEvent(callbackmethod));
-=======
             continuousEventList.Add(new ContinuousEvent(callbackmethod));
->>>>>>> origin/master
         }
 
         /// <summary>
@@ -62,12 +54,8 @@ namespace TrafficSim.Event
         /// <param name="callbackmethod">Method to be removed</param>
         public void RemoveContinuousEvent(Action callbackmethod)
         {
-<<<<<<< HEAD
-            if (continuousEventList.ContainsKey(callbackmethod)) continuousEventList.Remove(callbackmethod);
-=======
             ContinuousEvent continuousEvent = continuousEventList.FirstOrDefault(x => x.Callback == callbackmethod);
             if (continuousEvent != null) continuousEventList.Remove(continuousEvent);
->>>>>>> origin/master
         }
 
         /// <summary>
@@ -78,13 +66,8 @@ namespace TrafficSim.Event
         public void ClearEventsFromObject(ISimulatable identity)
         {
             continuousEventList = continuousEventList
-<<<<<<< HEAD
-                .Where(x => x.Key.Target != identity)
-                .ToDictionary(x => x.Key, x => x.Value);
-=======
                 .Where(x => x.Callback.Target != identity)
                 .ToList();
->>>>>>> origin/master
             discreteEventList = discreteEventList
                 .Where(x => x.Callback.Target != identity)
                 .ToList();
@@ -112,19 +95,11 @@ namespace TrafficSim.Event
         public void NextTick()
         {
             currentTime += TickLength;
-<<<<<<< HEAD
-            foreach (var kvp in continuousEventList)
-=======
             foreach (var continuousEvent in continuousEventList)
->>>>>>> origin/master
             {
                 continuousEvent.Callback();
             }
-<<<<<<< HEAD
-            if (discreteEventList.Count != 0 && discreteEventList[0].EventTime <= currentTime)
-=======
             while (discreteEventList.Count != 0 && discreteEventList[0].EventTime <= currentTime)
->>>>>>> origin/master
             {
                 discreteEventList[0].Callback();
                 discreteEventList.RemoveAt(0);
