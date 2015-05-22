@@ -29,7 +29,7 @@ namespace TrafficSim.Entity
         /// <summary>
         /// The Vehicle max Decceleration
         /// </summary>
-        public int MaxDecc {get; set;}
+        public int MaxDecc { get; set; }
 
         /// <summary>
         /// The Vehicles actual Acceleration
@@ -65,11 +65,6 @@ namespace TrafficSim.Entity
         /// The actual speed of the vehicle.
         /// </summary>
         public int Speed { get; set; }
-
-        /// <summary>
-        /// The actual Driver of the vehicle
-        /// </summary>
-        public Driver Driver { get; set; }
 
         /// <summary>
         /// A boolean to accelerate the vehicle.
@@ -164,7 +159,7 @@ namespace TrafficSim.Entity
 
             if (ASK)
             {
-                Car front = GetNearestCar();
+                Vehicle front = GetNearestCar();
                 if (front != null)
                 {
                     IsBraking = front.IsBraking;
@@ -172,9 +167,14 @@ namespace TrafficSim.Entity
                     Speed = front.Speed;
                 }
             }
-           
+
             if (IsBraking)
-                Speed -= Decc * Time.Seconds;
+            {
+                if (Speed <= 0)
+                    Speed = 0;
+                else
+                    Speed -= Decc * Time.Seconds;
+            }
             else if (IsAcceleratin)
                 Speed += Acc * Time.Seconds;
             
@@ -246,36 +246,36 @@ namespace TrafficSim.Entity
         /// Find and returns the car in front, if there is no car in front the return will be null.
         /// </summary>
         /// <returns></returns>
-        public Car GetNearestCar()
+        public Vehicle GetNearestCar()
         {
-            Car temp = null;
+            Vehicle temp = null;
             double mindis = 1000;
 
-            foreach(Car element in CarList.Cars)
+            foreach(Driver element in DriverList.Drivers)
             {
-                if(element.Coordinate == this.Coordinate)
+                if(element.AssociatedVehicle.Coordinate == this.Coordinate)
                 {
                     // gør ingenting
                 }
-                else if(this.Direction.X >= 0 && this.Direction.Y >= 0 && this.Coordinate.X <= element.Coordinate.X && this.Coordinate.Y <= element.Coordinate.Y)
+                else if(this.Direction.X >= 0 && this.Direction.Y >= 0 && this.Coordinate.X <= element.AssociatedVehicle.Coordinate.X && this.Coordinate.Y <= element.AssociatedVehicle.Coordinate.Y)
                 {
-                    if(GetLenght(element)<mindis)
-                        temp = element;
+                    if(GetLenght(element.AssociatedVehicle)<mindis)
+                        temp = element.AssociatedVehicle;
                 }
-                else if(this.Direction.X <= 0 && this.Direction.Y >= 0 && this.Coordinate.X >= element.Coordinate.X && this.Coordinate.Y <= element.Coordinate.Y)
+                else if(this.Direction.X <= 0 && this.Direction.Y >= 0 && this.Coordinate.X >= element.AssociatedVehicle.Coordinate.X && this.Coordinate.Y <= element.AssociatedVehicle.Coordinate.Y)
                 {
-                    if(GetLenght(element)<mindis)
-                        temp = element;
+                    if(GetLenght(element.AssociatedVehicle)<mindis)
+                        temp = element.AssociatedVehicle;
                 }
-                else if(this.Direction.X >= 0 && this.Direction.Y <= 0 && this.Coordinate.X <= element.Coordinate.X && this.Coordinate.Y >= element.Coordinate.Y)
+                else if(this.Direction.X >= 0 && this.Direction.Y <= 0 && this.Coordinate.X <= element.AssociatedVehicle.Coordinate.X && this.Coordinate.Y >= element.AssociatedVehicle.Coordinate.Y)
                 {
-                    if(GetLenght(element)<mindis)
-                        temp = element;
+                    if(GetLenght(element.AssociatedVehicle)<mindis)
+                        temp = element.AssociatedVehicle;
                 }
-                else if(this.Direction.X <= 0 && this.Direction.Y <= 0 && this.Coordinate.X >= element.Coordinate.X && this.Coordinate.Y >= element.Coordinate.Y)
+                else if(this.Direction.X <= 0 && this.Direction.Y <= 0 && this.Coordinate.X >= element.AssociatedVehicle.Coordinate.X && this.Coordinate.Y >= element.AssociatedVehicle.Coordinate.Y)
                 {
-                    if(GetLenght(element)<mindis)
-                        temp = element;
+                    if(GetLenght(element.AssociatedVehicle)<mindis)
+                        temp = element.AssociatedVehicle;
                 }
             }
 
@@ -288,7 +288,7 @@ namespace TrafficSim.Entity
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public double GetLenght(Car obj)
+        public double GetLenght(Vehicle obj)
         {
             return Math.Sqrt(Math.Pow((this.Coordinate.X - obj.Coordinate.X), 2) + Math.Pow((this.Coordinate.Y - obj.Coordinate.Y), 2));
         }

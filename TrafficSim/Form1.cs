@@ -18,7 +18,7 @@ namespace TrafficSim
     public partial class Form1 : Form
     {
 
-        public static TrafficEventHandler Eventhandler = new TrafficEventHandler(new TimeSpan(100));
+        public static TrafficEventHandler Eventhandler = new TrafficEventHandler(new TimeSpan(0,0,0,0,1000));
 
         public static Road VesterBro = new Road(new Point(50, 50), new Point(500, 50));
         
@@ -28,19 +28,33 @@ namespace TrafficSim
         {
             InitializeComponent();
             Form1.CheckForIllegalCrossThreadCalls = false;
-            CarList.Cars.Add(new Car(50, 50)
+            DriverList.Drivers.Add(new Driver(){
+            AssociatedVehicle = new Car(50, 50)
         {
             TheRoad = VesterBro,
             MaxAcc = 1,
             MaxDecc = 10,
-            Driver = new Driver(),
             EventHandler = Eventhandler,
             Direction = new Point(100, 0),
-        });
+            Acc = 1,
+            Decc = 2,
+            Speed = 0,
+            IsBraking = true,
+        },
+        EventHandler = Eventhandler,
+        SpeedLimit = 10,
+        ReactionTime = 1,
 
-            AddAndDrawVehicle(CarList.Cars[0]);
+            });
+            
+            AddAndDrawVehicle(DriverList.Drivers[0].AssociatedVehicle);
 
             run = false;
+
+            for (int i = 0; i < DriverList.Drivers.Count; i++)
+            {
+                Eventhandler.AddContinuousEvent(DriverList.Drivers[i].Drive);
+            }
         }
         /// <summary>
         /// Adder the vehicle image to the form, and calls the method Draw from the Vehicle.
@@ -48,6 +62,11 @@ namespace TrafficSim
         /// <param name="vehicle">The specefic vehicle witch will be drawed and added to the form.</param>
         void AddAndDrawVehicle(Vehicle vehicle)
         {
+            if(this.InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(()=>this.AddAndDrawVehicle(vehicle)));
+            }
+
             Controls.Add(vehicle.PictureBox);
             vehicle.Draw();
         }
@@ -74,11 +93,36 @@ namespace TrafficSim
         }
         public void start()
         {
+
             while (run)
             {
-                CarList.Cars[0].Drive(new TimeSpan(100));
+                DriverList.Drivers.Add(new Driver()
+                {
+                    AssociatedVehicle = new Car(50, 50)
+                    {
+                        TheRoad = VesterBro,
+                        MaxAcc = 1,
+                        MaxDecc = 10,
+                        EventHandler = Eventhandler,
+                        Direction = new Point(100, 0),
+                        Acc = 1,
+                        Decc = 2,
+                        Speed = 0,
+                        IsBraking = true,
+                    },
+                    EventHandler = Eventhandler,
+                    SpeedLimit = 10,
+                    ReactionTime = 1,
+
+                });
+                
+                
+
+                AddAndDrawVehicle(DriverList.Drivers[DriverList.Drivers.Count-1].AssociatedVehicle);
+                Eventhandler.AddContinuousEvent(DriverList.Drivers[DriverList.Drivers.Count-1].Drive);
+
                 Eventhandler.NextTick();
-                Thread.Sleep(100);
+                Thread.Sleep(1000/trackBarTrafficFlow.Value);
 
             }
         }

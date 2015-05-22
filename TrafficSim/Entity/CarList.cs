@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TrafficSim.Entity
 {
-    static class CarList
+    static class DriverList
     {
-       public static List<Car> Cars = new List<Car>();
+       public static List<Driver> Drivers = new List<Driver>();
 
 
     }

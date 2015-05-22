@@ -34,38 +34,38 @@ namespace TrafficSim.Entity
         /// <summary>
         /// The vehicle associated with the driver
         /// </summary>
-        public Vehicle AssociatedVehicle { get; protected set; }
+        public Vehicle AssociatedVehicle { get; set; }
 
         /// <summary>
         /// How well the driver respect the traffic law
         /// </summary>
-        public int VelocityTolerance { get; protected set; }
+        public int VelocityTolerance { get; set; }
 
         /// <summary>
         /// How quickly/slowly the driver can react
         /// </summary>
-        public int ReactionTime { get; protected set; }
+        public int ReactionTime { get; set; }
 
         /// <summary>
         /// How suddenly the driver accelerates or decelerates
         /// </summary>
-        public DriverAggression Aggression { get; protected set; }
+        public DriverAggression Aggression { get; set; }
 
         /// <summary>
         /// The current speed limit
         /// </summary>
-        public int SpeedLimit { get; protected set; }
+        public int SpeedLimit { get; set; }
 
         /// <summary>
         /// Determines the position on the road
         /// </summary>
-        public Point NearPoint { get; protected set; }
+        public Point NearPoint { get; set; }
 
         /// <summary>
         /// Determines direction of driving
         /// Is set at the 'vanishing point'or leading vehicle
         /// </summary>
-        public Point FarPoint { get; protected set; }
+        public Point FarPoint { get; set; }
 
         /// <summary>
         /// Determines the safe distance
@@ -75,7 +75,7 @@ namespace TrafficSim.Entity
         /// <summary>
         /// The driver's name, used for easier tracking
         /// </summary>
-        public string Name { get; protected set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Basic constructor, creates a new driver, and a new driver aggression
@@ -164,14 +164,38 @@ namespace TrafficSim.Entity
         /// <summary>
         /// Reacts to the driver ahead based on safe-distance and near+far points
         /// </summary>
-        protected void React()
+        public void Drive()
         {
-            if(AssociatedVehicle.GetLenght(AssociatedVehicle.GetNearestCar()) < NearPoint.LenghtBetween(AssociatedVehicle.Coordinate))
+            Vehicle nearestCar = AssociatedVehicle.GetNearestCar();
+            if(nearestCar != null && AssociatedVehicle.GetLenght(nearestCar) < NearPoint.LenghtBetween(AssociatedVehicle.Coordinate))
             {
                 AssociatedVehicle.IsBraking = true;
                 AssociatedVehicle.IsAcceleratin = false;
 
-                EventHandler.AddContinuousEvent(() => AssociatedVehicle.Drive(EventHandler.TickLength));
+                AssociatedVehicle.Drive(EventHandler.TickLength);
+            }
+            else
+            {
+                if(AssociatedVehicle.Speed > SpeedLimit)
+                {
+                    AssociatedVehicle.IsBraking = true;
+                    AssociatedVehicle.IsAcceleratin = false;
+                    AssociatedVehicle.Decc = 1;
+                    AssociatedVehicle.Drive(EventHandler.TickLength);
+                }
+                else if (AssociatedVehicle.Speed < SpeedLimit)
+                {
+                    AssociatedVehicle.IsBraking = false;
+                    AssociatedVehicle.IsAcceleratin = true;
+                    AssociatedVehicle.Acc = 1;
+                    AssociatedVehicle.Drive(EventHandler.TickLength);
+                }
+                else
+                {
+                    AssociatedVehicle.IsBraking = false;
+                    AssociatedVehicle.IsAcceleratin = false;
+                    AssociatedVehicle.Drive(EventHandler.TickLength);
+                }
             }
         }
 
