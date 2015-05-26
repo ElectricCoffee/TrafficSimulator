@@ -98,7 +98,7 @@ namespace TrafficSim.Event
             {
                 kvp.Value.Callback();
             }
-            if (discreteEventList.Count != 0 && discreteEventList[0].EventTime <= currentTime)
+            while (discreteEventList.Count != 0 && discreteEventList[0].EventTime <= currentTime)
             {
                 discreteEventList[0].Callback();
                 discreteEventList.RemoveAt(0);

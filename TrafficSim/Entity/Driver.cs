@@ -70,7 +70,7 @@ namespace TrafficSim.Entity
         /// <summary>
         /// Determines the safe distance
         /// </summary>
-        public int SafeDistance { get { return AssociatedVehicle.Length; } }
+        public int SafeDistance { get; set; }
 
         /// <summary>
         /// The driver's name, used for easier tracking
@@ -167,8 +167,9 @@ namespace TrafficSim.Entity
         public void Drive()
         {
             Vehicle nearestCar = AssociatedVehicle.GetNearestCar();
-            if(nearestCar != null && AssociatedVehicle.GetLenght(nearestCar) < NearPoint.LenghtBetween(AssociatedVehicle.Coordinate))
+            if(nearestCar != null && AssociatedVehicle.GetLenght(nearestCar) < SafeDistance)
             {
+                //AssociatedVehicle.Drive(new TimeSpan(0,0,ReactionTime));
                 AssociatedVehicle.IsBraking = true;
                 AssociatedVehicle.IsAcceleratin = false;
 
@@ -176,14 +177,14 @@ namespace TrafficSim.Entity
             }
             else
             {
-                if(AssociatedVehicle.Speed > SpeedLimit)
+                if(AssociatedVehicle.Speed > SpeedLimit * VelocityTolerance / 100)
                 {
                     AssociatedVehicle.IsBraking = true;
                     AssociatedVehicle.IsAcceleratin = false;
                     AssociatedVehicle.Decc = 1;
                     AssociatedVehicle.Drive(EventHandler.TickLength);
                 }
-                else if (AssociatedVehicle.Speed < SpeedLimit)
+                else if (AssociatedVehicle.Speed < SpeedLimit * VelocityTolerance / 100)
                 {
                     AssociatedVehicle.IsBraking = false;
                     AssociatedVehicle.IsAcceleratin = true;

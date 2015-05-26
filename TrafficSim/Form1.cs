@@ -18,16 +18,19 @@ namespace TrafficSim
     public partial class Form1 : Form
     {
 
-        public static TrafficEventHandler Eventhandler = new TrafficEventHandler(new TimeSpan(0,0,0,0,1000));
+        public static TrafficEventHandler Eventhandler = new TrafficEventHandler(new TimeSpan(0,0,1));
 
         public static Road VesterBro = new Road(new Point(50, 50), new Point(500, 50));
         
         public bool run{get;set;}
 
+        public Random ran { get; set; }
+
         public Form1()
         {
             InitializeComponent();
             Form1.CheckForIllegalCrossThreadCalls = false;
+            ran = new Random();
             DriverList.Drivers.Add(new Driver(){
             AssociatedVehicle = new Car(50, 50)
         {
@@ -42,10 +45,12 @@ namespace TrafficSim
             IsBraking = true,
         },
         EventHandler = Eventhandler,
-        SpeedLimit = 10,
+        SpeedLimit = 5,
         ReactionTime = 1,
-
+        SafeDistance = 50,
+            VelocityTolerance = ran.Next(90, 150),        
             });
+
             
             AddAndDrawVehicle(DriverList.Drivers[0].AssociatedVehicle);
 
@@ -96,35 +101,36 @@ namespace TrafficSim
 
             while (run)
             {
-                DriverList.Drivers.Add(new Driver()
+                if (System.DateTime.Now.Millisecond/1000 % (60 / trackBarTrafficFlow.Value) == 0)
                 {
-                    AssociatedVehicle = new Car(50, 50)
+                    DriverList.Drivers.Add(new Driver()
                     {
-                        TheRoad = VesterBro,
-                        MaxAcc = 1,
-                        MaxDecc = 10,
+                        AssociatedVehicle = new Car(50, 50)
+                        {
+                            TheRoad = VesterBro,
+                            MaxAcc = 1,
+                            MaxDecc = 10,
+                            EventHandler = Eventhandler,
+                            Direction = new Point(100, 0),
+                            Acc = 1,
+                            Decc = 2,
+                            Speed = 0,
+                            IsBraking = true,
+                            ASK = checkBoxASK.Checked,
+                        },
                         EventHandler = Eventhandler,
-                        Direction = new Point(100, 0),
-                        Acc = 1,
-                        Decc = 2,
-                        Speed = 0,
-                        IsBraking = true,
-                        ASK=checkBoxASK.Checked,
-                    },
-                    EventHandler = Eventhandler,
-                    SpeedLimit = 10,
-                    ReactionTime = 1,
-                    NearPoint=new Point(5,0),
+                        SpeedLimit = 5,
+                        ReactionTime = 1,
+                        SafeDistance = 50,
+                        VelocityTolerance = ran.Next(90,150),
 
-                });
-                
-                
+                    });
 
-                AddAndDrawVehicle(DriverList.Drivers[DriverList.Drivers.Count-1].AssociatedVehicle);
-                Eventhandler.AddContinuousEvent(DriverList.Drivers[DriverList.Drivers.Count-1].Drive);
-
+                    AddAndDrawVehicle(DriverList.Drivers[DriverList.Drivers.Count - 1].AssociatedVehicle);
+                    Eventhandler.AddContinuousEvent(DriverList.Drivers[DriverList.Drivers.Count - 1].Drive);
+                }
                 Eventhandler.NextTick();
-                Thread.Sleep(1000/trackBarTrafficFlow.Value);
+                Thread.Sleep(100);
 
             }
         }
