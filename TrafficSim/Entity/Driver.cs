@@ -167,7 +167,7 @@ namespace TrafficSim.Entity
         public void Drive()
         {
             Vehicle nearestCar = AssociatedVehicle.GetNearestCar();
-            if(nearestCar != null && (AssociatedVehicle.GetLenght(nearestCar) < SafeDistance || nearestCar.IsBraking))
+            if(nearestCar != null && (AssociatedVehicle.GetLenght(nearestCar) < SafeDistance || (nearestCar.IsBraking && AssociatedVehicle.GetLenght(nearestCar) < 2*SafeDistance)))
             {
                 //AssociatedVehicle.Drive(new TimeSpan(0,0,ReactionTime));
                 AssociatedVehicle.IsBraking = true;

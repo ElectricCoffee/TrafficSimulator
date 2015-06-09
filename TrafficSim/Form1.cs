@@ -26,6 +26,7 @@ namespace TrafficSim
 
         public Random ran { get; set; }
 
+        
         public Form1()
         {
             InitializeComponent();
@@ -45,7 +46,7 @@ namespace TrafficSim
             IsBraking = true,
         },
         EventHandler = Eventhandler,
-        SpeedLimit = 5,
+        SpeedLimit = 4,
         ReactionTime = 1,
         SafeDistance = 50,
             VelocityTolerance = ran.Next(90, 150),        
@@ -96,6 +97,7 @@ namespace TrafficSim
             Simulation.Start();
             
         }
+
         public void start()
         {
 
@@ -119,7 +121,7 @@ namespace TrafficSim
                             ASK = checkBoxASK.Checked,
                         },
                         EventHandler = Eventhandler,
-                        SpeedLimit = 5,
+                        SpeedLimit = 4,
                         ReactionTime = 1,
                         SafeDistance = 50,
                         VelocityTolerance = ran.Next(90,150),
@@ -141,6 +143,12 @@ namespace TrafficSim
             {
                 element.AssociatedVehicle.ASK = checkBoxASK.Checked;
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+                      
+            
         }
         
     }
