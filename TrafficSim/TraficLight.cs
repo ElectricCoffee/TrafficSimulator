@@ -34,8 +34,6 @@ namespace TrafficSim
 
         public TraficLight(int PosX, int PosY)
         {
-            //use Timespace
-
             /// <summary>
             /// Sætter lysmastens position og starter den som rød
             /// </summary>
@@ -44,12 +42,12 @@ namespace TrafficSim
             IsGreen = false;
         }
 
-        public void Animate(int Cycelstart, TimeSpan Time){
-           
+        public void Animate(int Cycelstart, TimeSpan Time)
+        {
             /// <summary>
             /// Skifer lysets farve når det er tid til det
             /// </summary>
-            if (Time.Seconds % Cycelstart == null || Time.Seconds % (Cycelstart + 5) == null)
+            if (Time.Seconds % Cycelstart == null || Time.Seconds % (Cycelstart + Cycelstart) == null)
             {
                 DrawYellowLight();
             }
@@ -59,13 +57,11 @@ namespace TrafficSim
                 DrawGreenLight();
                 IsGreen = true;
             }
-            else if (Time.Seconds % (Cycelstart + 6) == null)
+            else if (Time.Seconds % (Cycelstart + Cycelstart + 1) == null)
             {
                 DrawRedLight();
                 IsGreen = false;
             }
-
         }
-
     }
 }
