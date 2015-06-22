@@ -32,35 +32,9 @@ namespace TrafficSim
             InitializeComponent();
             Form1.CheckForIllegalCrossThreadCalls = false;
             ran = new Random();
-            DriverList.Drivers.Add(new Driver(){
-            AssociatedVehicle = new Car(50, 50)
-        {
-            TheRoad = VesterBro,
-            MaxAcc = 1,
-            MaxDecc = 10,
-            EventHandler = Eventhandler,
-            Direction = new Point(100, 0),
-            Acc = 1,
-            Decc = 2,
-            Speed = 0,
-            IsBraking = true,
-        },
-        EventHandler = Eventhandler,
-        SpeedLimit = 4,
-        ReactionTime = 1,
-        SafeDistance = 50,
-            VelocityTolerance = ran.Next(90, 150),        
-            });
-
-            
-            AddAndDrawVehicle(DriverList.Drivers[0].AssociatedVehicle);
-
+            Spawn();
             run = false;
 
-            for (int i = 0; i < DriverList.Drivers.Count; i++)
-            {
-                Eventhandler.AddContinuousEvent(DriverList.Drivers[i].Drive);
-            }
         }
         /// <summary>
         /// Adder the vehicle image to the form, and calls the method Draw from the Vehicle.
@@ -103,34 +77,7 @@ namespace TrafficSim
 
             while (run)
             {
-                if (System.DateTime.Now.Millisecond/1000 % (60 / trackBarTrafficFlow.Value) == 0)
-                {
-                    DriverList.Drivers.Add(new Driver()
-                    {
-                        AssociatedVehicle = new Car(50, 50)
-                        {
-                            TheRoad = VesterBro,
-                            MaxAcc = 1,
-                            MaxDecc = 10,
-                            EventHandler = Eventhandler,
-                            Direction = new Point(100, 0),
-                            Acc = 1,
-                            Decc = 2,
-                            Speed = 0,
-                            IsBraking = true,
-                            ASK = checkBoxASK.Checked,
-                        },
-                        EventHandler = Eventhandler,
-                        SpeedLimit = 4,
-                        ReactionTime = 1,
-                        SafeDistance = 50,
-                        VelocityTolerance = ran.Next(90,150),
-
-                    });
-
-                    AddAndDrawVehicle(DriverList.Drivers[DriverList.Drivers.Count - 1].AssociatedVehicle);
-                    Eventhandler.AddContinuousEvent(DriverList.Drivers[DriverList.Drivers.Count - 1].Drive);
-                }
+                
                 Eventhandler.NextTick();
                 Thread.Sleep(100);
 
@@ -149,6 +96,37 @@ namespace TrafficSim
         {
                       
             
+        }
+
+        private void Spawn()
+        {
+            DriverList.Drivers.Add(new Driver()
+            {
+                AssociatedVehicle = new Car(50, 50)
+                {
+                    TheRoad = VesterBro,
+                    MaxAcc = 1,
+                    MaxDecc = 10,
+                    EventHandler = Eventhandler,
+                    Direction = new Point(100, 0),
+                    Acc = 1,
+                    Decc = 2,
+                    Speed = 0,
+                    IsBraking = true,
+                    ASK = checkBoxASK.Checked,
+                },
+                EventHandler = Eventhandler,
+                SpeedLimit = 3,
+                ReactionTime = 1,
+                SafeDistance = 50,
+                VelocityTolerance = ran.Next(90, 150),
+
+            });
+
+            AddAndDrawVehicle(DriverList.Drivers[DriverList.Drivers.Count - 1].AssociatedVehicle);
+            Eventhandler.AddContinuousEvent(DriverList.Drivers[DriverList.Drivers.Count - 1].Drive);
+
+            Eventhandler.AddDiscreteEvent(Spawn, new TimeSpan(0, 0, 0, 0, 1000/ trackBarTrafficFlow.Value));
         }
         
     }
