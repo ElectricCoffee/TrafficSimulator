@@ -154,29 +154,37 @@ namespace TrafficSim.Entity
                 throw new Util.NoDirectionException();      //trow exception
 
             double direntionLenght = Math.Sqrt(Math.Pow(Direction.X, 2) + Math.Pow(Direction.Y, 2));
-            double directionEnhedX = Direction.X / direntionLenght;
+            double directionEnhedX = Direction.X / direntionLenght;         //Udregner enhedsvektoren
             double directionEnhedY = Direction.Y / direntionLenght;
 
-            if (ASK)
+            if (ASK)    //tjekker for om ask er slået til
             {
                 Vehicle front = GetNearestCar();
                 if (front != null)
                 {
-                    IsBraking = front.IsBraking;
-                    IsAcceleratin = front.IsAcceleratin;
-                    Speed = front.Speed;
+                    if(this.GetLenght(front) < 3 * Length)
+                    {
+                        IsBraking = true;
+                    }
+                    else
+                    {
+                         IsBraking = front.IsBraking;
+                         IsAcceleratin = front.IsAcceleratin;
+                         Speed = front.Speed;
+                    }
+
                 }
             }
 
-            if (IsBraking)
+            if (IsBraking)  //bremser bilen?
             {
                 if (Speed <= 0)
                     Speed = 0;
                 else
-                    Speed -= Decc * Time.Seconds;
+                    Speed -= Decc * Time.Seconds; //mindsker hastigheden
             }
-            else if (IsAcceleratin)
-                Speed += Acc * Time.Seconds;
+            else if (IsAcceleratin)     //accelerer bilen?
+                Speed += Acc * Time.Seconds; //øger hastigheden
             
 
             int lenght = Speed * Time.Seconds * 8; //8px pr. m

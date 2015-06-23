@@ -118,7 +118,7 @@ namespace TrafficSim
                 EventHandler = Eventhandler,
                 SpeedLimit = 3,
                 ReactionTime = 1,
-                SafeDistance = 50,
+                SafeDistance = 55,
                 VelocityTolerance = ran.Next(90, 150),
 
             });

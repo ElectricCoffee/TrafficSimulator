@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TrafficSim.DriverAggression" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>DriverAggression.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Form1" Collapsed="true">
+    <Position X="12.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAggAIACAAIhAgAAGAAAACIEAAABAAAAQAAAABAAA=</HashCode>
+      <FileName>Form1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Program" Collapsed="true">
+    <Position X="5.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Entity.Car" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Entity\Car.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Entity.DriverList" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entity\CarList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Entity.Driver" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAgQggQAAQAAEAAQAAAgAgAAAAgABAAAAAAA=</HashCode>
+      <FileName>Entity\Driver.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TrafficSim.Entity.Intersection" Collapsed="true">
+    <Position X="7" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAACAAAAAABAQAAAAAAIAAAACBAAAAABAAAA=</HashCode>
+      <FileName>Entity\Intersection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Entity.Road" Collapsed="true">
+    <Position X="10.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAACIAAAAAAYBAAgEABEAgAAAAAAAAAAEAAAAAAAAo=</HashCode>
+      <FileName>Entity\Road.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Entity.RoadWeb" Collapsed="true">
+    <Position X="12.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAgAAAkAIAQAEBBAIAIAAAEAAAAAQAEAAkAQA=</HashCode>
+      <FileName>Entity\RoadWeb.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Entity.Truck" Collapsed="true">
+    <Position X="2.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Entity\Truck.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Entity.Vehicle">
+    <Position X="1.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAmAEQAIABFoAAAKAAAABBAAAAkAAgAAAQQgAAFEA=</HashCode>
+      <FileName>Entity\Vehicle.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TrafficSim.Entity.Proxy.Sign" Collapsed="true">
+    <Position X="7" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entity\Proxy\Sign.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Entity.Proxy.SignalLight" Collapsed="true">
+    <Position X="8.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entity\Proxy\SignalLight.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Event.ContinuousEvent" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Event\ContinuousEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Event.DiscreteEvent" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Event\DiscreteEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Event.TrafficEvent" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Event\TrafficEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Event.TrafficEventHandler" Collapsed="true">
+    <Position X="12.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIgAQAAAAAAAAAACAAAgAAAEACAAAAAgAKCAAA=</HashCode>
+      <FileName>Event\TrafficEventHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Properties.Resources" Collapsed="true">
+    <Position X="7" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAABEAAAASAAEAACAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Properties.Settings" Collapsed="true">
+    <Position X="5.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Util.Collections.PriorityTree&lt;K, V&gt;" Collapsed="true">
+    <Position X="10.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAQAAAAAAAAQgAAgAAAQAAAAAAAAAAAAAGAA=</HashCode>
+      <FileName>Util\Collections\PriorityTree.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Util.Collections.PriorityTreeNode&lt;K, V&gt;" Collapsed="true">
+    <Position X="12.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAAAAAAAAAAAAAAAACACgAAAAAAA=</HashCode>
+      <FileName>Util\Collections\PriorityTreeNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Util.Collections.TreeEmptyException" Collapsed="true">
+    <Position X="5.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Util\Collections\TreeEmptyException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Util.Error" Collapsed="true">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAAAAAAgAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Util\Error.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Util.Globals" Collapsed="true">
+    <Position X="5.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAACAAQAAAABAABAAAAAAAAA=</HashCode>
+      <FileName>Util\Globals.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Util.NoDirectionException" Collapsed="true">
+    <Position X="8.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Util\NoDirectionException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Util.StartAndEndPointIsEquelExeption" Collapsed="true">
+    <Position X="10.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Util\StartAndEndPointIsEquelExeption.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TrafficSim.Util.Extensions.RichPoint" Collapsed="true">
+    <Position X="8.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Util\Extensions\RichPoint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="TrafficSim.IDrawable" Collapsed="true">
+    <Position X="5.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IDrawable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TrafficSim.Event.ISimulatable" Collapsed="true">
+    <Position X="7" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Event\ISimulatable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="TrafficSim.Entity.DriverState" Collapsed="true">
+    <Position X="5.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABEIAAAAAAAAAAAAAAACAAAIAAAACAQCACAAABAAAA=</HashCode>
+      <FileName>Entity\Driver.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TrafficSim.Entity.DrivingType" Collapsed="true">
+    <Position X="7" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entity\Vehicle.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
