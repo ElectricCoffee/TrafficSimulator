@@ -159,6 +159,7 @@ namespace TrafficSim.Entity
 
             if (ASK)    //tjekker for om ask er slået til
             {
+                
                 Vehicle front = GetNearestCar();
                 if (front != null)
                 {
@@ -227,7 +228,6 @@ namespace TrafficSim.Entity
             {
                 if (Coordinate.X < TheRoad.EndPoint.X)
                     TheRoad = TheRoad.Next;
-
             }
             else if (TheRoad.StartPoint.X < TheRoad.EndPoint.X)
             {

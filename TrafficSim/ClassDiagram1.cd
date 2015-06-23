@@ -10,7 +10,7 @@
   <Class Name="TrafficSim.Form1" Collapsed="true">
     <Position X="12.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAEAggAIACAAIhAgAAGAAAACIEAAABAAAAQAAAABAAA=</HashCode>
+      <HashCode>AAEAggAIACAAIhAgAAGAAAACIEBAABAAAAQAAAABAAA=</HashCode>
       <FileName>Form1.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -71,7 +71,7 @@
       <FileName>Entity\Truck.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="TrafficSim.Entity.Vehicle">
+  <Class Name="TrafficSim.Entity.Vehicle" Collapsed="true">
     <Position X="1.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAmAEQAIABFoAAAKAAAABBAAAAkAAgAAAQQgAAFEA=</HashCode>

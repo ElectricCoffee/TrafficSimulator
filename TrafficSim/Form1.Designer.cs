@@ -45,15 +45,16 @@
             this.trackBarTrafficFlow.Size = new System.Drawing.Size(104, 45);
             this.trackBarTrafficFlow.TabIndex = 0;
             this.trackBarTrafficFlow.Value = 10;
+            this.trackBarTrafficFlow.ValueChanged += new System.EventHandler(this.trackBarTrafficFlow_ValueChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(348, 390);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 13);
+            this.label1.Size = new System.Drawing.Size(86, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "TrafficFlow";
+            this.label1.Text = "10 biler i minutet.";
             // 
             // checkBoxASK
             // 

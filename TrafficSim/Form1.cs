@@ -128,6 +128,11 @@ namespace TrafficSim
 
             Eventhandler.AddDiscreteEvent(Spawn, new TimeSpan(0, 0, 60/ trackBarTrafficFlow.Value));
         }
+
+        private void trackBarTrafficFlow_ValueChanged(object sender, EventArgs e)
+        {
+            label1.Text = trackBarTrafficFlow.Value + " biler i minutet.";
+        }
         
     }
 }
