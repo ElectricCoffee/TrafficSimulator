@@ -126,7 +126,7 @@ namespace TrafficSim
             AddAndDrawVehicle(DriverList.Drivers[DriverList.Drivers.Count - 1].AssociatedVehicle);
             Eventhandler.AddContinuousEvent(DriverList.Drivers[DriverList.Drivers.Count - 1].Drive);
 
-            Eventhandler.AddDiscreteEvent(Spawn, new TimeSpan(0, 0, 0, 0, 1000/ trackBarTrafficFlow.Value));
+            Eventhandler.AddDiscreteEvent(Spawn, new TimeSpan(0, 0, 60/ trackBarTrafficFlow.Value));
         }
         
     }
